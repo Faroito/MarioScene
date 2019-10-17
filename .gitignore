@@ -36,3 +36,10 @@ cmake-build-debug/
 # Other
 *~
 .idea/
+
+# Visual Studio
+out/
+VisualStudio/Debug/
+VisualStudio/Include/
+VisualStudio/Source/
+VisualStudio/Release/
