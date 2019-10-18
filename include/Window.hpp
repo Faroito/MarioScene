@@ -10,8 +10,6 @@
 #include "IApp.hpp"
 #include "Lib.hpp"
 
-using namespace std;
-
 namespace gl_wrapper {
 
     struct CallbackInterface {

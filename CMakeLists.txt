@@ -18,6 +18,7 @@ set(SOURCE_FILES
         source/Error.cpp
         source/Main.cpp
         source/MarioScene.cpp
+        source/Mesh.cpp
         source/Misc.cpp
         source/Shader.cpp
         source/Window.cpp)

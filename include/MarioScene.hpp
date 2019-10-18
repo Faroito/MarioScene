@@ -5,6 +5,8 @@
 #ifndef MARIO_SCENE_HPP
 # define MARIO_SCENE_HPP
 
+#include <iostream>
+#include <string>
 #include <vector>
 
 # define GLM_FORCE_RADIANS
@@ -23,7 +25,6 @@ namespace scene {
     class MarioScene : public gl_wrapper::App {
     public:
         MarioScene();
-        ~MarioScene();
 
         void init();
 
@@ -37,49 +38,12 @@ namespace scene {
 
     private:
         gl_wrapper::Shader *_shader;
-        vector<VertexColor> _triangle = {
-                {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
-                {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
-                {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
-                {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)}
-        };
-        vector<VertexColor> _cube = {
-                {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
-                {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
-                {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
-                {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)},
-
-                {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 0, 1)},
-                {glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 0, 1, 1)},
-                {glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(1, 0, 0, 1)},
-                {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 1, 1)}
-        };
-        vector<unsigned int> _indices = {
-                0, 1, 3, // front
-                1, 2, 3,
-        };
-        vector<unsigned int> _indices_cube = {
-                1, 0, 3, // front
-                1, 2, 3,
-                7, 6, 5, // back
-                7, 4, 5,
-                6, 7, 3, // left
-                6, 2, 3,
-                1, 5, 4, // right
-                1, 0, 4,
-                6, 5, 1, // top
-                6, 2, 1,
-                3, 7, 4, // bottom
-                3, 0, 4
-        };
-        GLuint _positionID;
-        GLuint _colorID;
-        GLuint _vboID;
-        GLuint _eboID;
-        GLuint _vaoID;
-        GLuint _modelID, _viewID, _projectionID;
-        int _keyCode;
-        glm::vec3 _eyePos;
+        gl_wrapper::Mesh *_mesh;
+        GLint _modelID = 0;
+        GLint _viewID = 0;
+        GLint _projectionID = 0;
+        int _keyCode = 0;
+        glm::vec3 _eyePos = glm::vec3(0.0f, 0.0f, 5.0f);
         glm::vec3 _forwardDir = glm::vec3(0.0f, 0.0f, -1.0f);
         const glm::vec3 _upDir = glm::vec3(0.0f, 1.0f, 0.0f);
     };

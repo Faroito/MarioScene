@@ -5,27 +5,40 @@
 #ifndef MESH_HPP
 # define MESH_HPP
 
+#include <iostream>
+#include <vector>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 #include "Lib.hpp"
+#include "Misc.hpp"
+#include "Shader.hpp"
 
-namespace scene {
-    struct VertexColor {
-        glm::vec3 pos;
-        glm::vec4 color;
-    };
+namespace gl_wrapper {
+    class Mesh {
+    public:
+        Mesh(std::vector<VertexColor> &vertices, std::vector<unsigned int> &indices);
+        // Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
+        ~Mesh();
 
-    struct Vertex {
-        glm::vec3 position;
-        glm::vec3 normal;
-        glm::vec2 texCord;
-    };
+        void setupMesh(gl_wrapper::Shader *shader);
 
-    struct Texture {
-        unsigned int id;
-        string type;
+        void draw();
+
+    private:
+        /*
+        std::vector<Vertex> _vertices;
+        std::vector<unsigned int> _indices;
+        std::vector<Texture> _textures;
+        */
+        std::vector<VertexColor> _vertices;
+        std::vector<unsigned int> _indices;
+
+        GLuint _vaoID = 0;
+        GLuint _vboID = 0;
+        GLuint _eboID = 0;
     };
 }
 
