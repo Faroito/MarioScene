@@ -9,8 +9,8 @@ MarioScene::MarioScene() : App(640, 480, "MarioScene") {
 }
 
 void MarioScene::init() {
-    std::string vert = readShader("../resource/vs_model.glsl");
-    std::string frag = readShader("../resource/fs_model.glsl");
+    std::string vert = readShader("../shader/vs_model.glsl");
+    std::string frag = readShader("../shader/fs_model.glsl");
 
     _shader = new glew_wrapper::Shader(vert.c_str(), frag.c_str());
 

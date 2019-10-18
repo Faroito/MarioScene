@@ -5,7 +5,7 @@
 #ifndef LIB_HPP
 # define LIB_HPP
 
-# define GLEW_STATIC
+// # define GLEW_STATIC
 # include <GL/glew.h>
 # include "GLFW/glfw3.h"
 

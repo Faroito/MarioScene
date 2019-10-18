@@ -1,21 +1,6 @@
-
-/*
- * =====================================================================================
- *
- *       Filename:  xTriangleOrtho.cpp
- *
- *    Description:  orthographic correction
- *
- *        Version:  1.0
- *        Created:  06/10/2014 20:12:23
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Pablo Colapinto (), gmail -> wolftype
- *   Organization:  
- *
- * =====================================================================================
- */
+//
+// Created by Timothée Couble on 17/10/2019.
+//
 
 #include "MarioScene.hpp"
 
