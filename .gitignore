@@ -41,8 +41,8 @@ cmake-build-debug/
 .vs/
 out/
 VisualStudio/.vs/
-VisualStudio/Libraries/
 VisualStudio/Debug/
+VisualStudio/Libraries/
 VisualStudio/Include/*.hpp
 VisualStudio/Source/*.cpp
 VisualStudio/Release/
