@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace glew_wrapper {
+namespace gl_wrapper {
 
     struct CallbackInterface {
         static IApp *app;

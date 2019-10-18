@@ -4,10 +4,13 @@
 
 #include "App.hpp"
 
-glew_wrapper::App::App(int width, int height, const std::string &name) {
+gl_wrapper::App::App(int width, int height, const std::string &name) {
     if (!glfwInit())
         exit(EXIT_FAILURE);
     std::cout << "GLFW initialized." << std::endl;
+
+    // glfwSetErrorCallback(error::callbackGLFW);
+    hintsGLFW();
 
     _window.create(this, width, height, name);
 
@@ -33,11 +36,20 @@ glew_wrapper::App::App(int width, int height, const std::string &name) {
     glLineWidth(3);
 }
 
-glew_wrapper::App::~App() {
+void gl_wrapper::App::hintsGLFW() {
+//    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+//    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+//    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    std::cout << glfwGetVersionString() << std::endl;
+}
+
+gl_wrapper::App::~App() {
     glfwTerminate();
 }
 
-void glew_wrapper::App::start() {
+void gl_wrapper::App::start() {
     std::cout << "Starting app..." << std::endl;
 
     while (!_window.shouldClose()){
@@ -54,14 +66,14 @@ void glew_wrapper::App::start() {
     }
 }
 
-void glew_wrapper::App::onDraw() {}
+void gl_wrapper::App::onDraw() {}
 
-void glew_wrapper::App::onMouseMove(double x, double y) {}
+void gl_wrapper::App::onMouseMove(double x, double y) {}
 
-void glew_wrapper::App::onMouseDown(int button, int action) {}
+void gl_wrapper::App::onMouseDown(int button, int action) {}
 
-void glew_wrapper::App::onKeyDown(int key, int action) {}
+void gl_wrapper::App::onKeyDown(int key, int action) {}
 
-glew_wrapper::Window& glew_wrapper::App::getWindow() {
+gl_wrapper::Window& gl_wrapper::App::getWindow() {
     return _window;
 }

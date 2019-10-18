@@ -5,7 +5,7 @@
 #ifndef IAPP_HPP
 # define IAPP_HPP
 
-namespace glew_wrapper {
+namespace gl_wrapper {
 
     class IApp {
     public:

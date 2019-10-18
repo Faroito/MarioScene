@@ -17,7 +17,7 @@
 #include "Shader.hpp"
 #include "Misc.hpp"
 
-class MarioScene : public glew_wrapper::App {
+class MarioScene : public gl_wrapper::App {
 public:
     MarioScene();
 
@@ -26,7 +26,7 @@ public:
     void onDraw() override;
 
 private:
-    glew_wrapper::Shader *_shader;
+    gl_wrapper::Shader *_shader;
     vector<Vertex> _triangle = {
             {glm::vec2(-1, -0.5), glm::vec4(1, 0, 0, 1)},
             {glm::vec2(0, 1), glm::vec4(0, 1, 0, 1)},

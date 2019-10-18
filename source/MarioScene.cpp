@@ -12,13 +12,13 @@ void MarioScene::init() {
     std::string vert = readShader("../shader/vs_model.glsl");
     std::string frag = readShader("../shader/fs_model.glsl");
 
-    _shader = new glew_wrapper::Shader(vert.c_str(), frag.c_str());
+    _shader = new gl_wrapper::Shader(vert.c_str(), frag.c_str());
 
     _positionID = (GLuint) glGetAttribLocation(_shader->getId(), "position");
     _colorID = (GLuint) glGetAttribLocation(_shader->getId(), "color");
-    _modelID = (GLuint) glGetUniformLocation(_shader->getId(), "model");
-    _viewID = (GLuint) glGetUniformLocation(_shader->getId(), "view");
-    _projectionID = (GLuint) glGetUniformLocation(_shader->getId(), "projection");
+    _modelID = (GLuint) glGetUniformLocation(_shader->getId(), "model_matrix");
+    _viewID = (GLuint) glGetUniformLocation(_shader->getId(), "view_matrix");
+    _projectionID = (GLuint) glGetUniformLocation(_shader->getId(), "proj_matrix");
 
     GENVERTEXARRAYS(1, &_arrayID);
     BINDVERTEXARRAY(_arrayID);

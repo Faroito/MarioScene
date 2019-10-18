@@ -6,10 +6,11 @@
 # define APPLICATION_HPP
 
 #include "IApp.hpp"
+#include "Error.hpp"
 #include "Lib.hpp"
 #include "Window.hpp"
 
-namespace glew_wrapper {
+namespace gl_wrapper {
 
     class App : public IApp {
     public:
@@ -25,6 +26,9 @@ namespace glew_wrapper {
 
     protected:
         Window &getWindow();
+
+    private:
+        void hintsGLFW();
 
     private:
         Window _window;

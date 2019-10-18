@@ -9,7 +9,7 @@
 
 #include "Lib.hpp"
 
-namespace glew_wrapper {
+namespace gl_wrapper {
     class Shader {
     public:
         Shader(const char *vert, const char *frag);

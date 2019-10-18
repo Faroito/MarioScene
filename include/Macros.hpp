@@ -9,7 +9,7 @@
 # define PI (float) 3.14159265359
 #endif
 
-namespace glew_wrapper {
+namespace gl_wrapper {
 
     #ifndef GENVERTEXARRAYS
     # define GENVERTEXARRAYS(n,id) if(GLEW_APPLE_vertex_array_object)glGenVertexArraysAPPLE(1,id);\

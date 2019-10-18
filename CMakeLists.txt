@@ -15,6 +15,7 @@ endif (APPLE)
 
 set(SOURCE_FILES
         source/App.cpp
+        source/Error.cpp
         source/Main.cpp
         source/MarioScene.cpp
         source/Misc.cpp
