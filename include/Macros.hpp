@@ -1,30 +1,15 @@
 //
-// Created by Pablo Colapinto on 06/18/2014.
+// Created by Timothée Couble on 17/10/2019.
 //
 
 #ifndef MACROS_HPP
 # define MACROS_HPP
 
-#include <cmath>
+#ifndef PI
+# define PI (float) 3.14159265359
+#endif
 
 namespace glew_wrapper {
-
-    #ifndef PI
-    # define PI (float) 3.14159265359
-    #endif
-
-    #ifndef STRINGIFY
-    # define STRINGIFY(A) #A
-    #endif
-
-    //SAME AS STRINGIFY, but with a version preprocessor command
-    #ifndef GLSL
-    # define GLSL(version, A) "#version " #version "\n" #A
-    #endif
-
-    #ifndef RAND
-    # define RAND (1.0 * rand() / (RAND_MAX))
-    #endif
 
     #ifndef GENVERTEXARRAYS
     # define GENVERTEXARRAYS(n,id) if(GLEW_APPLE_vertex_array_object)glGenVertexArraysAPPLE(1,id);\
