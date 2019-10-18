@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
+    <ClCompile Include="Source\Error.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MarioScene.cpp" />
     <ClCompile Include="Source\Misc.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\App.hpp" />
+    <ClInclude Include="Include\Error.hpp" />
     <ClInclude Include="Include\IApp.hpp" />
     <ClInclude Include="Include\Lib.hpp" />
     <ClInclude Include="Include\Macros.hpp" />
