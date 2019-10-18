@@ -46,6 +46,10 @@ void gl_wrapper::Window::swapBuffers() {
     glfwSwapBuffers(_window);
 }
 
+void gl_wrapper::Window::setClose(bool close) {
+    glfwSetWindowShouldClose(_window, true);
+}
+
 int gl_wrapper::Window::getWidth() const {
     return _width;
 }
@@ -55,5 +59,5 @@ int gl_wrapper::Window::getHeight() const {
 }
 
 float gl_wrapper::Window::getRatio() const {
-    return (float) _width / _height;
+    return (float) _width / (float) _height;
 }

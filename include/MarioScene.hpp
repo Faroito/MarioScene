@@ -20,6 +20,7 @@
 class MarioScene : public gl_wrapper::App {
 public:
     MarioScene();
+    ~MarioScene();
 
     void init();
 
@@ -34,14 +35,45 @@ private:
 private:
     gl_wrapper::Shader *_shader;
     vector<Vertex> _triangle = {
-            {glm::vec3(0.5f, -0.5f,  0.0f), glm::vec4(1, 0, 0, 1)},
-            {glm::vec3(-0.5f, -0.5f,  0.0f), glm::vec4(0, 1, 0, 1)},
-            {glm::vec3(0.0f, 0.5f,  0.0f), glm::vec4(0, 0, 1, 1)}
+            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
+            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
+            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
+            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)}
+    };
+    vector<Vertex> _cube = {
+            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
+            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
+            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
+            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)},
+
+            {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 0, 1)},
+            {glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 0, 1, 1)},
+            {glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(1, 0, 0, 1)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 1, 1)}
+    };
+    vector<unsigned int> _indices = {
+            0, 1, 3, // front
+            1, 2, 3,
+    };
+    vector<unsigned int> _indices_cube = {
+            1, 0, 3, // front
+            1, 2, 3,
+            7, 6, 5, // back
+            7, 4, 5,
+            6, 7, 3, // left
+            6, 2, 3,
+            1, 5, 4, // right
+            1, 0, 4,
+            6, 5, 1, // top
+            6, 2, 1,
+            3, 7, 4, // bottom
+            3, 0, 4
     };
     GLuint _positionID;
     GLuint _colorID;
-    GLuint _vboID = 0;
-    GLuint _vaoID = 0;
+    GLuint _vboID;
+    GLuint _eboID;
+    GLuint _vaoID;
     GLuint _modelID, _viewID, _projectionID;
     int _keyCode;
     glm::vec3 _eyePos;

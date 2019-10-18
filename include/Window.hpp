@@ -42,6 +42,7 @@ namespace gl_wrapper {
 
         void swapBuffers();
 
+        void setClose(bool close);
         int getWidth() const;
         int getHeight() const;
         float getRatio() const;
