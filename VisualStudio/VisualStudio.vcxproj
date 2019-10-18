@@ -23,6 +23,7 @@
     <ClCompile Include="Source\Error.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MarioScene.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\Misc.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Window.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Include\Lib.hpp" />
     <ClInclude Include="Include\Macros.hpp" />
     <ClInclude Include="Include\MarioScene.hpp" />
+    <ClInclude Include="Include\Mesh.hpp" />
     <ClInclude Include="Include\Misc.hpp" />
     <ClInclude Include="Include\Shader.hpp" />
     <ClInclude Include="Include\Window.hpp" />
