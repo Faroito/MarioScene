@@ -24,6 +24,12 @@ public:
     void init();
 
     void onDraw() override;
+    void onMouseMove(double x, double y) override;
+    void onMouseDown(int button, int action) override;
+    void onKeyDown(int key, int action) override;
+
+private:
+    bool checkKey();
 
 private:
     gl_wrapper::Shader *_shader;
@@ -37,7 +43,10 @@ private:
     GLuint _bufferID;
     GLuint _arrayID;
     GLuint _modelID, _viewID, _projectionID;
-
+    int _keyCode;
+    glm::vec3 _eyePos;
+    glm::vec3 _forwardDir = glm::vec3(0.0f, 0.0f, -1.0f);
+    const glm::vec3 _upDir = glm::vec3(0.0f, 1.0f, 0.0f);
 };
 
 #endif /* !MARIO_SCENE_HPP */
