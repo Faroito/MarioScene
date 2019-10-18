@@ -4,12 +4,12 @@
 
 #include "MarioScene.hpp"
 
-MarioScene::MarioScene() : App(640, 480, "MarioScene") {
+scene::MarioScene::MarioScene() : App(640, 480, "MarioScene") {
     init();
     _eyePos = glm::vec3(0.0f, 0.0f, 5.0f);
 }
 
-void MarioScene::init() {
+void scene::MarioScene::init() {
     std::string vert = readShader("../shader/vs_model.glsl");
     std::string frag = readShader("../shader/fs_model.glsl");
 
@@ -28,7 +28,7 @@ void MarioScene::init() {
     glBindVertexArray(_vaoID);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-    glBufferData(GL_ARRAY_BUFFER, _triangle.size() * sizeof(Vertex), _triangle.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _triangle.size() * sizeof(VertexColor), _triangle.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
@@ -36,21 +36,21 @@ void MarioScene::init() {
     glEnableVertexAttribArray(_positionID);
     glEnableVertexAttribArray(_colorID);
 
-    glVertexAttribPointer(_positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) nullptr);
-    glVertexAttribPointer(_colorID, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (1 * sizeof(glm::vec3)));
+    glVertexAttribPointer(_positionID, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) nullptr);
+    glVertexAttribPointer(_colorID, 4, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (1 * sizeof(glm::vec3)));
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
-MarioScene::~MarioScene() {
+scene::MarioScene::~MarioScene() {
     glDeleteVertexArrays(1, &_vaoID);
     glDeleteBuffers(1, &_vboID);
     glDeleteBuffers(1, &_eboID);
 }
 
-void MarioScene::onDraw() {
+void scene::MarioScene::onDraw() {
 
     static float time = 0.0;
     time += 0.01;
@@ -78,7 +78,7 @@ void MarioScene::onDraw() {
     _shader->unBind();
 }
 
-bool MarioScene::checkKey() {
+bool scene::MarioScene::checkKey() {
     if (_keyCode == -1)
         return false;
     if (_keyCode == GLFW_KEY_W)
@@ -99,16 +99,16 @@ bool MarioScene::checkKey() {
     return true;
 }
 
-void MarioScene::onMouseMove(double x, double y) {
+void scene::MarioScene::onMouseMove(double x, double y) {
     // std::cout << x << " " << y << std::endl;
 }
 
-void MarioScene::onMouseDown(int button, int action) {
+void scene::MarioScene::onMouseDown(int button, int action) {
     if (action == GLFW_PRESS)
         std::cout << "Clicked on: " << button << std::endl;
 }
 
-void MarioScene::onKeyDown(int key, int action) {
+void scene::MarioScene::onKeyDown(int key, int action) {
     if (action == GLFW_PRESS) {
         _keyCode = key;
         // std::cout << "KeyDown on: " << key << std::endl;

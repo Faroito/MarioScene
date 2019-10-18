@@ -5,11 +5,8 @@
 #ifndef MISC_HPP
 # define MISC_HPP
 
-struct Vertex {
-    glm::vec3 pos;
-    glm::vec4 color;
-};
-
-std::string readShader(const std::string &name);
+namespace scene {
+    std::string readShader(const std::string &name);
+}
 
 #endif /* !MISC_HPP */

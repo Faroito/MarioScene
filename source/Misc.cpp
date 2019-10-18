@@ -6,8 +6,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <Misc.hpp>
 
-std::string readShader(const std::string &name) {
+std::string scene::readShader(const std::string &name) {
     std::string vs_text;
     std::ifstream vs_file(name);
 

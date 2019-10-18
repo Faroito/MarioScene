@@ -6,7 +6,7 @@
 
 int main(int argc, const char ** argv) {
 
-    MarioScene app;
+    scene::MarioScene app;
     app.start();
 
     return 0;
