@@ -34,14 +34,14 @@ private:
 private:
     gl_wrapper::Shader *_shader;
     vector<Vertex> _triangle = {
-            {glm::vec2(-1, -0.5), glm::vec4(1, 0, 0, 1)},
-            {glm::vec2(0, 1), glm::vec4(0, 1, 0, 1)},
-            {glm::vec2(1, -.5), glm::vec4(0, 0, 1, 1)}
+            {glm::vec3(0.5f, -0.5f,  0.0f), glm::vec4(1, 0, 0, 1)},
+            {glm::vec3(-0.5f, -0.5f,  0.0f), glm::vec4(0, 1, 0, 1)},
+            {glm::vec3(0.0f, 0.5f,  0.0f), glm::vec4(0, 0, 1, 1)}
     };
     GLuint _positionID;
     GLuint _colorID;
-    GLuint _bufferID;
-    GLuint _arrayID;
+    GLuint _vboID = 0;
+    GLuint _vaoID = 0;
     GLuint _modelID, _viewID, _projectionID;
     int _keyCode;
     glm::vec3 _eyePos;

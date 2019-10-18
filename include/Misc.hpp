@@ -6,7 +6,7 @@
 # define MISC_HPP
 
 struct Vertex {
-    glm::vec2 position;
+    glm::vec3 pos;
     glm::vec4 color;
 };
 

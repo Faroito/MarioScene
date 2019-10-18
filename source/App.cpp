@@ -9,7 +9,7 @@ gl_wrapper::App::App(int width, int height, const std::string &name) {
         exit(EXIT_FAILURE);
     std::cout << "GLFW initialized." << std::endl;
 
-    // glfwSetErrorCallback(error::callbackGLFW);
+    glfwSetErrorCallback(error::callbackGLFW);
     hintsGLFW();
 
     _window.create(this, width, height, name);
@@ -21,28 +21,18 @@ gl_wrapper::App::App(int width, int height, const std::string &name) {
                   << glewGetErrorString(glewError) << std::endl;
     }
 
-    if (GLEW_APPLE_vertex_array_object) {
-        std::cout << "genVertexArrayAPPLE supported." << std::endl;
-    } else if (GLEW_ARB_vertex_array_object) {
-        std::cout << "genVertexArrays supported." << std::endl;
-    }
-
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glLineWidth(3);
 }
 
 void gl_wrapper::App::hintsGLFW() {
-//    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-//    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-//    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    std::cout << glfwGetVersionString() << std::endl;
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
 gl_wrapper::App::~App() {
@@ -61,8 +51,8 @@ void gl_wrapper::App::start() {
 
         onDraw();
 
-        _window.swapBuffers();
         glfwPollEvents();
+        _window.swapBuffers();
     }
 }
 

@@ -1,7 +1,9 @@
-#version 120
+#version 410 core
 
-varying vec4 dstColor;
+out vec4 FragColor;
+
+in vec4 vertexColor;
 
 void main() {
-    gl_FragColor = dstColor;
+    FragColor = vertexColor;
 }

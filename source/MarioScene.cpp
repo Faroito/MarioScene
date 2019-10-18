@@ -21,21 +21,18 @@ void MarioScene::init() {
     _viewID = (GLuint) glGetUniformLocation(_shader->getId(), "view_matrix");
     _projectionID = (GLuint) glGetUniformLocation(_shader->getId(), "proj_matrix");
 
-    GENVERTEXARRAYS(1, &_arrayID);
-    BINDVERTEXARRAY(_arrayID);
+    glGenVertexArrays(1, &_vaoID);
+    glBindVertexArray(_vaoID);
 
-    glGenBuffers(1, &_bufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, _bufferID);
-    glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(Vertex), _triangle.data(), GL_STATIC_DRAW);
+    glGenBuffers(1, &_vboID);
+    glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+    glBufferData(GL_ARRAY_BUFFER, _triangle.size() * sizeof(Vertex), _triangle.data(), GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(_positionID);
     glEnableVertexAttribArray(_colorID);
 
-    glVertexAttribPointer(_positionID, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
-    glVertexAttribPointer(_colorID, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) sizeof(glm::vec2));
-
-    BINDVERTEXARRAY(0);
-
+    glVertexAttribPointer(_positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) nullptr);
+    glVertexAttribPointer(_colorID, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (1 * sizeof(glm::vec3)));
 }
 
 void MarioScene::onDraw() {
@@ -45,7 +42,7 @@ void MarioScene::onDraw() {
 
     _shader->bind();
 
-    BINDVERTEXARRAY(_arrayID);
+    glBindVertexArray(_vaoID);
 
     this->checkKey();
     glm::mat4 view = glm::lookAt(_eyePos, _eyePos + _forwardDir, _upDir);
@@ -55,15 +52,16 @@ void MarioScene::onDraw() {
     glUniformMatrix4fv(_projectionID, 1, GL_FALSE, glm::value_ptr(proj));
 
     for (int i = 0; i < 2; i++) {
-        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i*2, 0.0f, 0.0f));
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time * PI, glm::vec3(0,1,1));
+        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 2, 0.0f, 0.0f));
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time * PI, glm::vec3(1, 1, 1));
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
         glm::mat4 model = translate * rotate * scale;
         glUniformMatrix4fv(_modelID, 1, GL_FALSE, glm::value_ptr(model));
         glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
-    BINDVERTEXARRAY(0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
     _shader->unBind();
 }
 

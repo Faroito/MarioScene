@@ -25,6 +25,9 @@ gl_wrapper::Shader::Shader(const char *vert, const char *frag) {
 
     linkCheck(_sID);
 
+    glDeleteShader(vID);
+    glDeleteShader(fID);
+
     bind();
 }
 

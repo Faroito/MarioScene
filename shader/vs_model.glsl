@@ -1,15 +1,15 @@
-#version 120
+#version 410 core
 
-attribute vec4 position;
-attribute vec4 color;
+in vec3 position;
+in vec4 color;
 
-varying vec4 dstColor;
+out vec4 vertexColor;
 
 uniform mat4 model_matrix;
 uniform mat4 view_matrix;
 uniform mat4 proj_matrix;
 
 void main() {
-    dstColor = color;
-    gl_Position = proj_matrix * view_matrix * model_matrix * position;
+    vertexColor = color;
+    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);
 }
