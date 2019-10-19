@@ -26,10 +26,11 @@ enum TextureType {
 
 struct Texture {
     GLuint id;
+    std::string path;
     TextureType type;
 };
 
-namespace scene {
+namespace loader {
     std::vector<Vertex> getExampleVertex(int i);
     std::vector<unsigned int> getExampleIndices(int i);
 }

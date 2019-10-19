@@ -20,26 +20,20 @@ namespace gl_wrapper {
     class Mesh {
     public:
         Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices);
-        // Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
+        Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
         ~Mesh();
 
-        void setupMesh(gl_wrapper::Shader *shader);
+        void setupMesh();
 
-        void draw();
-
-    private:
-        static unsigned int setTexture(std::string path);
+        void draw(Shader *shader);
 
     private:
-        /*
+        static unsigned int setTexture(const std::string &path);
+
+    private:
         std::vector<Vertex> _vertices;
         std::vector<unsigned int> _indices;
         std::vector<Texture> _textures;
-        */
-        std::vector<Vertex> _vertices;
-        std::vector<unsigned int> _indices;
-        unsigned int _texture;
-        unsigned int _specular;
 
         GLuint _vaoID = 0;
         GLuint _vboID = 0;

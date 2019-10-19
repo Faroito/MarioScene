@@ -11,17 +11,20 @@ scene::MarioScene::MarioScene() : App(640, 480, "MarioScene") {
 void scene::MarioScene::init() {
     std::string vs_model_path = "../shader/texture_vs.glsl";
     std::string fs_model_path = "../shader/texture_specular_fs.glsl";
-    std::string vs_lamp_path = "../shader/light_vs.glsl";
-    std::string fs_lamp_path = "../shader/light_fs.glsl";
+    std::string vs_light_path = "../shader/light_vs.glsl";
+    std::string fs_light_path = "../shader/light_fs.glsl";
 
     _objectShader = new gl_wrapper::Shader(vs_model_path, fs_model_path);
-    _lightShader = new gl_wrapper::Shader(vs_model_path, fs_lamp_path);
+    _lightShader = new gl_wrapper::Shader(vs_light_path, fs_light_path);
 
-    auto vertex = getExampleVertex(2);
-    auto indices = getExampleIndices(2);
+    auto vertex = loader::getExampleVertex(1);
+    auto indices = loader::getExampleIndices(1);
+    std::vector<Texture> textures = {
+            {0, "../resource/wooden_container.png", TEXTURE_DIFFUSE},
+            {0, "../resource/container_specular.png", TEXTURE_SPECULAR},
+    };
 
-    _objectMesh = new gl_wrapper::Mesh(vertex, indices);
-    _objectMesh->setupMesh(_objectShader);
+    _objectMesh = new gl_wrapper::Mesh(vertex, indices, textures);
 
     _objectShader->bind();
     // _objectShader->setUniformVector3("objectColor", glm::vec3(0.87f, 0.34f, 0.22f));
@@ -39,13 +42,10 @@ void scene::MarioScene::init() {
     // _objectShader->setUniformVector3("material.ambient",  glm::vec3(1.0f, 0.5f, 0.31f));
     // _objectShader->setUniformVector3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
     // _objectShader->setUniformVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-    _objectShader->setUniformInt("material.diffuse", 0);
-    _objectShader->setUniformInt("material.specular", 1);
     _objectShader->setUniformFloat("material.shininess", 32.0f);
     gl_wrapper::Shader::unBind();
 
     _lightMesh = new gl_wrapper::Mesh(vertex, indices);
-    _lightMesh->setupMesh(_lightShader);
 
     _lightShader->bind();
     _lightShader->setUniformVector3("ambientLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
@@ -82,7 +82,7 @@ void scene::MarioScene::onDraw() {
         _objectShader->setUniformMatrix4("model_matrix", model);
         auto inverse_model = glm::transpose(glm::inverse(rotate));
         _objectShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
-        _objectMesh->draw();
+        _objectMesh->draw(_objectShader);
     }
     /* auto rotate = glm::rotate(glm::mat4(1.0f), 45.0f, glm::vec3(0.3f, 1.0f, 0.0f));
     _objectShader->setUniformMatrix4("model_matrix", glm::mat4(1.0f));
@@ -99,7 +99,7 @@ void scene::MarioScene::onDraw() {
     _lightShader->setUniformMatrix4("view_matrix", view);
     _lightShader->setUniformMatrix4("proj_matrix", proj);
     _lightShader->setUniformMatrix4("model_matrix", model);
-    _lightMesh->draw();
+    _lightMesh->draw(_lightShader);
 
     gl_wrapper::Shader::unBind();
 }

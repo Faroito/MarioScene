@@ -6,9 +6,14 @@
 
 #include "Mesh.hpp"
 
-gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices) {
-    _vertices = vertices;
-    _indices = indices;
+gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices)
+    : _vertices(vertices), _indices(indices) {
+    setupMesh();
+}
+
+gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
+        std::vector<Texture> &textures) : _vertices(vertices), _indices(indices), _textures(textures) {
+    setupMesh();
 }
 
 gl_wrapper::Mesh::~Mesh() {
@@ -17,19 +22,9 @@ gl_wrapper::Mesh::~Mesh() {
     glDeleteBuffers(1, &_eboID);
 }
 
-/*
-gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
-        std::vector<Texture> &textures) {
-    _vertices = vertices;
-    _indices = indices;
-    _textures = textures;
-
-    setupMesh();
-}*/
-
-void gl_wrapper::Mesh::setupMesh(gl_wrapper::Shader *shader) {
-    _texture = setTexture("../resource/wooden_container.png");
-    _specular = setTexture("../resource/container_specular.png");
+void gl_wrapper::Mesh::setupMesh() {
+    for (auto &it : _textures)
+        it.id = setTexture(it.path);
 
     glGenVertexArrays(1, &_vaoID);
     glGenBuffers(1, &_vboID);
@@ -43,47 +38,55 @@ void gl_wrapper::Mesh::setupMesh(gl_wrapper::Shader *shader) {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
 
-    GLuint positionID = shader->getAttribLocation("position");
+    GLuint positionID = 0;
     glEnableVertexAttribArray(positionID);
-    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) nullptr);
+    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, position));
 
-     GLuint normalID = shader->getAttribLocation("normal");
-     glEnableVertexAttribArray(normalID);
-     glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(glm::vec3)));
+    GLuint normalID = 1;
+    glEnableVertexAttribArray(normalID);
+    glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, normal));
 
-    GLuint textureID = shader->getAttribLocation("texture");
-    glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(glm::vec3) + sizeof(glm::vec3)));
-    glEnableVertexAttribArray(textureID);
+    if (!_textures.empty()) {
+        GLuint textureID = 2;
+        glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, textureCord));
+        glEnableVertexAttribArray(textureID);
+    }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
-void gl_wrapper::Mesh::draw() {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _texture);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, _specular);
+void gl_wrapper::Mesh::draw(Shader *shader) {
+    for (int i = 0; i < (int) _textures.size(); i++) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        std::string name;
+        if (_textures[i].type == TEXTURE_DIFFUSE)
+            name = "diffuse";
+        else if (_textures[i].type == TEXTURE_SPECULAR)
+            name = "specular";
+        shader->setUniformInt(("material." + name).c_str(), i);
+        glBindTexture(GL_TEXTURE_2D, _textures[i].id);
+    }
     glBindVertexArray(_vaoID);
     // glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
-unsigned int gl_wrapper::Mesh::setTexture(std::string path) {
+unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) {
     unsigned int texture = 0;
     int width = 0;
     int height = 0;
-    int nrComponents = 0;
+    int nbComponents = 0;
     glGenTextures(1, &texture);
-    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nbComponents, 0);
     if (data) {
-        GLenum format = 0;
-        if (nrComponents == 1)
+        GLenum format = GL_RGB;
+        if (nbComponents == 1)
             format = GL_RED;
-        else if (nrComponents == 3)
+        else if (nbComponents == 3)
             format = GL_RGB;
-        else if (nrComponents == 4)
+        else if (nbComponents == 4)
             format = GL_RGBA;
 
         glBindTexture(GL_TEXTURE_2D, texture);
