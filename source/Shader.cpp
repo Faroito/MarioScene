@@ -86,6 +86,15 @@ void gl_wrapper::Shader::bind() {
     glUseProgram(_sID);
 }
 
+void gl_wrapper::Shader::unBind() {
+    glUseProgram(0);
+}
+
+void gl_wrapper::Shader::setUniformFloat(const char *name, const float f) {
+    GLint vectorID = glGetUniformLocation(_sID, name);
+    glUniform1fv(vectorID, 1, &f);
+}
+
 void gl_wrapper::Shader::setUniformVector3(const char *name, const glm::vec3 &vector) {
     GLint vectorID = glGetUniformLocation(_sID, name);
     glUniform3fv(vectorID, 1, glm::value_ptr(vector));

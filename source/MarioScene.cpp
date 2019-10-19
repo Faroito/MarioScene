@@ -23,6 +23,17 @@ void scene::MarioScene::init() {
     _objectMesh = new gl_wrapper::Mesh(vertex, indices);
     _objectMesh->setupMesh(_objectShader);
 
+    _objectShader->bind();
+    _objectShader->setUniformVector3("objectColor", glm::vec3(0.87f, 0.34f, 0.22f));
+    _objectShader->setUniformVector3("light.ambient",  glm::vec3(0.2f, 0.2f, 0.2f));
+    _objectShader->setUniformVector3("light.diffuse",  glm::vec3(0.5f, 0.5f, 0.5f));
+    _objectShader->setUniformVector3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+    _objectShader->setUniformVector3("material.ambient",  glm::vec3(1.0f, 0.5f, 0.31f));
+    _objectShader->setUniformVector3("material.diffuse",  glm::vec3(1.0f, 0.5f, 0.31f));
+    _objectShader->setUniformVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    _objectShader->setUniformFloat("material.shininess", 32.0f);
+    gl_wrapper::Shader::unBind();
+
     _lampMesh = new gl_wrapper::Mesh(vertex, indices);
     _lampMesh->setupMesh(_lampShader);
 
@@ -41,9 +52,7 @@ void scene::MarioScene::onDraw() {
 
     _objectShader->bind();
 
-    _objectShader->setUniformVector3("objectColor", glm::vec3(0.87f, 0.34f, 0.22f));
-    _objectShader->setUniformVector3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-    _objectShader->setUniformVector3("lightPos", lightPos);
+    _objectShader->setUniformVector3("light.position", lightPos);
     _objectShader->setUniformVector3("viewPos", _camera->getCameraPosition());
     _objectShader->setUniformMatrix4("view_matrix", view);
     _objectShader->setUniformMatrix4("proj_matrix", proj);
@@ -73,7 +82,7 @@ void scene::MarioScene::onDraw() {
 //        glUniformMatrix4fv(_modelID, 1, GL_FALSE, glm::value_ptr(model));
 //        _objectMesh->draw();
 //    }
-    glUseProgram(0);
+    gl_wrapper::Shader::unBind();
 }
 
 void scene::MarioScene::checkKey() {

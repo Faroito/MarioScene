@@ -6,7 +6,7 @@
 
 #include "Mesh.hpp"
 
-gl_wrapper::Mesh::Mesh(std::vector<VertexColor> &vertices, std::vector<unsigned int> &indices) {
+gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices) {
     _vertices = vertices;
     _indices = indices;
 }
@@ -37,21 +37,21 @@ void gl_wrapper::Mesh::setupMesh(gl_wrapper::Shader *shader) {
     glBindVertexArray(_vaoID);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-    glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(VertexColor), _vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), _vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
 
     GLuint positionID = shader->getAttribLocation("position");
     glEnableVertexAttribArray(positionID);
-    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) nullptr);
+    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) nullptr);
 
      GLuint normalID = shader->getAttribLocation("normal");
      glEnableVertexAttribArray(normalID);
-     glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (sizeof(glm::vec3)));
+     glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(glm::vec3)));
 
     // GLuint textureID = glGetAttribLocation(shader->getId(), "texture");
-    // glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (sizeof(glm::vec3) + sizeof(glm::vec4)));
+    // glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(glm::vec3) + sizeof(glm::vec4)));
     // glEnableVertexAttribArray(textureID);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);

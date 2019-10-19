@@ -13,16 +13,10 @@
 
 #include "Lib.hpp"
 
-struct VertexColor {
-    glm::vec3 position;
-    glm::vec3 normal;
-    // glm::vec2 texture;
-};
-
 struct Vertex {
     glm::vec3 position;
     glm::vec3 normal;
-    glm::vec2 texCord;
+    glm::vec2 textureCord;
 };
 
 struct Texture {
@@ -31,7 +25,7 @@ struct Texture {
 };
 
 namespace scene {
-    std::vector<VertexColor> getExampleVertex(int i);
+    std::vector<Vertex> getExampleVertex(int i);
     std::vector<unsigned int> getExampleIndices(int i);
 }
 

@@ -19,7 +19,7 @@
 namespace gl_wrapper {
     class Mesh {
     public:
-        Mesh(std::vector<VertexColor> &vertices, std::vector<unsigned int> &indices);
+        Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices);
         // Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
         ~Mesh();
 
@@ -36,7 +36,7 @@ namespace gl_wrapper {
         std::vector<unsigned int> _indices;
         std::vector<Texture> _textures;
         */
-        std::vector<VertexColor> _vertices;
+        std::vector<Vertex> _vertices;
         std::vector<unsigned int> _indices;
         unsigned int _texture;
 
