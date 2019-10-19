@@ -36,6 +36,7 @@ cmake-build-debug/
 # Other
 *~
 .idea/
+stb_image/
 
 # Visual Studio
 .vs/
