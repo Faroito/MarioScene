@@ -19,9 +19,14 @@ struct Vertex {
     glm::vec2 textureCord;
 };
 
+enum TextureType {
+    TEXTURE_DIFFUSE,
+    TEXTURE_SPECULAR
+};
+
 struct Texture {
     GLuint id;
-    std::string type;
+    TextureType type;
 };
 
 namespace scene {

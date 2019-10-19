@@ -16,8 +16,10 @@
 
 #include "App.hpp"
 #include "Camera.hpp"
+#include "DirLight.hpp"
 #include "Mesh.hpp"
 #include "Misc.hpp"
+#include "PointLight.hpp"
 #include "Shader.hpp"
 
 namespace scene {
@@ -42,9 +44,9 @@ namespace scene {
 
     private:
         gl_wrapper::Shader *_objectShader;
-        gl_wrapper::Shader *_lampShader;
+        gl_wrapper::Shader *_lightShader;
         gl_wrapper::Mesh *_objectMesh;
-        gl_wrapper::Mesh *_lampMesh;
+        gl_wrapper::Mesh *_lightMesh;
         scene::Camera *_camera = new scene::Camera();
         bool _keyCode[512] = { false };
         const std::unordered_map<int, change_camera_t> _keyMap = {
