@@ -35,9 +35,9 @@ void scene::MarioScene::onDraw() {
     _shader->bind();
 
     this->checkKey();
-    glm::mat4 view = _camera->getViewMatrix();
-    glm::mat4 proj = glm::perspective(glm::radians(45.0f), getWindow().getRatio(), 0.1f, 1000.0f);
 
+    glm::mat4 view = _camera->getViewMatrix();
+    glm::mat4 proj = _camera->getProjectionMatrix(getWindow());
     glUniformMatrix4fv(_viewID, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(_projectionID, 1, GL_FALSE, glm::value_ptr(proj));
 
@@ -70,11 +70,13 @@ void scene::MarioScene::onMouseDown(int button, int action) {
         std::cout << "Clicked on: " << button << std::endl;
 }
 
+void scene::MarioScene::onMouseScroll(double x, double y) {
+    _camera->zoom(y);
+}
+
 void scene::MarioScene::onKeyDown(int key, int action) {
-    if (action == GLFW_PRESS) {
+    if (action == GLFW_PRESS)
         _keyCode[key] = true;
-        // std::cout << "KeyDown on: " << key << std::endl;
-    }
     if (action == GLFW_RELEASE)
         _keyCode[key] = false;
 }

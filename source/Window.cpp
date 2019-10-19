@@ -29,6 +29,7 @@ void gl_wrapper::Window::create(IApp *app, int width, int height, const std::str
     glfwSetKeyCallback(_window, gl_wrapper::CallbackInterface::OnKeyDown);
     glfwSetCursorPosCallback(_window, gl_wrapper::CallbackInterface::OnMouseMove);
     glfwSetMouseButtonCallback(_window, gl_wrapper::CallbackInterface::OnMouseDown);
+    glfwSetScrollCallback(_window, gl_wrapper::CallbackInterface::OnMouseScroll);
 
     std::cout << "GLFW window created." << std::endl;
 }

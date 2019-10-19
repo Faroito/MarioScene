@@ -15,16 +15,20 @@ namespace gl_wrapper {
     struct CallbackInterface {
         static IApp *app;
 
-        static void OnKeyDown(GLFWwindow* window, int key, int scancode, int action, int mods){
+        static void OnKeyDown(GLFWwindow* window, int key, int scancode, int action, int mods) {
             app->onKeyDown(key, action);
         }
 
-        static void OnMouseMove(GLFWwindow* window, double x, double y){
+        static void OnMouseMove(GLFWwindow* window, double x, double y) {
             app->onMouseMove(x, y);
         }
 
-        static void OnMouseDown(GLFWwindow* window, int button, int action, int mods){
+        static void OnMouseDown(GLFWwindow* window, int button, int action, int mods) {
             app->onMouseDown(button, action);
+        }
+
+        static void OnMouseScroll(GLFWwindow* window, double x, double y) {
+            app->onMouseScroll(x, y);
         }
     };
 

@@ -36,6 +36,7 @@ namespace scene {
         void onDraw() override;
         void onMouseMove(double x, double y) override;
         void onMouseDown(int button, int action) override;
+        void onMouseScroll(double x, double y) override;
         void onKeyDown(int key, int action) override;
 
     private:

@@ -12,15 +12,18 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "Lib.hpp"
+#include "Window.hpp"
 
 namespace scene {
 
     class Camera {
     public:
-        Camera() = default;
+        Camera();
 
-        void setMousePosition(float x, float y);
-        glm::mat4 getViewMatrix();
+        glm::mat4 getViewMatrix() const;
+        glm::mat4 getProjectionMatrix(gl_wrapper::Window &window) const;
+
+        void zoom(double yOffset);
 
         void moveForward();
         void moveBackward();
@@ -35,6 +38,8 @@ namespace scene {
         void updateCamerasVectors();
 
     private:
+        float _fov = 45.0f;
+
         glm::vec3 _cameraPos = glm::vec3(0.0f, 0.0f, 6.0f);
         glm::vec3 _cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
         glm::vec3 _cameraRight = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -42,9 +47,6 @@ namespace scene {
         const glm::vec3 _worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
         const float _cameraSpeed = 0.08f;
-
-        float _xPos = 0;
-        float _yPos = 0;
     };
 
 }

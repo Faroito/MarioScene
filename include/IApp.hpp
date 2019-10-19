@@ -11,6 +11,7 @@ namespace gl_wrapper {
     public:
         virtual void onMouseMove(double x, double y) = 0;
         virtual void onMouseDown(int button, int action) = 0;
+        virtual void onMouseScroll(double x, double y) = 0;
         virtual void onKeyDown(int key, int action) = 0;
 
     };

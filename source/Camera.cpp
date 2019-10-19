@@ -4,13 +4,8 @@
 
 #include "Camera.hpp"
 
-void scene::Camera::setMousePosition(float x, float y) {
-
-}
-
-glm::mat4 scene::Camera::getViewMatrix() {
+scene::Camera::Camera() {
     updateCamerasVectors();
-    return glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
 }
 
 void scene::Camera::updateCamerasVectors() {
@@ -18,12 +13,28 @@ void scene::Camera::updateCamerasVectors() {
     _cameraUp = glm::normalize(glm::cross(_cameraRight, _cameraFront));
 }
 
+glm::mat4 scene::Camera::getViewMatrix() const {
+    return glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
+}
+
+glm::mat4 scene::Camera::getProjectionMatrix(gl_wrapper::Window &window) const {
+    return glm::perspective(glm::radians(_fov), window.getRatio(), 0.1f, 1000.0f);
+}
+
+void scene::Camera::zoom(double yOffset) {
+    _fov -= (float) yOffset / 2;
+    if (_fov <= 1.0f)
+        _fov = 1.0f;
+    else if(_fov >= 45.0f)
+        _fov = 45.0f;
+}
+
 void scene::Camera::moveForward() {
-    _cameraPos += _cameraSpeed * _cameraFront;
+    _cameraPos += _cameraFront * _cameraSpeed;
 }
 
 void scene::Camera::moveBackward() {
-    _cameraPos -= _cameraSpeed * _cameraFront;
+    _cameraPos -= _cameraFront * _cameraSpeed;
 }
 
 void scene::Camera::moveUp() {
@@ -44,8 +55,10 @@ void scene::Camera::moveRight() {
 
 void scene::Camera::rotateLeft() {
     _cameraFront = glm::angleAxis(_cameraSpeed / 6, _cameraUp) * _cameraFront;
+    updateCamerasVectors();
 }
 
 void scene::Camera::rotateRight() {
     _cameraFront = glm::angleAxis(-_cameraSpeed / 6, _cameraUp) * _cameraFront;
+    updateCamerasVectors();
 }

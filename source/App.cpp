@@ -66,6 +66,8 @@ void gl_wrapper::App::onMouseMove(double x, double y) {}
 
 void gl_wrapper::App::onMouseDown(int button, int action) {}
 
+void gl_wrapper::App::onMouseScroll(double x, double y) {}
+
 void gl_wrapper::App::onKeyDown(int key, int action) {}
 
 gl_wrapper::Window& gl_wrapper::App::getWindow() {
