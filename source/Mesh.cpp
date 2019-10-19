@@ -32,15 +32,15 @@ void gl_wrapper::Mesh::setupMesh(gl_wrapper::Shader *shader) {
 
     glGenVertexArrays(1, &_vaoID);
     glGenBuffers(1, &_vboID);
-    // glGenBuffers(1, &_eboID);
+    glGenBuffers(1, &_eboID);
 
     glBindVertexArray(_vaoID);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
     glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(VertexColor), _vertices.data(), GL_STATIC_DRAW);
 
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
 
     GLuint positionID = shader->getAttribLocation("position");
     glEnableVertexAttribArray(positionID);
@@ -84,7 +84,6 @@ void gl_wrapper::Mesh::setTexture() {
 void gl_wrapper::Mesh::draw() {
     // glBindTexture(GL_TEXTURE_2D, _texture);
     glBindVertexArray(_vaoID);
-    glDrawArrays(GL_TRIANGLES, 0, _indices.size());
-    // glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
