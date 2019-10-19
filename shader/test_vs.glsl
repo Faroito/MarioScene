@@ -13,7 +13,7 @@ out vec3 vertexNormal;
 out vec3 fragPos;
 
 void main() {
-    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);
     fragPos = vec3(model_matrix * vec4(position, 1.0));
     vertexNormal = mat3(inverse_model_matrix) * normal;
+    gl_Position = proj_matrix * view_matrix * model_matrix * vec4(position, 1.0f);
 }

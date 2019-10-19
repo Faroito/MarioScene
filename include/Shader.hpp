@@ -24,6 +24,7 @@ namespace gl_wrapper {
         void bind();
         static void unBind();
 
+        void setUniformInt(const char *name, int i);
         void setUniformFloat(const char *name, float f);
         void setUniformVector3(const char *name, const glm::vec3 &vector);
         void setUniformMatrix4(const char *name, const glm::mat4 &matrix);

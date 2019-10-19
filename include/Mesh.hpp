@@ -28,7 +28,7 @@ namespace gl_wrapper {
         void draw();
 
     private:
-        void setTexture();
+        static unsigned int setTexture(std::string path);
 
     private:
         /*
@@ -39,6 +39,7 @@ namespace gl_wrapper {
         std::vector<Vertex> _vertices;
         std::vector<unsigned int> _indices;
         unsigned int _texture;
+        unsigned int _specular;
 
         GLuint _vaoID = 0;
         GLuint _vboID = 0;

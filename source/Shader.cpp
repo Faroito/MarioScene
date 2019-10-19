@@ -90,9 +90,14 @@ void gl_wrapper::Shader::unBind() {
     glUseProgram(0);
 }
 
+void gl_wrapper::Shader::setUniformInt(const char *name, int i) {
+    GLint intID = glGetUniformLocation(_sID, name);
+    glUniform1iv(intID, 1, &i);
+}
+
 void gl_wrapper::Shader::setUniformFloat(const char *name, const float f) {
-    GLint vectorID = glGetUniformLocation(_sID, name);
-    glUniform1fv(vectorID, 1, &f);
+    GLint floatID = glGetUniformLocation(_sID, name);
+    glUniform1fv(floatID, 1, &f);
 }
 
 void gl_wrapper::Shader::setUniformVector3(const char *name, const glm::vec3 &vector) {

@@ -41,7 +41,7 @@ namespace scene {
     private:
         float _fov = 45.0f;
 
-        glm::vec3 _cameraPos = glm::vec3(0.0f, 0.0f, 6.0f);
+        glm::vec3 _cameraPos = glm::vec3(0.0f, 0.0f, 8.0f);
         glm::vec3 _cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
         glm::vec3 _cameraRight = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 _cameraUp = glm::vec3(0.0f, 0.0f, 0.0f);
