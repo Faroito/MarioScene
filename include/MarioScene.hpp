@@ -9,15 +9,14 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <cmath>
 
-# define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 #include "App.hpp"
 #include "Camera.hpp"
-#include "Macros.hpp"
 #include "Mesh.hpp"
 #include "Misc.hpp"
 #include "Shader.hpp"

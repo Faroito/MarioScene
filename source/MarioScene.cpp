@@ -43,7 +43,7 @@ void scene::MarioScene::onDraw() {
 
     for (int i = 0; i < 5; i++) {
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time * PI, glm::vec3(1, 1, 1));
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), time * (float) M_PI, glm::vec3(1, 1, 1));
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
         glm::mat4 model = translate * rotate * scale;
         glUniformMatrix4fv(_modelID, 1, GL_FALSE, glm::value_ptr(model));
