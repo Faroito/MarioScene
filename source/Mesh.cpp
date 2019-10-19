@@ -63,16 +63,16 @@ void gl_wrapper::Mesh::draw(Shader *shader) {
     for (int i = 0; i < (int) _textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string name;
-        if (_textures[i].type == loader::TEXTURE_DIFFUSE)
+        if (_textures[i].type == loader::TextureType::TEXTURE_DIFFUSE)
             name = "diffuse";
-        else if (_textures[i].type == loader::TEXTURE_SPECULAR)
+        else if (_textures[i].type == loader::TextureType::TEXTURE_SPECULAR)
             name = "specular";
         shader->setUniformInt(("material." + name).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, _textures[i].id);
     }
     glBindVertexArray(_vaoID);
     // glDrawArrays(GL_TRIANGLES, 0, 36);
-    glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, (GLsizei) _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 

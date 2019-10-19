@@ -21,23 +21,29 @@
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\DirLight.cpp" />
     <ClCompile Include="Source\Error.cpp" />
+    <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MarioScene.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\Misc.cpp" />
+    <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\App.hpp" />
     <ClInclude Include="Include\Camera.hpp" />
+    <ClInclude Include="Include\DirLight.hpp" />
     <ClInclude Include="Include\Error.hpp" />
     <ClInclude Include="Include\IApp.hpp" />
     <ClInclude Include="Include\Lib.hpp" />
+    <ClInclude Include="Include\Light.hpp" />
     <ClInclude Include="Include\MarioScene.hpp" />
     <ClInclude Include="Include\Mesh.hpp" />
     <ClInclude Include="Include\Misc.hpp" />
+    <ClInclude Include="Include\PointLight.hpp" />
     <ClInclude Include="Include\Shader.hpp" />
     <ClInclude Include="Include\Window.hpp" />
   </ItemGroup>

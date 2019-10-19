@@ -20,8 +20,8 @@ void scene::MarioScene::init() {
     auto vertex = loader::getExampleVertex(1);
     auto indices = loader::getExampleIndices(1);
     std::vector<loader::Texture> textures = {
-            {0, "../resource/wooden_container.png", loader::TEXTURE_DIFFUSE},
-            {0, "../resource/container_specular.png", loader::TEXTURE_SPECULAR},
+            {0, "../resource/wooden_container.png", loader::TextureType::TEXTURE_DIFFUSE},
+            {0, "../resource/container_specular.png", loader::TextureType::TEXTURE_SPECULAR},
     };
 
     _objectMesh = new gl_wrapper::Mesh(vertex, indices, textures);
@@ -75,7 +75,7 @@ void scene::MarioScene::onDraw() {
 
     for (int i = 0; i < 5; i++) {
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * (float) M_PI) / ((float) i * 2 + 10),
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * 3.14159265359f) / ((float) i * 2 + 10),
                 glm::vec3(1.f, 1.f, 1.f));
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
         glm::mat4 model = translate * rotate * scale;

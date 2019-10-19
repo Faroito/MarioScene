@@ -20,7 +20,7 @@ namespace loader {
         glm::vec2 textureCord;
     };
 
-    enum TextureType {
+    enum class TextureType {
         TEXTURE_DIFFUSE,
         TEXTURE_SPECULAR
     };
