@@ -34,9 +34,10 @@ void scene::MarioScene::onDraw() {
     auto view = _camera->getViewMatrix();
     auto proj = _camera->getProjectionMatrix(getWindow());
 
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-    lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-    lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+    glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+    lightPos.x = cos(glfwGetTime()) * 2.0f;
+    lightPos.y = sin(glfwGetTime() / 2.0f);
+    lightPos.z = sin(glfwGetTime()) * 2.0f;
 
     _objectShader->bind();
 
