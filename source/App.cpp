@@ -9,7 +9,7 @@ gl_wrapper::App::App(int width, int height, const std::string &name) {
         exit(EXIT_FAILURE);
     std::cout << "GLFW initialized." << std::endl;
 
-    glfwSetErrorCallback(error::callbackGLFW);
+    // glfwSetErrorCallback(error::callbackGLFW);
     hintsGLFW();
 
     _window.create(this, width, height, name);
@@ -50,7 +50,7 @@ void gl_wrapper::App::start() {
 
         _window.setViewport();
 
-        glClearColor(.2,.2,.4,1);
+        glClearColor(0.16f, 0.38f, 0.38f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         onDraw();

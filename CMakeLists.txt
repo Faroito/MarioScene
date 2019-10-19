@@ -15,6 +15,7 @@ endif (APPLE)
 
 set(SOURCE_FILES
         source/App.cpp
+        source/Camera.cpp
         source/Error.cpp
         source/Main.cpp
         source/MarioScene.cpp
@@ -23,6 +24,7 @@ set(SOURCE_FILES
         source/Shader.cpp
         source/Window.cpp)
 include_directories(${PROJECT_SOURCE_DIR}/include/)
+include_directories(${PROJECT_SOURCE_DIR}/stb_image/)
 
 add_executable(MarioScene ${SOURCE_FILES})
 target_link_libraries (MarioScene

@@ -26,10 +26,10 @@ std::string scene::readShader(const std::string &name) {
 
 std::vector<VertexColor> scene::getExampleVertex(int i) {
     std::vector<VertexColor> triangle = {
-            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
-            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
-            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
-            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)}
+            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1), /*glm::vec2(1, 1)*/},
+            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1), /*glm::vec2(1, 0)*/},
+            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1), /*glm::vec2(0, 0)*/},
+            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1), /*glm::vec2(0, 1)*/}
     };
     std::vector<VertexColor> cube = {
             {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},

@@ -28,6 +28,9 @@ namespace gl_wrapper {
         void draw();
 
     private:
+        void setTexture();
+
+    private:
         /*
         std::vector<Vertex> _vertices;
         std::vector<unsigned int> _indices;
@@ -35,6 +38,7 @@ namespace gl_wrapper {
         */
         std::vector<VertexColor> _vertices;
         std::vector<unsigned int> _indices;
+        unsigned int _texture;
 
         GLuint _vaoID = 0;
         GLuint _vboID = 0;

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 # define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
@@ -15,14 +16,18 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "App.hpp"
+#include "Camera.hpp"
 #include "Macros.hpp"
 #include "Mesh.hpp"
-#include "Shader.hpp"
 #include "Misc.hpp"
+#include "Shader.hpp"
 
 namespace scene {
 
     class MarioScene : public gl_wrapper::App {
+
+        typedef void (scene::Camera::*change_camera_t)();
+
     public:
         MarioScene();
 
@@ -34,18 +39,26 @@ namespace scene {
         void onKeyDown(int key, int action) override;
 
     private:
-        bool checkKey();
+        void checkKey();
 
     private:
         gl_wrapper::Shader *_shader;
         gl_wrapper::Mesh *_mesh;
+        scene::Camera *_camera = new scene::Camera();
         GLint _modelID = 0;
         GLint _viewID = 0;
         GLint _projectionID = 0;
-        int _keyCode = 0;
-        glm::vec3 _eyePos = glm::vec3(0.0f, 0.0f, 5.0f);
-        glm::vec3 _forwardDir = glm::vec3(0.0f, 0.0f, -1.0f);
-        const glm::vec3 _upDir = glm::vec3(0.0f, 1.0f, 0.0f);
+        bool _keyCode[512] = { false };
+        const std::unordered_map<int, change_camera_t> _keyMap = {
+                {GLFW_KEY_W, &scene::Camera::moveForward},
+                {GLFW_KEY_S, &scene::Camera::moveBackward},
+                {GLFW_KEY_R, &scene::Camera::moveUp},
+                {GLFW_KEY_F, &scene::Camera::moveDown},
+                {GLFW_KEY_A, &scene::Camera::moveLeft},
+                {GLFW_KEY_D, &scene::Camera::moveRight},
+                {GLFW_KEY_Q, &scene::Camera::rotateLeft},
+                {GLFW_KEY_E, &scene::Camera::rotateRight}
+        };
     };
 }
 #endif /* !MARIO_SCENE_HPP */

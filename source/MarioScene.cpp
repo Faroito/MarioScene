@@ -9,8 +9,8 @@ scene::MarioScene::MarioScene() : App(640, 480, "MarioScene") {
 }
 
 void scene::MarioScene::init() {
-    std::string vert = readShader("../shader/vs_model.glsl");
-    std::string frag = readShader("../shader/fs_model.glsl");
+    std::string vert = readShader("../shader/model_vs.glsl");
+    std::string frag = readShader("../shader/model_fs.glsl");
 
     _shader = new gl_wrapper::Shader(vert.c_str(), frag.c_str());
 
@@ -35,7 +35,7 @@ void scene::MarioScene::onDraw() {
     _shader->bind();
 
     this->checkKey();
-    glm::mat4 view = glm::lookAt(_eyePos, _eyePos + _forwardDir, _upDir);
+    glm::mat4 view = _camera->getViewMatrix();
     glm::mat4 proj = glm::perspective(glm::radians(45.0f), getWindow().getRatio(), 0.1f, 1000.0f);
 
     glUniformMatrix4fv(_viewID, 1, GL_FALSE, glm::value_ptr(view));
@@ -52,25 +52,13 @@ void scene::MarioScene::onDraw() {
     _shader->unBind();
 }
 
-bool scene::MarioScene::checkKey() {
-    if (_keyCode == -1)
-        return false;
-    if (_keyCode == GLFW_KEY_W)
-        _eyePos += _forwardDir * .05f;
-    if (_keyCode == GLFW_KEY_S)
-        _eyePos -= _forwardDir * .05f;
-    if (_keyCode == GLFW_KEY_A) {
-        glm::quat q = glm::angleAxis(.01f, glm::vec3(0,1,0));
-        _forwardDir = q * _forwardDir;
+void scene::MarioScene::checkKey() {
+    for (const auto &it : _keyMap) {
+        if (_keyCode[it.first])
+            (_camera->*it.second)();
     }
-    if (_keyCode == GLFW_KEY_D) {
-        glm::quat q = glm::angleAxis(-.01f, glm::vec3(0,1,0));
-        _forwardDir = q * _forwardDir;
-    }
-    if (_keyCode == GLFW_KEY_ESCAPE) {
+    if (_keyCode[GLFW_KEY_ESCAPE])
         getWindow().setClose(true);
-    }
-    return true;
 }
 
 void scene::MarioScene::onMouseMove(double x, double y) {
@@ -84,9 +72,9 @@ void scene::MarioScene::onMouseDown(int button, int action) {
 
 void scene::MarioScene::onKeyDown(int key, int action) {
     if (action == GLFW_PRESS) {
-        _keyCode = key;
+        _keyCode[key] = true;
         // std::cout << "KeyDown on: " << key << std::endl;
     }
     if (action == GLFW_RELEASE)
-        _keyCode  = -1;
+        _keyCode[key] = false;
 }

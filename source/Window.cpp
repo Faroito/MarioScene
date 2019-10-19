@@ -47,7 +47,7 @@ void gl_wrapper::Window::swapBuffers() {
 }
 
 void gl_wrapper::Window::setClose(bool close) {
-    glfwSetWindowShouldClose(_window, true);
+    glfwSetWindowShouldClose(_window, close);
 }
 
 int gl_wrapper::Window::getWidth() const {
