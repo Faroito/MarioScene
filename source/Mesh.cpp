@@ -32,23 +32,23 @@ void gl_wrapper::Mesh::setupMesh(gl_wrapper::Shader *shader) {
 
     glGenVertexArrays(1, &_vaoID);
     glGenBuffers(1, &_vboID);
-    glGenBuffers(1, &_eboID);
+    // glGenBuffers(1, &_eboID);
 
     glBindVertexArray(_vaoID);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
     glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(VertexColor), _vertices.data(), GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
+    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
 
-    GLuint positionID = glGetAttribLocation(shader->getId(), "position");
+    GLuint positionID = shader->getAttribLocation("position");
     glEnableVertexAttribArray(positionID);
     glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) nullptr);
 
-    GLuint colorID = glGetAttribLocation(shader->getId(), "color");
-    glEnableVertexAttribArray(colorID);
-    glVertexAttribPointer(colorID, 4, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (sizeof(glm::vec3)));
+     GLuint normalID = shader->getAttribLocation("normal");
+     glEnableVertexAttribArray(normalID);
+     glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (sizeof(glm::vec3)));
 
     // GLuint textureID = glGetAttribLocation(shader->getId(), "texture");
     // glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void *) (sizeof(glm::vec3) + sizeof(glm::vec4)));
@@ -84,6 +84,7 @@ void gl_wrapper::Mesh::setTexture() {
 void gl_wrapper::Mesh::draw() {
     // glBindTexture(GL_TEXTURE_2D, _texture);
     glBindVertexArray(_vaoID);
-    glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawArrays(GL_TRIANGLES, 0, _indices.size());
+    // glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }

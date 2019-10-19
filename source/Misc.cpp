@@ -2,49 +2,75 @@
 // Created by Timothée Couble on 17/10/2019.
 //
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <Misc.hpp>
-
-std::string scene::readShader(const std::string &name) {
-    std::string vs_text;
-    std::ifstream vs_file(name);
-
-    std::string vs_line;
-    if (vs_file.is_open()) {
-
-        while (std::getline(vs_file, vs_line)) {
-            vs_text += vs_line;
-            vs_text += '\n';
-        }
-        vs_file.close();
-    }
-    return vs_text;
-}
+#include "Misc.hpp"
 
 std::vector<VertexColor> scene::getExampleVertex(int i) {
     std::vector<VertexColor> triangle = {
-            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1), /*glm::vec2(1, 1)*/},
-            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1), /*glm::vec2(1, 0)*/},
-            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1), /*glm::vec2(0, 0)*/},
-            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1), /*glm::vec2(0, 1)*/}
+            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0), /*glm::vec2(1, 1)*/},
+            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0), /*glm::vec2(1, 0)*/},
+            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1), /*glm::vec2(0, 0)*/},
+            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1, 1, 0), /*glm::vec2(0, 1)*/}
     };
     std::vector<VertexColor> cube = {
-            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 1)},
-            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 1)},
-            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 1)},
-            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1, 1, 0, 1)},
+            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1)},
+            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1)},
+            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1)},
+            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1)},
 
-            {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 0, 1)},
-            {glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 0, 1, 1)},
-            {glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(1, 0, 0, 1)},
-            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, 1, 1, 1)}
+            {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0, 0, -1)},
+            {glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0, 0, -1)},
+            {glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0, 0, -1)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, 0, -1)}
+    };
+
+    std::vector<VertexColor> normalCube = {
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)},
+            {glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f)},
+            {glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f, 0.0f, -1.0f)},
+            {glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f, 0.0f, -1.0f)},
+            {glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)},
+
+            {glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f, 0.0f, 1.0f)},
+            {glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(0.0f, 0.0f, 1.0f)},
+            {glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f, 0.0f, 1.0f)},
+            {glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f, 0.0f, 1.0f)},
+            {glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(0.0f, 0.0f, 1.0f)},
+            {glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f, 0.0f, 1.0f)},
+
+            {glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(-1.0f, 0.0f, 0.0f)},
+            {glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(-1.0f, 0.0f, 0.0f)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f, 0.0f, 0.0f)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f, 0.0f, 0.0f)},
+            {glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(-1.0f, 0.0f, 0.0f)},
+            {glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(-1.0f, 0.0f, 0.0f)},
+
+            {glm::vec3(0.5f,  0.5f,  0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+            {glm::vec3(0.5f,  0.5f, -0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f, -0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f, -0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f,  0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+            {glm::vec3(0.5f,  0.5f,  0.5f),   glm::vec3(1.0f,  0.0f,  0.0f)},
+
+            {glm::vec3(-0.5f, -0.5f, -0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f, -0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f,  0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+            {glm::vec3(0.5f, -0.5f,  0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+            {glm::vec3(-0.5f, -0.5f,  0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+            {glm::vec3(-0.5f, -0.5f, -0.5f),   glm::vec3(0.0f, -1.0f,  0.0f)},
+
+            {glm::vec3(-0.5f,  0.5f, -0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)},
+            {glm::vec3(0.5f,  0.5f, -0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)},
+            {glm::vec3(0.5f,  0.5f,  0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)},
+            {glm::vec3(0.5f,  0.5f,  0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)},
+            {glm::vec3(-0.5f,  0.5f,  0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)},
+            {glm::vec3(-0.5f,  0.5f, -0.5f),   glm::vec3(0.0f,  1.0f,  0.0f)}
     };
 
     if (i == 1)
         return cube;
+    else if (i == 2)
+        return normalCube;
     else
         return triangle;
 }
@@ -69,8 +95,25 @@ std::vector<unsigned int> scene::getExampleIndices(int i) {
             3, 0, 4
     };
 
+    std::vector<unsigned int> normalCube = {
+            1, 2, 3, // front
+            4, 5, 6,
+            7, 8, 9, // back
+            10, 11, 12,
+            13, 14, 15, // left
+            16, 17, 18,
+            19, 20, 21, // right
+            22, 23, 24,
+            25, 26, 27, // top
+            28, 29, 30,
+            31, 32, 33, // bottom
+            34, 35, 36
+    };
+
     if (i == 1)
         return cube;
+    else if (i == 2)
+        return normalCube;
     else
         return triangle;
 }

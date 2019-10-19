@@ -20,6 +20,7 @@ namespace scene {
     public:
         Camera();
 
+        const glm::vec3 &getCameraPosition() const;
         glm::mat4 getViewMatrix() const;
         glm::mat4 getProjectionMatrix(gl_wrapper::Window &window) const;
 

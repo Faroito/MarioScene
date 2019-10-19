@@ -6,22 +6,32 @@
 # define SHADER_HPP
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "Lib.hpp"
+#include "Misc.hpp"
 
 namespace gl_wrapper {
     class Shader {
     public:
-        Shader(const char *vert, const char *frag);
+        Shader(const std::string &vs_path, const std::string &fs_path);
 
         void bind();
-        void unBind();
 
-        GLuint getId() const;
+        void setUniformVector3(const char *name, const glm::vec3 &vector);
+        void setUniformMatrix4(const char *name, const glm::mat4 &matrix);
+        GLuint getAttribLocation(const char *name);
 
     private:
-        void compilerCheck(GLuint ID);
-        void linkCheck(GLuint ID);
+        static std::string readShader(const std::string &name);
+        void compileShader(GLuint ID, const char *shader);
+        static void compilerCheck(GLuint ID);
+        static void linkCheck(GLuint ID);
 
     private:
         GLuint _sID;

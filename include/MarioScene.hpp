@@ -13,7 +13,6 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
 
 #include "App.hpp"
 #include "Camera.hpp"
@@ -42,12 +41,11 @@ namespace scene {
         void checkKey();
 
     private:
-        gl_wrapper::Shader *_shader;
-        gl_wrapper::Mesh *_mesh;
+        gl_wrapper::Shader *_objectShader;
+        gl_wrapper::Shader *_lampShader;
+        gl_wrapper::Mesh *_objectMesh;
+        gl_wrapper::Mesh *_lampMesh;
         scene::Camera *_camera = new scene::Camera();
-        GLint _modelID = 0;
-        GLint _viewID = 0;
-        GLint _projectionID = 0;
         bool _keyCode[512] = { false };
         const std::unordered_map<int, change_camera_t> _keyMap = {
                 {GLFW_KEY_W, &scene::Camera::moveForward},

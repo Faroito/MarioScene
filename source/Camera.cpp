@@ -13,6 +13,11 @@ void scene::Camera::updateCamerasVectors() {
     _cameraUp = glm::normalize(glm::cross(_cameraRight, _cameraFront));
 }
 
+
+const glm::vec3 &scene::Camera::getCameraPosition() const {
+    return _cameraPos;
+}
+
 glm::mat4 scene::Camera::getViewMatrix() const {
     return glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _cameraUp);
 }
