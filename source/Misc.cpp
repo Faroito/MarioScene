@@ -4,7 +4,7 @@
 
 #include "Misc.hpp"
 
-std::vector<Vertex> loader::getExampleVertex(int i) {
+std::vector<loader::Vertex> loader::getExampleVertex(int i) {
     std::vector<Vertex> triangle = {
             {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
             {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0), glm::vec2(1, 0)},

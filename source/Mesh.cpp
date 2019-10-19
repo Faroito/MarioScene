@@ -6,13 +6,13 @@
 
 #include "Mesh.hpp"
 
-gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices)
+gl_wrapper::Mesh::Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices)
     : _vertices(vertices), _indices(indices) {
     setupMesh();
 }
 
-gl_wrapper::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
-        std::vector<Texture> &textures) : _vertices(vertices), _indices(indices), _textures(textures) {
+gl_wrapper::Mesh::Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices,
+        std::vector<loader::Texture> &textures) : _vertices(vertices), _indices(indices), _textures(textures) {
     setupMesh();
 }
 
@@ -33,22 +33,25 @@ void gl_wrapper::Mesh::setupMesh() {
     glBindVertexArray(_vaoID);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-    glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), _vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(loader::Vertex), _vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), _indices.data(), GL_STATIC_DRAW);
 
     GLuint positionID = 0;
     glEnableVertexAttribArray(positionID);
-    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, position));
+    glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(loader::Vertex),
+            (void *) offsetof(loader::Vertex, position));
 
     GLuint normalID = 1;
     glEnableVertexAttribArray(normalID);
-    glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, normal));
+    glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(loader::Vertex),
+            (void *) offsetof(loader::Vertex, normal));
 
     if (!_textures.empty()) {
         GLuint textureID = 2;
-        glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, textureCord));
+        glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, sizeof(loader::Vertex),
+                (void *) offsetof(loader::Vertex, textureCord));
         glEnableVertexAttribArray(textureID);
     }
 
@@ -60,9 +63,9 @@ void gl_wrapper::Mesh::draw(Shader *shader) {
     for (int i = 0; i < (int) _textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string name;
-        if (_textures[i].type == TEXTURE_DIFFUSE)
+        if (_textures[i].type == loader::TEXTURE_DIFFUSE)
             name = "diffuse";
-        else if (_textures[i].type == TEXTURE_SPECULAR)
+        else if (_textures[i].type == loader::TEXTURE_SPECULAR)
             name = "specular";
         shader->setUniformInt(("material." + name).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, _textures[i].id);

@@ -19,9 +19,9 @@ void scene::MarioScene::init() {
 
     auto vertex = loader::getExampleVertex(1);
     auto indices = loader::getExampleIndices(1);
-    std::vector<Texture> textures = {
-            {0, "../resource/wooden_container.png", TEXTURE_DIFFUSE},
-            {0, "../resource/container_specular.png", TEXTURE_SPECULAR},
+    std::vector<loader::Texture> textures = {
+            {0, "../resource/wooden_container.png", loader::TEXTURE_DIFFUSE},
+            {0, "../resource/container_specular.png", loader::TEXTURE_SPECULAR},
     };
 
     _objectMesh = new gl_wrapper::Mesh(vertex, indices, textures);

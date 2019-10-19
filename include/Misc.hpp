@@ -13,24 +13,24 @@
 
 #include "Lib.hpp"
 
-struct Vertex {
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 textureCord;
-};
-
-enum TextureType {
-    TEXTURE_DIFFUSE,
-    TEXTURE_SPECULAR
-};
-
-struct Texture {
-    GLuint id;
-    std::string path;
-    TextureType type;
-};
-
 namespace loader {
+    struct Vertex {
+        glm::vec3 position;
+        glm::vec3 normal;
+        glm::vec2 textureCord;
+    };
+
+    enum TextureType {
+        TEXTURE_DIFFUSE,
+        TEXTURE_SPECULAR
+    };
+
+    struct Texture {
+        GLuint id;
+        std::string path;
+        TextureType type;
+    };
+
     std::vector<Vertex> getExampleVertex(int i);
     std::vector<unsigned int> getExampleIndices(int i);
 }
