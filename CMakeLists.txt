@@ -14,12 +14,12 @@ if (APPLE)
 endif (APPLE)
 
 set(SOURCE_FILES
+        source/ALoader.cpp
         source/App.cpp
         source/Camera.cpp
         source/DirLight.cpp
         source/Error.cpp
         source/Light.cpp
-        source/Loader.cpp
         source/Main.cpp
         source/MarioScene.cpp
         source/Mesh.cpp
@@ -29,6 +29,7 @@ set(SOURCE_FILES
         source/OBJLoader.cpp
         source/PointLight.cpp
         source/Shader.cpp
+        source/ShaderLoader.cpp
         source/Window.cpp)
 include_directories(${PROJECT_SOURCE_DIR}/include/)
 include_directories(${PROJECT_SOURCE_DIR}/stb_image/)

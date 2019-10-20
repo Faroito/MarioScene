@@ -14,15 +14,16 @@
 
 #include "glm/glm.hpp"
 
-#include "Loader.hpp"
+#include "ALoader.hpp"
 #include "Misc.hpp"
 
 namespace loader {
 
-    class OBJLoader : public ILoader {
+    class OBJLoader : public ALoader {
     public:
         explicit OBJLoader(const std::string &path);
 
+        const loader::OBJLoader &load();
         const std::string &getMtlFileName() const;
 
         unsigned int size();
@@ -55,4 +56,4 @@ namespace loader {
     };
 }
 
-#endif /* OBJ_LOADER_HPP */
+#endif /* !OBJ_LOADER_HPP */

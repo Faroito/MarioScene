@@ -14,15 +14,16 @@
 
 #include "glm/glm.hpp"
 
-#include "Loader.hpp"
+#include "ALoader.hpp"
 #include "Misc.hpp"
 
 namespace loader {
 
-    class MTLLoader : public ILoader {
+    class MTLLoader : public ALoader {
     public:
         explicit MTLLoader(const std::string &path);
 
+        const loader::MTLLoader &load();
         Materials_t &getMaterialList();
 
     private:
@@ -37,4 +38,4 @@ namespace loader {
 
 }
 
-#endif /* MTL_LOADER_HPP */
+#endif /* !MTL_LOADER_HPP */

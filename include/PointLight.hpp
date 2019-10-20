@@ -62,4 +62,4 @@ namespace scene {
     };
 }
 
-#endif /* POINT_LIGHT_HPP */
+#endif /* !POINT_LIGHT_HPP */

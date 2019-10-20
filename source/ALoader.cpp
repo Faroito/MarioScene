@@ -2,11 +2,11 @@
 // Created by Timothée Couble on 20/10/2019.
 //
 
-#include "Loader.hpp"
+#include "ALoader.hpp"
 
-loader::ILoader::ILoader(const std::string &path, const std::string &type) : _filePath(path), _fileType(type) {}
+loader::ALoader::ALoader(const std::string &path, const std::string &type) : _filePath(path), _fileType(type) {}
 
-void loader::ILoader::load() {
+void loader::ALoader::init() {
     std::ifstream file(_filePath);
 
     if (file.is_open()) {
@@ -17,7 +17,7 @@ void loader::ILoader::load() {
         std::cerr << "File failed to load " << _fileType << " at path: " << _filePath << std::endl;
 }
 
-float loader::ILoader::getFloat(std::string &str) {
+float loader::ALoader::getFloat(std::string &str) {
     char *end;
     float value = 0;
 
@@ -32,7 +32,7 @@ float loader::ILoader::getFloat(std::string &str) {
     return value;
 }
 
-glm::vec2 loader::ILoader::getValuesVec2(std::string &str) {
+glm::vec2 loader::ALoader::getValuesVec2(std::string &str) {
     char *end;
     glm::vec2 values;
 
@@ -47,7 +47,7 @@ glm::vec2 loader::ILoader::getValuesVec2(std::string &str) {
     return values;
 }
 
-glm::vec3 loader::ILoader::getValuesVec3(std::string &str) {
+glm::vec3 loader::ALoader::getValuesVec3(std::string &str) {
     char *end;
     glm::vec3 values;
 

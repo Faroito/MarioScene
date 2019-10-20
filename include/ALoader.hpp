@@ -2,8 +2,8 @@
 // Created by Timothée Couble on 20/10/2019.
 //
 
-#ifndef LOADER_HPP
-# define LOADER_HPP
+#ifndef ALOADER_HPP
+# define ALOADER_HPP
 
 #include <iostream>
 #include <fstream>
@@ -15,24 +15,26 @@
 
 namespace loader {
 
-    class ILoader {
+    class ALoader {
     public:
-        ILoader(const std::string &path, const std::string &type);
-        virtual ~ILoader() = default;
-
-        void load();
+        ALoader(const std::string &path, const std::string &type);
+        virtual ~ALoader() = default;
 
     protected:
+        void init();
         virtual void loadFile(std::ifstream &file) = 0;
         float getFloat(std::string &str);
         glm::vec2 getValuesVec2(std::string &str);
         glm::vec3 getValuesVec3(std::string &str);
 
     protected:
-        const std::string _fileType;
         const std::string _filePath;
+
+    private:
+        const std::string _fileType;
     };
+
 }
 
 
-#endif /* MARIOSCENE_LOADER_HPP */
+#endif /* !ALOADER_HPP */

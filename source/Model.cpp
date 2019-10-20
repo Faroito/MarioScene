@@ -5,8 +5,7 @@
 #include "Model.hpp"
 
 scene::Model::Model(std::string &objPath) {
-    auto objModel = loader::OBJLoader(objPath);
-    objModel.load();
+    auto objModel = loader::OBJLoader(objPath).load();
 
     for (unsigned int i = 0; i < objModel.size(); i++) {
         _meshList.push_back({
@@ -18,8 +17,7 @@ scene::Model::Model(std::string &objPath) {
     const std::string &mtlFileName = objModel.getMtlFileName();
     std::size_t pos = objPath.find_last_of("/\\");
     const std::string mtlPath = objPath.substr(0, pos + 1) + mtlFileName;
-    auto mtlMaterial = loader::MTLLoader(mtlPath);
-    mtlMaterial.load();
+    auto mtlMaterial = loader::MTLLoader(mtlPath).load();
 
     _materialList = mtlMaterial.getMaterialList();
 }

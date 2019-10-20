@@ -56,6 +56,6 @@ namespace gl_wrapper {
         int _height;
     };
 
-} //lynda
+}
 
-#endif /* WINDOW_HPP */
+#endif /* !WINDOW_HPP */

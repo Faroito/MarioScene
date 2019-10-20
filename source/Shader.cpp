@@ -9,11 +9,11 @@ gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_pat
     GLuint vID = glCreateShader(GL_VERTEX_SHADER);
     GLuint fID = glCreateShader(GL_FRAGMENT_SHADER);
 
-    std::string vert = readShader(vs_path);
-    std::string frag = readShader(fs_path);
+    auto vert = loader::ShaderLoader(vs_path).load();
+    auto frag = loader::ShaderLoader(fs_path).load();
 
-    compileShader(vID, vert.c_str());
-    compileShader(fID, frag.c_str());
+    compileShader(vID, vert.getShader());
+    compileShader(fID, frag.getShader());
 
     glLinkProgram(_sID);
 
@@ -23,23 +23,6 @@ gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_pat
     glDeleteShader(fID);
 
     bind();
-}
-
-std::string gl_wrapper::Shader::readShader(const std::string &path) {
-    std::string vs_text;
-    std::ifstream vs_file(path);
-
-    std::string vs_line;
-    if (vs_file.is_open()) {
-        std::cout << "Loading shader at path: " << path << std::endl;
-        while (std::getline(vs_file, vs_line)) {
-            vs_text += vs_line;
-            vs_text += '\n';
-        }
-        vs_file.close();
-    } else
-        std::cerr << "Shader failed to load at path: " << path << std::endl;
-    return vs_text;
 }
 
 void gl_wrapper::Shader::compileShader(GLuint ID, const char *shader) {

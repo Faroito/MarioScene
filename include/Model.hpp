@@ -44,4 +44,4 @@ namespace scene {
 
 }
 
-#endif /* MODEL_HPP */
+#endif /* !MODEL_HPP */

@@ -4,7 +4,12 @@
 
 #include "MTLLoader.hpp"
 
-loader::MTLLoader::MTLLoader(const std::string &path) : ILoader(path, "mtl file") {}
+loader::MTLLoader::MTLLoader(const std::string &path) : ALoader(path, "mtl file") {}
+
+const loader::MTLLoader &loader::MTLLoader::load() {
+    init();
+    return *this;
+}
 
 void loader::MTLLoader::loadFile(std::ifstream &file) {
     std::string line;

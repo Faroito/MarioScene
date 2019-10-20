@@ -6,15 +6,13 @@
 # define SHADER_HPP
 
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 #include "Lib.hpp"
 #include "Misc.hpp"
+#include "ShaderLoader.hpp"
 
 namespace gl_wrapper {
     class Shader {

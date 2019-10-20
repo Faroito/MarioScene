@@ -4,7 +4,12 @@
 
 #include "OBJLoader.hpp"
 
-loader::OBJLoader::OBJLoader(const std::string &path) : ILoader(path, "obj file") {}
+loader::OBJLoader::OBJLoader(const std::string &path) : ALoader(path, "obj file") {}
+
+const loader::OBJLoader &loader::OBJLoader::load() {
+    init();
+    return *this;
+}
 
 void loader::OBJLoader::loadFile(std::ifstream &file) {
     std::string line;
