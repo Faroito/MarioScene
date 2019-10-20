@@ -28,10 +28,9 @@ namespace gl_wrapper {
         void setUniformFloat(const char *name, float f);
         void setUniformVector3(const char *name, const glm::vec3 &vector);
         void setUniformMatrix4(const char *name, const glm::mat4 &matrix);
-        GLuint getAttribLocation(const char *name);
 
     private:
-        static std::string readShader(const std::string &name);
+        static std::string readShader(const std::string &path);
         void compileShader(GLuint ID, const char *shader);
         static void compilerCheck(GLuint ID);
         static void linkCheck(GLuint ID);

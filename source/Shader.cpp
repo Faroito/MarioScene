@@ -25,9 +25,9 @@ gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_pat
     bind();
 }
 
-std::string gl_wrapper::Shader::readShader(const std::string &name) {
+std::string gl_wrapper::Shader::readShader(const std::string &path) {
     std::string vs_text;
-    std::ifstream vs_file(name);
+    std::ifstream vs_file(path);
 
     std::string vs_line;
     if (vs_file.is_open()) {
@@ -36,7 +36,8 @@ std::string gl_wrapper::Shader::readShader(const std::string &name) {
             vs_text += '\n';
         }
         vs_file.close();
-    }
+    } else
+        std::cerr << "Shader failed to load at path: " << path << std::endl;
     return vs_text;
 }
 
@@ -108,8 +109,4 @@ void gl_wrapper::Shader::setUniformVector3(const char *name, const glm::vec3 &ve
 void gl_wrapper::Shader::setUniformMatrix4(const char *name, const glm::mat4 &matrix) {
     GLint matrixID = glGetUniformLocation(_sID, name);
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(matrix));
-}
-
-GLuint gl_wrapper::Shader::getAttribLocation(const char *name) {
-    return glGetAttribLocation(_sID, name);
 }
