@@ -19,11 +19,13 @@ set(SOURCE_FILES
         source/DirLight.cpp
         source/Error.cpp
         source/Light.cpp
+        source/Loader.cpp
         source/Main.cpp
         source/MarioScene.cpp
         source/Mesh.cpp
         source/Misc.cpp
         source/Model.cpp
+        source/MTLLoader.cpp
         source/OBJLoader.cpp
         source/PointLight.cpp
         source/Shader.cpp

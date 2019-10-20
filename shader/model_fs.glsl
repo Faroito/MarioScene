@@ -34,7 +34,6 @@ struct DirLight_s {
 in vec3 fragPos;
 in vec3 vertexNormal;
 
-uniform vec3 objectColor;
 uniform vec3 viewPos;
 uniform Material_s material;
 uniform PointLight_s lights[NR_POINT_LIGHTS];
@@ -52,7 +51,6 @@ void main()
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
         result += CalcPointLight(lights[i], norm, fragPos, viewDir);
 
-    result *= objectColor;
     FragColor = vec4(result, 1.0);
 }
 

@@ -84,6 +84,7 @@ unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) {
     glGenTextures(1, &texture);
     unsigned char *data = stbi_load(path.c_str(), &width, &height, &nbComponents, 0);
     if (data) {
+        std::cout << "Loading texture at path: " << path << std::endl;
         GLenum format = GL_RGB;
         if (nbComponents == 1)
             format = GL_RED;

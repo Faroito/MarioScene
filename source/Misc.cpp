@@ -5,7 +5,7 @@
 #include "Misc.hpp"
 
 loader::Vertices_t loader::getExampleVertex(int i) {
-    loader::Vertices_t triangle = {
+    loader::Vertices_t plane = {
             {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
             {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0), glm::vec2(1, 0)},
             {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1), glm::vec2(0, 0)},
@@ -62,11 +62,11 @@ loader::Vertices_t loader::getExampleVertex(int i) {
     else if (i == 2)
         return pyramid;
     else
-        return triangle;
+        return plane;
 }
 
 loader::Indices_t loader::getExampleIndices(int i) {
-    loader::Indices_t triangle = {
+    loader::Indices_t plane = {
             0, 1, 3,
             1, 2, 3
     };
@@ -96,5 +96,5 @@ loader::Indices_t loader::getExampleIndices(int i) {
     else if (i == 2)
         return pyramid;
     else
-        return triangle;
+        return plane;
 }

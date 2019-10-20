@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "glm/glm.hpp"
 
@@ -33,6 +34,18 @@ namespace loader {
         std::string path;
         TextureType type;
     };
+
+    struct Material {
+        glm::vec3 ambient = glm::vec3(0.04f, 0.04f, 0.04f);
+        glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+        glm::vec3 specular = glm::vec3(0.0f, 0.0f, 0.0f);
+        float specularExponent = 10.0;
+        float opticalDensity = 1.0;
+        float shininess = 64.0;
+        int ilum = 4;
+    };
+
+    typedef std::unordered_map<std::string, loader::Material> Materials_t;
 
     Vertices_t getExampleVertex(int i);
     Indices_t getExampleIndices(int i);

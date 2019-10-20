@@ -4,16 +4,7 @@
 
 #include "OBJLoader.hpp"
 
-loader::OBJLoader::OBJLoader(const std::string &path) {
-    std::ifstream file(path);
-    _filePath = path;
-
-    if (file.is_open()) {
-        loadFile(file);
-        file.close();
-    } else
-        std::cerr << "Obj file failed to load at path: " << path << std::endl;
-}
+loader::OBJLoader::OBJLoader(const std::string &path) : ILoader(path, "obj file") {}
 
 void loader::OBJLoader::loadFile(std::ifstream &file) {
     std::string line;
@@ -37,13 +28,6 @@ void loader::OBJLoader::loadFile(std::ifstream &file) {
             buildVertices(value);
     }
     changeMesh();
-    for (size_t i = 0; i < _verticesList.size(); i++) {
-        std::cout << _groupsNameList[i] << std::endl;
-        std::cout << _materialNameList[i] << std::endl;
-        std::cout << _verticesList[i].size()<< std::endl;
-        std::cout << _indicesList[i].size() << std::endl;
-        std::cout << std::endl;
-    }
 }
 
 void loader::OBJLoader::changeMesh() {
@@ -107,42 +91,8 @@ void loader::OBJLoader::buildIndices(unsigned int start, unsigned int triangle_n
     }
 }
 
-glm::vec2 loader::OBJLoader::getValuesVec2(std::string &str) {
-    char *end;
-    glm::vec2 values;
-
-    size_t spaces = std::count(str.begin(), str.end(), ' ');
-    if (spaces != 1)
-        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
-
-    for (unsigned int i = 0; i < 2; i++) {
-        values[i] = std::strtof(str.c_str(), &end);
-        str = std::string(end);
-    }
-    return values;
-}
-
-glm::vec3 loader::OBJLoader::getValuesVec3(std::string &str) {
-    char *end;
-    glm::vec3 values;
-
-    size_t spaces = std::count(str.begin(), str.end(), ' ');
-    if (spaces != 2)
-        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
-
-    for (unsigned int i = 0; i < 3; i++) {
-        values[i] = std::strtof(str.c_str(), &end);
-        str = std::string(end);
-    }
-    return values;
-}
-
 const std::string &loader::OBJLoader::getMtlFileName() const {
     return _mtlFileName;
-}
-
-const std::vector<std::string> &loader::OBJLoader::getMaterialNameList() const {
-    return _materialNameList;
 }
 
 unsigned int loader::OBJLoader::size() {
@@ -153,6 +103,10 @@ unsigned int loader::OBJLoader::size() {
 
 const std::string &loader::OBJLoader::getGroupsName(unsigned int i) const {
     return _groupsNameList[i];
+}
+
+const std::string &loader::OBJLoader::getMaterialName(unsigned int i) const {
+    return _materialNameList[i];
 }
 
 const loader::Vertices_t &loader::OBJLoader::getVertices(unsigned int i) const {

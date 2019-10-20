@@ -15,6 +15,7 @@ namespace scene {
     class Light {
     public:
         Light() = default;
+        virtual ~Light() = default;
 
         void setColor(const glm::vec3 &color);
         void setAmbient(const glm::vec3 &ambient);

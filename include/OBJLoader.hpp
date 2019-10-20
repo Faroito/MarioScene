@@ -14,32 +14,30 @@
 
 #include "glm/glm.hpp"
 
+#include "Loader.hpp"
 #include "Misc.hpp"
 
 namespace loader {
 
-    class OBJLoader {
+    class OBJLoader : public ILoader {
     public:
         explicit OBJLoader(const std::string &path);
 
         const std::string &getMtlFileName() const;
-        const std::vector<std::string> &getMaterialNameList() const;
 
         unsigned int size();
         const std::string &getGroupsName(unsigned int i) const;
+        const std::string &getMaterialName(unsigned int i) const;
         const Vertices_t &getVertices(unsigned int i) const;
         const Indices_t &getIndices(unsigned int i) const;
 
     private:
-        void loadFile(std::ifstream &file);
+        void loadFile(std::ifstream &file) override;
         void changeMesh();
         void buildVertices(std::string &str);
         void buildIndices(unsigned int start, unsigned int triangle_nb);
-        glm::vec2 getValuesVec2(std::string &str);
-        glm::vec3 getValuesVec3(std::string &str);
 
     private:
-        std::string _filePath;
         std::string _mtlFileName;
 
         Vertices_t _vertices;

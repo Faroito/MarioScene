@@ -31,6 +31,7 @@ std::string gl_wrapper::Shader::readShader(const std::string &path) {
 
     std::string vs_line;
     if (vs_file.is_open()) {
+        std::cout << "Loading shader at path: " << path << std::endl;
         while (std::getline(vs_file, vs_line)) {
             vs_text += vs_line;
             vs_text += '\n';

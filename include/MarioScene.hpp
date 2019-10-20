@@ -44,10 +44,12 @@ namespace scene {
         void checkKey();
 
     private:
+        bool _pressed = true;
+        GLenum _mode = GL_FILL;
         scene::Model *_model;
+        scene::Model *_light;
         gl_wrapper::Shader *_modelShader;
         gl_wrapper::Shader *_lightShader;
-        gl_wrapper::Mesh *_lightMesh;
         scene::Camera *_camera = new scene::Camera();
         bool _keyCode[512] = { false };
         const std::unordered_map<int, change_camera_t> _keyMap = {

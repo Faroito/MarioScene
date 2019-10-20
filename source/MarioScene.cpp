@@ -28,30 +28,24 @@ void scene::MarioScene::init() {
     _model = new scene::Model(objPath);
     _modelShader->bind();
 
-    _modelShader->setUniformVector3("objectColor", glm::vec3(0.87f, 0.34f, 0.22f));
-//    _modelShader->setUniformVector3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
-//    _modelShader->setUniformVector3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-//    _modelShader->setUniformVector3("dirLight.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-//    _modelShader->setUniformVector3("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-    _modelShader->setUniformVector3("lights[0].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+    _modelShader->setUniformVector3("dirLight.direction", glm::vec3(0.0f, -1.0f, -1.0f));
+    _modelShader->setUniformVector3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+    _modelShader->setUniformVector3("dirLight.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+    _modelShader->setUniformVector3("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+    _modelShader->setUniformVector3("lights[0].ambient", glm::vec3(0.8f, 0.8f, 0.8f));
     _modelShader->setUniformVector3("lights[0].diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
     _modelShader->setUniformVector3("lights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
     _modelShader->setUniformFloat("lights[0].constant", 1.0f);
     _modelShader->setUniformFloat("lights[0].linear", 0.09f);
     _modelShader->setUniformFloat("lights[0].quadratic", 0.032f);
-    _modelShader->setUniformVector3("material.ambient",  glm::vec3(1.0f, 0.5f, 0.31f));
-    _modelShader->setUniformVector3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-    _modelShader->setUniformVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-    _modelShader->setUniformFloat("material.shininess", 32.0f);
     gl_wrapper::Shader::unBind();
 
-    _lightMesh = new gl_wrapper::Mesh(vertex, indices);
+    objPath = "../resource/light.obj";
+    _light = new scene::Model(objPath);
 
     _lightShader->bind();
     _lightShader->setUniformVector3("ambientLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     gl_wrapper::Shader::unBind();
-
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void scene::MarioScene::onDraw() {
@@ -73,24 +67,23 @@ void scene::MarioScene::onDraw() {
     _modelShader->setUniformMatrix4("view_matrix", view);
     _modelShader->setUniformMatrix4("proj_matrix", proj);
 
-//    for (int i = 0; i < 5; i++) {
-//        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
-//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * 3.14159265359f) / ((float) i * 2 + 10),
-//                glm::vec3(1.f, 1.f, 1.f));
-//        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
-//        glm::mat4 model = translate * rotate * scale;
-//        _modelShader->setUniformMatrix4("model_matrix", model);
-//        auto inverse_model = glm::transpose(glm::inverse(rotate));
-//        _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
-//        _objectMesh->draw(_modelShader);
-//    }
-    auto rotate = glm::rotate(glm::mat4(1.0f), 45.0f, glm::vec3(0.3f, 1.0f, 0.0f));
-    rotate = glm::scale(rotate, glm::vec3(0.1f));
-    _modelShader->setUniformMatrix4("model_matrix", rotate);
-    auto inverse_model = glm::transpose(glm::inverse(rotate));
-    _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
-    _model->draw(_modelShader);
-    // _objectMesh->draw(_modelShader);
+    for (int i = 0; i < 5; i++) {
+        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
+        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * 3.14159265359f) / ((float) i * 2 + 10),
+                glm::vec3(1.f, 1.f, 1.f));
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f));
+        glm::mat4 model = translate * rotate * scale;
+        _modelShader->setUniformMatrix4("model_matrix", model);
+        auto inverse_model = glm::transpose(glm::inverse(rotate));
+        _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
+        _model->draw(_modelShader);
+    }
+//    auto rotate = glm::rotate(glm::mat4(1.0f), 160.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+//    rotate = glm::scale(rotate, glm::vec3(0.1f));
+//    _modelShader->setUniformMatrix4("model_matrix", rotate);
+//    auto inverse_model = glm::transpose(glm::inverse(rotate));
+//    _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
+//    _model->draw(_modelShader);
 
     _lightShader->bind();
 
@@ -101,7 +94,7 @@ void scene::MarioScene::onDraw() {
     _lightShader->setUniformMatrix4("view_matrix", view);
     _lightShader->setUniformMatrix4("proj_matrix", proj);
     _lightShader->setUniformMatrix4("model_matrix", model);
-    _lightMesh->draw(_lightShader);
+    _light->draw(_lightShader);
 
     gl_wrapper::Shader::unBind();
 }
@@ -113,6 +106,14 @@ void scene::MarioScene::checkKey() {
     }
     if (_keyCode[GLFW_KEY_ESCAPE])
         getWindow().setClose(true);
+    if (_keyCode[GLFW_KEY_SPACE] && _pressed) {
+        if (_mode == GL_FILL)
+            _mode = GL_LINE;
+        else
+            _mode = GL_FILL;
+        glPolygonMode(GL_FRONT_AND_BACK, _mode);
+        _pressed = false;
+    }
 }
 
 void scene::MarioScene::onMouseMove(double x, double y) {
@@ -129,8 +130,9 @@ void scene::MarioScene::onMouseScroll(double x, double y) {
 }
 
 void scene::MarioScene::onKeyDown(int key, int action) {
-    if (action == GLFW_PRESS)
+    if (action == GLFW_PRESS) {
+        _pressed = true;
         _keyCode[key] = true;
-    if (action == GLFW_RELEASE)
+    } if (action == GLFW_RELEASE)
         _keyCode[key] = false;
 }
