@@ -73,19 +73,19 @@ void loader::OBJLoader::buildVertices(std::string &str) {
     Vertices_t list;
     int index[3] = {};
 
-    int spaces = std::count(str.begin(), str.end(), ' ');
-    int del = std::count(str.begin(), str.end(), '/');
+    unsigned int spaces = (unsigned int) std::count(str.begin(), str.end(), ' ');
+	unsigned int del = (unsigned int) std::count(str.begin(), str.end(), '/');
     if (spaces < 2 || del / (spaces + 1) != 2) {
         std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
         return;
     }
 
-    for (int i = 0; i < spaces + 1; i++) {
-        int posI = str.find(' ');
+    for (unsigned int i = 0; i < spaces + 1; i++) {
+        size_t posI = str.find(' ');
         std::string token = str.substr(0, posI);
         str.erase(0, posI + 1);
-        for (int j : {0, 1, 2}) {
-            int posJ = token.find('/');
+        for (unsigned int j : {0, 1, 2}) {
+            size_t posJ = token.find('/');
             index[j] = std::stoi(token.substr(0, posJ)) - 1;
             token.erase(0, posJ + 1);
         }
@@ -95,12 +95,12 @@ void loader::OBJLoader::buildVertices(std::string &str) {
         vertex.textureCord = _texture[index[1]];
         list.push_back(vertex);
     }
-    buildIndices(_vertices.size(), spaces - 1);
+    buildIndices((unsigned int) _vertices.size(), spaces - 1);
     _vertices.insert(_vertices.end(), list.begin(), list.end());
 }
 
-void loader::OBJLoader::buildIndices(int start, int triangle_nb) {
-    for (int i = 0; i < triangle_nb; i++) {
+void loader::OBJLoader::buildIndices(unsigned int start, unsigned int triangle_nb) {
+    for (unsigned int i = 0; i < triangle_nb; i++) {
         _indices.push_back(start);
         _indices.push_back(start + i + 1);
         _indices.push_back(start + i + 2);
@@ -116,7 +116,7 @@ glm::vec2 loader::OBJLoader::getValuesVec2(std::string &str) {
         std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 
     for (unsigned int i = 0; i < 2; i++) {
-        values[i] = std::strtod(str.c_str(), &end);
+        values[i] = std::strtof(str.c_str(), &end);
         str = std::string(end);
     }
     return values;
@@ -131,7 +131,7 @@ glm::vec3 loader::OBJLoader::getValuesVec3(std::string &str) {
         std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 
     for (unsigned int i = 0; i < 3; i++) {
-        values[i] = std::strtod(str.c_str(), &end);
+        values[i] = std::strtof(str.c_str(), &end);
         str = std::string(end);
     }
     return values;
@@ -148,7 +148,7 @@ const std::vector<std::string> &loader::OBJLoader::getMaterialNameList() const {
 unsigned int loader::OBJLoader::size() {
     if (_verticesList.size() != _indicesList.size())
         std::cerr << "Bad initialization from: " << _filePath << std::endl;
-    return _verticesList.size();
+    return (unsigned int) _verticesList.size();
 }
 
 const std::string &loader::OBJLoader::getGroupsName(unsigned int i) const {

@@ -34,7 +34,7 @@ namespace loader {
         void loadFile(std::ifstream &file);
         void changeMesh();
         void buildVertices(std::string &str);
-        void buildIndices(int start, int triangle_nb);
+        void buildIndices(unsigned int start, unsigned int triangle_nb);
         glm::vec2 getValuesVec2(std::string &str);
         glm::vec3 getValuesVec3(std::string &str);
 

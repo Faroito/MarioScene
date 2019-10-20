@@ -10,8 +10,8 @@ scene::Model::Model(std::string &path) {
     const std::string &mtlFileName = objModel.getMtlFileName();
     const auto &materialNameList = objModel.getMaterialNameList();
 
-    for (size_t i = 0; i < objModel.size(); i++) {
-        _meshList.emplace(objModel.getGroupsName(i) + " " + std::to_string(i),
+    for (unsigned int i = 0; i < objModel.size(); i++) {
+        _meshList.emplace(objModel.getGroupsName(i),
                 new gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i)));
     }
 }
