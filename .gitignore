@@ -41,9 +41,9 @@ stb_image/
 # Visual Studio
 .vs/
 out/
+Libraries/
 VisualStudio/.vs/
 VisualStudio/Debug/
-VisualStudio/Libraries/
 VisualStudio/Include/*.hpp
 VisualStudio/Source/*.cpp
 VisualStudio/Release/
