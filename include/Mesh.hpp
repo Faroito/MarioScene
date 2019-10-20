@@ -19,9 +19,8 @@
 namespace gl_wrapper {
     class Mesh {
     public:
-        Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices);
-        Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices,
-                std::vector<loader::Texture> &textures);
+        Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices);
+        Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices, std::vector<loader::Texture> &textures);
         ~Mesh();
 
         void setupMesh();
@@ -32,8 +31,8 @@ namespace gl_wrapper {
         static unsigned int setTexture(const std::string &path);
 
     private:
-        std::vector<loader::Vertex> _vertices;
-        std::vector<unsigned int> _indices;
+        loader::Vertices_t _vertices;
+        loader::Indices_t _indices;
         std::vector<loader::Texture> _textures;
 
         GLuint _vaoID = 0;

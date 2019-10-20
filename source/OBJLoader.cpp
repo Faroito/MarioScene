@@ -23,7 +23,7 @@ void loader::OBJLoader::loadFile(std::ifstream &file) {
         if (type == "g" && value != "default")
             _groupsName = value;
         if (type == "mtllib")
-            _mtlPath = value;
+            _mtlFileName = value;
         if (type == "usemtl") {
             changeMesh();
             _materialName = value;
@@ -47,13 +47,23 @@ void loader::OBJLoader::loadFile(std::ifstream &file) {
 }
 
 void loader::OBJLoader::changeMesh() {
+    static unsigned int count = 0;
+    static std::string lastGroupsName;
+    std::string name = _groupsName;
+
+    if (lastGroupsName == _groupsName)
+        name = _groupsName + " " + std::to_string(count++);
+    else
+        count = 0;
+
     if (!_vertices.empty() && !_indices.empty()) {
         _verticesList.push_back(_vertices);
         _indicesList.push_back(_indices);
         _materialNameList.push_back(_materialName);
-        _groupsNameList.push_back(_groupsName);
+        _groupsNameList.push_back(name);
     }
 
+    lastGroupsName = _groupsName;
     _materialName = "";
     _vertices.clear();
     _indices.clear();
@@ -63,20 +73,20 @@ void loader::OBJLoader::buildVertices(std::string &str) {
     Vertices_t list;
     int index[3] = {};
 
-    size_t spaces = std::count(str.begin(), str.end(), ' ');
-    size_t del = std::count(str.begin(), str.end(), '/');
-    if (!(spaces == 2 || spaces == 3) || del / (spaces + 1) != 2) {
-        std::cerr << "Wrong format line: \"" << str << "\" from:" << _filePath << std::endl;
+    int spaces = std::count(str.begin(), str.end(), ' ');
+    int del = std::count(str.begin(), str.end(), '/');
+    if (spaces < 2 || del / (spaces + 1) != 2) {
+        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
         return;
     }
 
-    for (size_t i = 0; i < spaces + 1; i++) {
+    for (int i = 0; i < spaces + 1; i++) {
         int posI = str.find(' ');
         std::string token = str.substr(0, posI);
         str.erase(0, posI + 1);
         for (int j : {0, 1, 2}) {
             int posJ = token.find('/');
-            index[j] = std::stoi(token.substr(0, posJ));
+            index[j] = std::stoi(token.substr(0, posJ)) - 1;
             token.erase(0, posJ + 1);
         }
         loader::Vertex vertex = {};
@@ -85,18 +95,15 @@ void loader::OBJLoader::buildVertices(std::string &str) {
         vertex.textureCord = _texture[index[1]];
         list.push_back(vertex);
     }
-    buildIndices(_vertices.size(), spaces == 3);
+    buildIndices(_vertices.size(), spaces - 1);
     _vertices.insert(_vertices.end(), list.begin(), list.end());
 }
 
-void loader::OBJLoader::buildIndices(int start, bool quad) {
-    _indices.push_back(start);
-    _indices.push_back(start + 1);
-    _indices.push_back(start + 2);
-    if (quad) {
+void loader::OBJLoader::buildIndices(int start, int triangle_nb) {
+    for (int i = 0; i < triangle_nb; i++) {
         _indices.push_back(start);
-        _indices.push_back(start + 2);
-        _indices.push_back(start + 3);
+        _indices.push_back(start + i + 1);
+        _indices.push_back(start + i + 2);
     }
 }
 
@@ -106,7 +113,7 @@ glm::vec2 loader::OBJLoader::getValuesVec2(std::string &str) {
 
     size_t spaces = std::count(str.begin(), str.end(), ' ');
     if (spaces != 1)
-        std::cerr << "Wrong format line: \"" << str << "\" from:" << _filePath << std::endl;
+        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 
     for (unsigned int i = 0; i < 2; i++) {
         values[i] = std::strtod(str.c_str(), &end);
@@ -121,11 +128,37 @@ glm::vec3 loader::OBJLoader::getValuesVec3(std::string &str) {
 
     size_t spaces = std::count(str.begin(), str.end(), ' ');
     if (spaces != 2)
-        std::cerr << "Wrong format line: \"" << str << "\" from:" << _filePath << std::endl;
+        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 
     for (unsigned int i = 0; i < 3; i++) {
         values[i] = std::strtod(str.c_str(), &end);
         str = std::string(end);
     }
     return values;
+}
+
+const std::string &loader::OBJLoader::getMtlFileName() const {
+    return _mtlFileName;
+}
+
+const std::vector<std::string> &loader::OBJLoader::getMaterialNameList() const {
+    return _materialNameList;
+}
+
+unsigned int loader::OBJLoader::size() {
+    if (_verticesList.size() != _indicesList.size())
+        std::cerr << "Bad initialization from: " << _filePath << std::endl;
+    return _verticesList.size();
+}
+
+const std::string &loader::OBJLoader::getGroupsName(unsigned int i) const {
+    return _groupsNameList[i];
+}
+
+const loader::Vertices_t &loader::OBJLoader::getVertices(unsigned int i) const {
+    return _verticesList[i];
+}
+
+const loader::Indices_t &loader::OBJLoader::getIndices(unsigned int i) const {
+    return _indicesList[i];
 }

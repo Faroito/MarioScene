@@ -18,6 +18,7 @@
 #include "Camera.hpp"
 #include "DirLight.hpp"
 #include "Mesh.hpp"
+#include "Model.hpp"
 #include "Misc.hpp"
 #include "PointLight.hpp"
 #include "Shader.hpp"
@@ -43,9 +44,9 @@ namespace scene {
         void checkKey();
 
     private:
-        gl_wrapper::Shader *_objectShader;
+        scene::Model *_model;
+        gl_wrapper::Shader *_modelShader;
         gl_wrapper::Shader *_lightShader;
-        gl_wrapper::Mesh *_objectMesh;
         gl_wrapper::Mesh *_lightMesh;
         scene::Camera *_camera = new scene::Camera();
         bool _keyCode[512] = { false };

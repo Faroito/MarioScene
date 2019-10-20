@@ -17,24 +17,30 @@
 #include "Misc.hpp"
 
 namespace loader {
-    typedef std::vector<Vertex> Vertices_t;
-    typedef std::vector<unsigned int> Indices_t;
 
     class OBJLoader {
     public:
         explicit OBJLoader(const std::string &path);
 
+        const std::string &getMtlFileName() const;
+        const std::vector<std::string> &getMaterialNameList() const;
+
+        unsigned int size();
+        const std::string &getGroupsName(unsigned int i) const;
+        const Vertices_t &getVertices(unsigned int i) const;
+        const Indices_t &getIndices(unsigned int i) const;
+
     private:
         void loadFile(std::ifstream &file);
         void changeMesh();
         void buildVertices(std::string &str);
-        void buildIndices(int start, bool quad);
+        void buildIndices(int start, int triangle_nb);
         glm::vec2 getValuesVec2(std::string &str);
         glm::vec3 getValuesVec3(std::string &str);
 
     private:
         std::string _filePath;
-        std::string _mtlPath;
+        std::string _mtlFileName;
 
         Vertices_t _vertices;
         Indices_t _indices;

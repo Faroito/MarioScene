@@ -4,14 +4,14 @@
 
 #include "Misc.hpp"
 
-std::vector<loader::Vertex> loader::getExampleVertex(int i) {
-    std::vector<Vertex> triangle = {
+loader::Vertices_t loader::getExampleVertex(int i) {
+    loader::Vertices_t triangle = {
             {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
             {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0), glm::vec2(1, 0)},
             {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1), glm::vec2(0, 0)},
             {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1, 1, 0), glm::vec2(0, 1)}
     };
-    std::vector<Vertex> cube = {
+    loader::Vertices_t cube = {
             {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0, 0)}, // back
             {glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1, 0)},
             {glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1, 1)},
@@ -42,19 +42,35 @@ std::vector<loader::Vertex> loader::getExampleVertex(int i) {
             {glm::vec3(0.5f,  0.5f,  0.5f),   glm::vec3(0.0f,  1.0f,  0.0f), glm::vec2(1, 0)},
             {glm::vec3(-0.5f,  0.5f,  0.5f),   glm::vec3(0.0f,  1.0f,  0.0f), glm::vec2(0, 0)},
     };
+    loader::Vertices_t pyramid = {
+            {glm::vec3(-1.38446, 0.061836, -2.39795), glm::vec3(0, -1, 0), glm::vec2(0.375, 0.033494)},
+            {glm::vec3(2.76891, 0.061836, 0), glm::vec3(0, -1, 0), glm::vec2(0.75, 0.25)},
+            {glm::vec3(-1.38446, 0.061836, 2.39795), glm::vec3(0, -1, 0), glm::vec2(0.375, 0.466506)},
+            {glm::vec3(-1.38446, 0.061836, -2.39795), glm::vec3(-0.955824, 0.293939, -0), glm::vec2(0.25, 0.5)},
+            {glm::vec3(-1.38446, 0.061836, 2.39795), glm::vec3(-0.955824, 0.293939, -0), glm::vec2(0.416667, 0.5)},
+            {glm::vec3(0, 4.56378, 0), glm::vec3(-0.955824, 0.293939, -0), glm::vec2(0.5, 1)},
+            {glm::vec3(-1.38446, 0.061836, 2.39795), glm::vec3(0.477912, 0.293939, 0.827768), glm::vec2(0.416667, 0.5)},
+            {glm::vec3(2.76891, 0.061836, 0), glm::vec3(0.477912, 0.293939, 0.827768), glm::vec2(0.583333, 0.5)},
+            {glm::vec3(0, 4.56378, 0), glm::vec3(0.477912, 0.293939, 0.827768), glm::vec2(0.5, 1)},
+            {glm::vec3(2.76891, 0.061836, 0), glm::vec3(0.477912, 0.293939, -0.827768), glm::vec2(0.583333, 0.5)},
+            {glm::vec3(-1.38446, 0.061836, -2.39795), glm::vec3(0.477912, 0.293939, -0.827768), glm::vec2(0.75, 0.5)},
+            {glm::vec3(0, 4.56378, 0), glm::vec3(0.477912, 0.293939, -0.827768), glm::vec2(0.5, 1)}
+    };
 
     if (i == 1)
         return cube;
+    else if (i == 2)
+        return pyramid;
     else
         return triangle;
 }
 
-std::vector<unsigned int> loader::getExampleIndices(int i) {
-    std::vector<unsigned int> triangle = {
+loader::Indices_t loader::getExampleIndices(int i) {
+    loader::Indices_t triangle = {
             0, 1, 3,
             1, 2, 3
     };
-    std::vector<unsigned int> cube = {
+    loader::Indices_t cube = {
             0, 1, 2, // back
             0, 3, 2,
             4, 5, 6, // front
@@ -68,9 +84,17 @@ std::vector<unsigned int> loader::getExampleIndices(int i) {
             20, 21, 22, // top
             20, 23, 22
     };
+    loader::Indices_t pyramid = {
+            0, 1, 2,
+            3, 4, 5,
+            6, 7, 8,
+            9, 10, 11
+    };
 
     if (i == 1)
         return cube;
+    else if (i == 2)
+        return pyramid;
     else
         return triangle;
 }

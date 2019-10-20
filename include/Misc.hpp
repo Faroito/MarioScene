@@ -20,6 +20,9 @@ namespace loader {
         glm::vec2 textureCord;
     };
 
+    typedef std::vector<Vertex> Vertices_t;
+    typedef std::vector<unsigned int> Indices_t;
+
     enum class TextureType {
         TEXTURE_DIFFUSE,
         TEXTURE_SPECULAR
@@ -31,8 +34,8 @@ namespace loader {
         TextureType type;
     };
 
-    std::vector<Vertex> getExampleVertex(int i);
-    std::vector<unsigned int> getExampleIndices(int i);
+    Vertices_t getExampleVertex(int i);
+    Indices_t getExampleIndices(int i);
 }
 
 #endif /* !MISC_HPP */

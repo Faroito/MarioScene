@@ -23,6 +23,7 @@ set(SOURCE_FILES
         source/MarioScene.cpp
         source/Mesh.cpp
         source/Misc.cpp
+        source/Model.cpp
         source/OBJLoader.cpp
         source/PointLight.cpp
         source/Shader.cpp

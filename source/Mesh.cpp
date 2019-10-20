@@ -6,12 +6,12 @@
 
 #include "Mesh.hpp"
 
-gl_wrapper::Mesh::Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices)
+gl_wrapper::Mesh::Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices)
     : _vertices(vertices), _indices(indices) {
     setupMesh();
 }
 
-gl_wrapper::Mesh::Mesh(std::vector<loader::Vertex> &vertices, std::vector<unsigned int> &indices,
+gl_wrapper::Mesh::Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices,
         std::vector<loader::Texture> &textures) : _vertices(vertices), _indices(indices), _textures(textures) {
     setupMesh();
 }
