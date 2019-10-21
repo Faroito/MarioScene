@@ -48,8 +48,7 @@ namespace scene {
         GLenum _mode = GL_FILL;
         std::unique_ptr<scene::Model> _model;
         std::unique_ptr<scene::Model> _light;
-        gl_wrapper::Shader_ptr_t _modelShader;
-        gl_wrapper::Shader_ptr_t _lightShader;
+        gl_wrapper::Shaders_t _shaders;
         scene::PointLight _pointLight = scene::PointLight(glm::vec3(0, 0, 0), 50);
         scene::DirLight _dirLight = scene::DirLight(glm::vec3(0.0f, -1.0f, -1.0f));
         Camera_ptr_t _camera = std::make_unique<Camera>(Camera());

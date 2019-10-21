@@ -14,25 +14,22 @@ void scene::MarioScene::init() {
     std::string vs_light_path = "../shader/light_vs.glsl";
     std::string fs_light_path = "../shader/light_fs.glsl";
 
-    _modelShader = std::make_unique<gl_wrapper::Shader>(gl_wrapper::Shader(vs_model_path, fs_model_path));
-    _lightShader = std::make_unique<gl_wrapper::Shader>(gl_wrapper::Shader(vs_light_path, fs_light_path));
+    _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
+            gl_wrapper::Shader(vs_model_path, fs_model_path, gl_wrapper::ShaderType::MODEL)
+    ));
+    _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
+            gl_wrapper::Shader(vs_light_path, fs_light_path, gl_wrapper::ShaderType::LIGHT)
+    ));
 
     std::string objPath = "../resource/goompa.obj";
-    _model = std::make_unique<scene::Model>(scene::Model(objPath, gl_wrapper::ShaderType::MODEL));
+    _model = std::make_unique<scene::Model>(scene::Model(objPath, false));
+    objPath = "../resource/light.obj";
+    _light = std::make_unique<scene::Model>(scene::Model(objPath, false));
 
-    _modelShader->bind();
-    _dirLight.setShader(_modelShader);
+    _dirLight.setShader(_shaders);
 
     _pointLight.setAmbient(glm::vec3(0.8f, 0.8f, 0.8f));
-    _pointLight.setShader(_modelShader);
-    gl_wrapper::Shader::unBind();
-
-    objPath = "../resource/light.obj";
-    _light = std::make_unique<scene::Model>(scene::Model(objPath, gl_wrapper::ShaderType::LIGHT));
-
-    _lightShader->bind();
-    _lightShader->setUniformVector3("ambientLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-    gl_wrapper::Shader::unBind();
+    _pointLight.setShader(_shaders);
 }
 
 void scene::MarioScene::onDraw() {
@@ -47,45 +44,36 @@ void scene::MarioScene::onDraw() {
     lightPos.y = sin(actualTime / 2.0f);
     lightPos.z = sin(actualTime) * 2.0f;
 
-    _modelShader->bind();
-
     _pointLight.setPosition(lightPos);
-    _pointLight.setShader(_modelShader);
+    _pointLight.setShader(_shaders);
 
-    _modelShader->setUniformVector3("viewPos", _camera->getCameraPosition());
-    _modelShader->setUniformMatrix4("view_matrix", view);
-    _modelShader->setUniformMatrix4("proj_matrix", proj);
+    _light->setPosition(lightPos);
+    _light->setSize(glm::vec3(0.2f));
 
-    for (int i = 0; i < 5; i++) {
+    _model->setOrientation(glm::vec3(0.0f, 160.0f, 0.0f));
+    _model->setSize(glm::vec3(0.1f));
+
+    for (auto &shader : _shaders) {
+        shader->bind();
+        shader->setUniformMatrix4("view_matrix", view);
+        shader->setUniformMatrix4("proj_matrix", proj);
+        shader->setUniformVector3("viewPos", _camera->getCameraPosition());
+
+    }
+    _model->draw(_shaders);
+    _light->draw(_shaders);
+    
+    /*for (int i = 0; i < 5; i++) {
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
         glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * 3.14159265359f) / ((float) i * 2 + 10),
-                glm::vec3(1.f, 1.f, 1.f));
+                                       glm::vec3(1.f, 1.f, 1.f));
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f));
         glm::mat4 model = translate * rotate * scale;
         _modelShader->setUniformMatrix4("model_matrix", model);
         auto inverse_model = glm::transpose(glm::inverse(rotate));
         _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
         _model->draw(_modelShader);
-    }
-//    auto rotate = glm::rotate(glm::mat4(1.0f), 160.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-//    rotate = glm::scale(rotate, glm::vec3(0.1f));
-//    _modelShader->setUniformMatrix4("model_matrix", rotate);
-//    auto inverse_model = glm::transpose(glm::inverse(rotate));
-//    _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
-//    _model->draw(_modelShader);
-
-    _lightShader->bind();
-
-    auto model = glm::mat4(1.0f);
-    model = glm::translate(model, lightPos);
-    model = glm::scale(model, glm::vec3(0.2f));
-
-    _lightShader->setUniformMatrix4("view_matrix", view);
-    _lightShader->setUniformMatrix4("proj_matrix", proj);
-    _lightShader->setUniformMatrix4("model_matrix", model);
-    _light->draw(_lightShader);
-
-    gl_wrapper::Shader::unBind();
+    }*/
 }
 
 void scene::MarioScene::checkKey() {

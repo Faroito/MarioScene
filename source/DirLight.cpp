@@ -15,7 +15,13 @@ const glm::vec3 &scene::DirLight::getDirection() const {
     return _direction;
 }
 
-void scene::DirLight::setShader(const gl_wrapper::Shader_ptr_t &shader) const {
-    ALight::setShader(shader);
-    shader->setUniformVector3(getUniformName("direction").c_str(), _direction);
+void scene::DirLight::setShader(const gl_wrapper::Shaders_t &shaders) const {
+    for (auto &shader : shaders) {
+        if (shader->getType() != gl_wrapper::ShaderType::LIGHT) {
+            shader->bind();
+            ALight::setShader(shader);
+            shader->setUniformVector3(getUniformName("direction").c_str(), _direction);
+            gl_wrapper::Shader::unBind();
+        }
+    }
 }

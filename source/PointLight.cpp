@@ -19,12 +19,18 @@ const glm::vec3 &scene::PointLight::getPosition() const {
     return _position;
 }
 
-void scene::PointLight::setShader(const gl_wrapper::Shader_ptr_t &shader) const {
-    ALight::setShader(shader);
-    shader->setUniformVector3(getUniformName("position").c_str(), _position);
-    shader->setUniformFloat(getUniformName("constant").c_str(), readDistanceMap(CONSTANT));
-    shader->setUniformFloat(getUniformName("linear").c_str(), readDistanceMap(LINEAR));
-    shader->setUniformFloat(getUniformName("quadratic").c_str(), readDistanceMap(QUADRATIC));
+void scene::PointLight::setShader(const gl_wrapper::Shaders_t &shaders) const {
+    for (auto &shader : shaders) {
+        if (shader->getType() != gl_wrapper::ShaderType::LIGHT) {
+            shader->bind();
+            ALight::setShader(shader);
+            shader->setUniformVector3(getUniformName("position").c_str(), _position);
+            shader->setUniformFloat(getUniformName("constant").c_str(), readDistanceMap(CONSTANT));
+            shader->setUniformFloat(getUniformName("linear").c_str(), readDistanceMap(LINEAR));
+            shader->setUniformFloat(getUniformName("quadratic").c_str(), readDistanceMap(QUADRATIC));
+            gl_wrapper::Shader::unBind();
+        }
+    }
 }
 
 float scene::PointLight::readDistanceMap(AttenuationType type) const {

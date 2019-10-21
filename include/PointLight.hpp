@@ -36,7 +36,7 @@ namespace scene {
         void setPosition(const glm::vec3 &position);
         const glm::vec3 &getPosition() const;
 
-        void setShader(const gl_wrapper::Shader_ptr_t &shader) const override;
+        void setShader(const gl_wrapper::Shaders_t &shaders) const;
 
     private:
         float readDistanceMap(AttenuationType type) const;

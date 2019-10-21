@@ -23,9 +23,8 @@ namespace scene {
         void setDiffuse(const glm::vec3 &diffuse);
         void setSpecular(const glm::vec3 &specular);
 
-        virtual void setShader(const gl_wrapper::Shader_ptr_t &shader) const;
-
     protected:
+        void setShader(const gl_wrapper::Shader_ptr_t &shader) const;
         std::string getUniformName(const std::string &type) const;
 
     private:

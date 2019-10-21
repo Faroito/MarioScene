@@ -25,7 +25,7 @@ namespace gl_wrapper {
 
     class Shader {
     public:
-        Shader(const std::string &vs_path, const std::string &fs_path);
+        Shader(const std::string &vs_path, const std::string &fs_path, ShaderType type);
 
         void bind();
         static void unBind();
@@ -34,6 +34,7 @@ namespace gl_wrapper {
         void setUniformFloat(const char *name, float f) const;
         void setUniformVector3(const char *name, const glm::vec3 &vector) const;
         void setUniformMatrix4(const char *name, const glm::mat4 &matrix) const;
+        ShaderType getType() const;
 
     private:
         void compileShader(GLuint ID, const char *shader);
@@ -41,10 +42,12 @@ namespace gl_wrapper {
         static void linkCheck(GLuint ID);
 
     private:
+        const ShaderType _type;
         GLuint _sID;
     };
 
     typedef std::unique_ptr<Shader> Shader_ptr_t;
+    typedef std::vector<Shader_ptr_t> Shaders_t;
 }
 
 #endif /* !SHADER_HPP */

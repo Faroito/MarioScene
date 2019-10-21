@@ -21,7 +21,7 @@ namespace scene {
         void setDirection(const glm::vec3 &direction);
         const glm::vec3 &getDirection() const;
 
-        void setShader(const gl_wrapper::Shader_ptr_t &shader) const override;
+        void setShader(const gl_wrapper::Shaders_t &shaders) const;
 
     private:
         glm::vec3 _direction;

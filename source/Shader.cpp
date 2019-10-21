@@ -4,7 +4,8 @@
 
 #include "Shader.hpp"
 
-gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_path) {
+gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_path,
+        ShaderType type) : _type(type) {
     _sID = glCreateProgram();
     GLuint vID = glCreateShader(GL_VERTEX_SHADER);
     GLuint fID = glCreateShader(GL_FRAGMENT_SHADER);
@@ -93,4 +94,8 @@ void gl_wrapper::Shader::setUniformVector3(const char *name, const glm::vec3 &ve
 void gl_wrapper::Shader::setUniformMatrix4(const char *name, const glm::mat4 &matrix) const {
     GLint matrixID = glGetUniformLocation(_sID, name);
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+gl_wrapper::ShaderType gl_wrapper::Shader::getType() const {
+    return _type;
 }

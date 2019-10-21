@@ -4,8 +4,7 @@
 
 #include "Model.hpp"
 
-scene::Model::Model(const std::string &objPath, gl_wrapper::ShaderType shaderType)
-    : _shaderType(shaderType) {
+scene::Model::Model(const std::string &objPath, bool isLamp) : _isLamp(isLamp) {
     auto objModel = loader::OBJLoader(objPath).load();
 
     for (unsigned int i = 0; i < objModel.size(); i++) {
@@ -23,7 +22,7 @@ scene::Model::Model(const std::string &objPath, gl_wrapper::ShaderType shaderTyp
     _materialList = mtlMaterial.getMaterialList();
 }
 
-scene::Model::Model(scene::Model &&other) noexcept : _shaderType(other._shaderType),
+scene::Model::Model(scene::Model &&other) noexcept : _isLamp(other._isLamp),
     _meshList(std::move(other._meshList)), _materialList(std::move(other._materialList)) {}
 
 scene::Model::~Model() {
@@ -31,13 +30,61 @@ scene::Model::~Model() {
         it.mesh.clearBuffers();
 }
 
-void scene::Model::draw(const gl_wrapper::Shader_ptr_t &shader) {
-    for (auto &it : _meshList) {
-        int error = setMaterialProperties(shader, it.material);
-        if (error == -1)
-            std::cerr << "Material " << it.material << " not found for " << it.name << std::endl;
-        it.mesh.draw(shader);
+void scene::Model::setPosition(glm::vec3 position) {
+    _position = position;
+}
+
+void scene::Model::setOrientation(glm::vec3 orientation) {
+    _orientation = orientation;
+}
+
+void scene::Model::setSize(glm::vec3 size) {
+    _size = size;
+}
+
+void scene::Model::draw(const gl_wrapper::Shaders_t &shaders) {
+    auto model = getModelMatrix();
+    auto inverse_model = glm::transpose(glm::inverse(model));
+    for (auto &shader : shaders) {
+        shader->bind();
+        shader->setUniformMatrix4("model_matrix", model);
+        shader->setUniformMatrix4("inverse_model_matrix", inverse_model);
+        gl_wrapper::Shader::unBind();
     }
+
+    if (_isLamp) {
+        for (auto &mesh : _meshList) {
+            for (auto &shader : shaders) {
+                if (shader->getType() != gl_wrapper::ShaderType::LIGHT)
+                    continue;
+                shader->bind();
+                mesh.mesh.draw(shader);
+                gl_wrapper::Shader::unBind();
+            }
+        }
+        return;
+    }
+    for (auto &mesh : _meshList) {
+        for (auto &shader : shaders) {
+            if (shader->getType() != gl_wrapper::ShaderType::MODEL)
+                continue;
+            shader->bind();
+            int error = setMaterialProperties(shader, mesh.material);
+            if (error == -1)
+                std::cerr << "Material " << mesh.material << " not found for " << mesh.name << std::endl;
+            mesh.mesh.draw(shader);
+            gl_wrapper::Shader::unBind();
+        }
+    }
+}
+
+glm::mat4 scene::Model::getModelMatrix() {
+    glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
+    glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), _orientation.x, glm::vec3(1.f, 0.f, 0.f));
+    rotate = glm::rotate(rotate, _orientation.y, glm::vec3(0.f, 1.f, 0.f));
+    rotate = glm::rotate(rotate, _orientation.z, glm::vec3(0.f, 0.f, 1.f));
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), _size);
+    return translate * rotate * scale;
 }
 
 int scene::Model::setMaterialProperties(const gl_wrapper::Shader_ptr_t &shader, const std::string &materialName) {
