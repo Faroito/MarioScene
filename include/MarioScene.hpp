@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <cmath>
+#include <memory>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -46,11 +46,11 @@ namespace scene {
     private:
         bool _pressed = true;
         GLenum _mode = GL_FILL;
-        scene::Model *_model;
-        scene::Model *_light;
-        gl_wrapper::Shader *_modelShader;
-        gl_wrapper::Shader *_lightShader;
-        scene::Camera *_camera = new scene::Camera();
+        std::unique_ptr<scene::Model> _model;
+        std::unique_ptr<scene::Model> _light;
+        gl_wrapper::Shader_ptr_t _modelShader;
+        gl_wrapper::Shader_ptr_t _lightShader;
+        Camera_ptr_t _camera = std::make_unique<Camera>(Camera());
         bool _keyCode[512] = { false };
         const std::unordered_map<int, change_camera_t> _keyMap = {
                 {GLFW_KEY_W, &scene::Camera::moveForward},

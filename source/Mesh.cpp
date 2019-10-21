@@ -16,12 +16,6 @@ gl_wrapper::Mesh::Mesh(const loader::Vertices_t &vertices, const loader::Indices
     setupMesh();
 }
 
-gl_wrapper::Mesh::~Mesh() {
-    glDeleteVertexArrays(1, &_vaoID);
-    glDeleteBuffers(1, &_vboID);
-    glDeleteBuffers(1, &_eboID);
-}
-
 void gl_wrapper::Mesh::setupMesh() {
     for (auto &it : _textures)
         it.id = setTexture(it.path);
@@ -59,7 +53,7 @@ void gl_wrapper::Mesh::setupMesh() {
     glBindVertexArray(0);
 }
 
-void gl_wrapper::Mesh::draw(Shader *shader) {
+void gl_wrapper::Mesh::draw(const Shader_ptr_t &shader) {
     for (int i = 0; i < (int) _textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string name;
@@ -74,6 +68,12 @@ void gl_wrapper::Mesh::draw(Shader *shader) {
     // glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, (GLsizei) _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
+}
+
+void gl_wrapper::Mesh::clearBuffers() {
+     glDeleteVertexArrays(1, &_vaoID);
+     glDeleteBuffers(1, &_vboID);
+     glDeleteBuffers(1, &_eboID);
 }
 
 unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) {

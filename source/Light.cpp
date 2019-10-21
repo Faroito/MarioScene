@@ -4,10 +4,6 @@
 
 #include "Light.hpp"
 
-void scene::Light::setColor(const glm::vec3 &color) {
-    _color = color;
-}
-
 void scene::Light::setAmbient(const glm::vec3 &ambient) {
     _ambient = ambient;
 }
@@ -18,10 +14,6 @@ void scene::Light::setDiffuse(const glm::vec3 &diffuse) {
 
 void scene::Light::setSpecular(const glm::vec3 &specular) {
     _specular = specular;
-}
-
-const glm::vec3 &scene::Light::getColor() const {
-    return _color;
 }
 
 const glm::vec3 &scene::Light::getAmbient() const {

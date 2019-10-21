@@ -4,13 +4,14 @@
 
 #include "Model.hpp"
 
-scene::Model::Model(std::string &objPath) {
+scene::Model::Model(const std::string &objPath, gl_wrapper::ShaderType shaderType)
+    : _shaderType(shaderType) {
     auto objModel = loader::OBJLoader(objPath).load();
 
     for (unsigned int i = 0; i < objModel.size(); i++) {
         _meshList.push_back({
             objModel.getGroupsName(i), objModel.getMaterialName(i),
-            new gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i))
+            gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i))
         });
     }
 
@@ -22,16 +23,24 @@ scene::Model::Model(std::string &objPath) {
     _materialList = mtlMaterial.getMaterialList();
 }
 
-void scene::Model::draw(gl_wrapper::Shader *shader) {
+scene::Model::Model(scene::Model &&other) noexcept : _shaderType(other._shaderType),
+    _meshList(std::move(other._meshList)), _materialList(std::move(other._materialList)) {}
+
+scene::Model::~Model() {
+    for (auto &it : _meshList)
+        it.mesh.clearBuffers();
+}
+
+void scene::Model::draw(const gl_wrapper::Shader_ptr_t &shader) {
     for (auto &it : _meshList) {
         int error = setMaterialProperties(shader, it.material);
         if (error == -1)
             std::cerr << "Material " << it.material << " not found for " << it.name << std::endl;
-        it.mesh->draw(shader);
+        it.mesh.draw(shader);
     }
 }
 
-int scene::Model::setMaterialProperties(gl_wrapper::Shader *shader, const std::string &materialName) {
+int scene::Model::setMaterialProperties(const gl_wrapper::Shader_ptr_t &shader, const std::string &materialName) {
     if (_materialList.find(materialName) == _materialList.end())
         return -1;
     loader::Material &material = _materialList[materialName];

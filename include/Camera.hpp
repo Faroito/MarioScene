@@ -6,6 +6,7 @@
 # define CAMERA_HPP
 
 #include <iostream>
+#include <memory>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -49,6 +50,8 @@ namespace scene {
 
         const float _cameraSpeed = 0.08f;
     };
+
+    typedef std::unique_ptr<Camera> Camera_ptr_t;
 
 }
 

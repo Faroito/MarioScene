@@ -14,18 +14,11 @@ void scene::MarioScene::init() {
     std::string vs_light_path = "../shader/light_vs.glsl";
     std::string fs_light_path = "../shader/light_fs.glsl";
 
-    _modelShader = new gl_wrapper::Shader(vs_model_path, fs_model_path);
-    _lightShader = new gl_wrapper::Shader(vs_light_path, fs_light_path);
-
-    auto vertex = loader::getExampleVertex(1);
-    auto indices = loader::getExampleIndices(1);
-    auto vertex1 = loader::getExampleVertex(2);
-    auto indices1 = loader::getExampleIndices(2);
-
-    // _objectMesh = new gl_wrapper::Mesh(vertex1, indices1);
+    _modelShader = std::make_unique<gl_wrapper::Shader>(gl_wrapper::Shader(vs_model_path, fs_model_path));
+    _lightShader = std::make_unique<gl_wrapper::Shader>(gl_wrapper::Shader(vs_light_path, fs_light_path));
 
     std::string objPath = "../resource/goompa.obj";
-    _model = new scene::Model(objPath);
+    _model = std::make_unique<scene::Model>(scene::Model(objPath, gl_wrapper::ShaderType::MODEL));
     _modelShader->bind();
 
     _modelShader->setUniformVector3("dirLight.direction", glm::vec3(0.0f, -1.0f, -1.0f));
@@ -41,7 +34,7 @@ void scene::MarioScene::init() {
     gl_wrapper::Shader::unBind();
 
     objPath = "../resource/light.obj";
-    _light = new scene::Model(objPath);
+    _light = std::make_unique<scene::Model>(scene::Model(objPath, gl_wrapper::ShaderType::LIGHT));
 
     _lightShader->bind();
     _lightShader->setUniformVector3("ambientLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
@@ -102,7 +95,7 @@ void scene::MarioScene::onDraw() {
 void scene::MarioScene::checkKey() {
     for (const auto &it : _keyMap) {
         if (_keyCode[it.first])
-            (_camera->*it.second)();
+            (_camera.get()->*it.second)();
     }
     if (_keyCode[GLFW_KEY_ESCAPE])
         getWindow().setClose(true);

@@ -21,13 +21,12 @@ namespace gl_wrapper {
     public:
         Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices);
         Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices, std::vector<loader::Texture> &textures);
-        ~Mesh();
 
-        void setupMesh();
-
-        void draw(Shader *shader);
+        void draw(const Shader_ptr_t &shader);
+        void clearBuffers();
 
     private:
+        void setupMesh();
         static unsigned int setTexture(const std::string &path);
 
     private:

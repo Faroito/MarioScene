@@ -6,6 +6,7 @@
 # define SHADER_HPP
 
 #include <iostream>
+#include <memory>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -15,6 +16,13 @@
 #include "ShaderLoader.hpp"
 
 namespace gl_wrapper {
+    enum class ShaderType {
+        LIGHT,
+        MODEL,
+        TEXTURE_DIFFUSE,
+        TEXTURE_SPECULAR
+    };
+
     class Shader {
     public:
         Shader(const std::string &vs_path, const std::string &fs_path);
@@ -22,13 +30,12 @@ namespace gl_wrapper {
         void bind();
         static void unBind();
 
-        void setUniformInt(const char *name, int i);
-        void setUniformFloat(const char *name, float f);
-        void setUniformVector3(const char *name, const glm::vec3 &vector);
-        void setUniformMatrix4(const char *name, const glm::mat4 &matrix);
+        void setUniformInt(const char *name, int i) const;
+        void setUniformFloat(const char *name, float f) const;
+        void setUniformVector3(const char *name, const glm::vec3 &vector) const;
+        void setUniformMatrix4(const char *name, const glm::mat4 &matrix) const;
 
     private:
-        static std::string readShader(const std::string &path);
         void compileShader(GLuint ID, const char *shader);
         static void compilerCheck(GLuint ID);
         static void linkCheck(GLuint ID);
@@ -36,6 +43,8 @@ namespace gl_wrapper {
     private:
         GLuint _sID;
     };
+
+    typedef std::unique_ptr<Shader> Shader_ptr_t;
 }
 
 #endif /* !SHADER_HPP */

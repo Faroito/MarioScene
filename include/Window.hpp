@@ -50,7 +50,7 @@ namespace gl_wrapper {
         float getRatio() const;
 
     private:
-        GLFWwindow *_window;
+        GLFWwindow *_window; //TODO: Check destroy
         CallbackInterface _interface;
         int _width;
         int _height;

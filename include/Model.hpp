@@ -26,18 +26,21 @@ namespace scene {
         struct MeshMapping {
             const std::string name;
             const std::string material;
-            gl_wrapper::Mesh *mesh;
+            gl_wrapper::Mesh mesh;
         };
 
     public:
-        explicit Model(std::string &objPath);
+        Model(const std::string &objPath, gl_wrapper::ShaderType shaderType);
+        Model(Model&& other) noexcept;
+        ~Model();
 
-        void draw(gl_wrapper::Shader *shader);
+        void draw(const gl_wrapper::Shader_ptr_t &shader);
 
     private:
-        int setMaterialProperties(gl_wrapper::Shader *shader, const std::string &materialName);
+        int setMaterialProperties(const gl_wrapper::Shader_ptr_t &shader, const std::string &materialName);
 
     private:
+        const gl_wrapper::ShaderType _shaderType;
         std::vector<MeshMapping> _meshList;
         loader::Materials_t _materialList;
     };
