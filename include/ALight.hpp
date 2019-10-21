@@ -10,21 +10,26 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Shader.hpp"
+
 namespace scene {
 
-    class Light {
+    class ALight {
     public:
-        Light() = default;
-        virtual ~Light() = default;
+        explicit ALight(const std::string &name);
+        virtual ~ALight() = default;
 
         void setAmbient(const glm::vec3 &ambient);
         void setDiffuse(const glm::vec3 &diffuse);
         void setSpecular(const glm::vec3 &specular);
-        const glm::vec3 &getAmbient() const;
-        const glm::vec3 &getDiffuse() const;
-        const glm::vec3 &getSpecular() const;
+
+        virtual void setShader(const gl_wrapper::Shader_ptr_t &shader) const;
+
+    protected:
+        std::string getUniformName(const std::string &type) const;
 
     private:
+        const std::string _name;
         glm::vec3 _ambient = glm::vec3(0.2f, 0.2f, 0.2f);
         glm::vec3 _diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
         glm::vec3 _specular = glm::vec3(1.0f, 1.0f, 1.0f);

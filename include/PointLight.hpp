@@ -11,7 +11,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Light.hpp"
+#include "ALight.hpp"
 
 namespace scene {
 
@@ -21,7 +21,7 @@ namespace scene {
         const float quadratic;
     };
 
-    class PointLight : public Light {
+    class PointLight : public ALight {
 
         enum AttenuationType {
             CONSTANT,
@@ -34,10 +34,9 @@ namespace scene {
 
         void setDistance(unsigned int distance);
         void setPosition(const glm::vec3 &position);
-        float getConstant() const;
-        float getLinear() const;
-        float getQuadratic() const;
         const glm::vec3 &getPosition() const;
+
+        void setShader(const gl_wrapper::Shader_ptr_t &shader) const override;
 
     private:
         float readDistanceMap(AttenuationType type) const;

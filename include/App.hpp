@@ -6,7 +6,6 @@
 # define APPLICATION_HPP
 
 #include "IApp.hpp"
-#include "Error.hpp"
 #include "Lib.hpp"
 #include "Window.hpp"
 

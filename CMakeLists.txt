@@ -18,8 +18,7 @@ set(SOURCE_FILES
         source/App.cpp
         source/Camera.cpp
         source/DirLight.cpp
-        source/Error.cpp
-        source/Light.cpp
+        source/ALight.cpp
         source/Main.cpp
         source/MarioScene.cpp
         source/Mesh.cpp

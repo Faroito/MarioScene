@@ -9,7 +9,6 @@ gl_wrapper::App::App(int width, int height, const std::string &name) {
         exit(EXIT_FAILURE);
     std::cout << "GLFW initialized." << std::endl;
 
-    // glfwSetErrorCallback(error::callbackGLFW);
     hintsGLFW();
 
     _window.create(this, width, height, name);

@@ -4,7 +4,7 @@
 
 #include "MarioScene.hpp"
 
-scene::MarioScene::MarioScene() : App(640, 480, "MarioScene") {
+scene::MarioScene::MarioScene() : App(960, 720, "MarioScene") {
     init();
 }
 
@@ -19,18 +19,12 @@ void scene::MarioScene::init() {
 
     std::string objPath = "../resource/goompa.obj";
     _model = std::make_unique<scene::Model>(scene::Model(objPath, gl_wrapper::ShaderType::MODEL));
-    _modelShader->bind();
 
-    _modelShader->setUniformVector3("dirLight.direction", glm::vec3(0.0f, -1.0f, -1.0f));
-    _modelShader->setUniformVector3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-    _modelShader->setUniformVector3("dirLight.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-    _modelShader->setUniformVector3("dirLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-    _modelShader->setUniformVector3("lights[0].ambient", glm::vec3(0.8f, 0.8f, 0.8f));
-    _modelShader->setUniformVector3("lights[0].diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-    _modelShader->setUniformVector3("lights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-    _modelShader->setUniformFloat("lights[0].constant", 1.0f);
-    _modelShader->setUniformFloat("lights[0].linear", 0.09f);
-    _modelShader->setUniformFloat("lights[0].quadratic", 0.032f);
+    _modelShader->bind();
+    _dirLight.setShader(_modelShader);
+
+    _pointLight.setAmbient(glm::vec3(0.8f, 0.8f, 0.8f));
+    _pointLight.setShader(_modelShader);
     gl_wrapper::Shader::unBind();
 
     objPath = "../resource/light.obj";
@@ -51,11 +45,13 @@ void scene::MarioScene::onDraw() {
     glm::vec3 lightPos;
     lightPos.x = cos(actualTime) * 3.0f;
     lightPos.y = sin(actualTime / 2.0f);
-    lightPos.z = sin(actualTime) * 3.0f;
+    lightPos.z = sin(actualTime) * 2.0f;
 
     _modelShader->bind();
 
-    _modelShader->setUniformVector3("lights[0].position", lightPos);
+    _pointLight.setPosition(lightPos);
+    _pointLight.setShader(_modelShader);
+
     _modelShader->setUniformVector3("viewPos", _camera->getCameraPosition());
     _modelShader->setUniformMatrix4("view_matrix", view);
     _modelShader->setUniformMatrix4("proj_matrix", proj);

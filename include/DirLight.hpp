@@ -10,16 +10,18 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Light.hpp"
+#include "ALight.hpp"
 
 namespace scene {
 
-    class DirLight : public Light {
+    class DirLight : public ALight {
     public:
         explicit DirLight(const glm::vec3 &direction);
 
         void setDirection(const glm::vec3 &direction);
         const glm::vec3 &getDirection() const;
+
+        void setShader(const gl_wrapper::Shader_ptr_t &shader) const override;
 
     private:
         glm::vec3 _direction;
