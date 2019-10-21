@@ -16,12 +16,6 @@
 #include "ShaderLoader.hpp"
 
 namespace gl_wrapper {
-    enum class ShaderType {
-        LIGHT,
-        MODEL,
-        TEXTURE_DIFFUSE,
-        TEXTURE_SPECULAR
-    };
 
     class Shader {
     public:

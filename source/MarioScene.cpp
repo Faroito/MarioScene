@@ -13,6 +13,8 @@ void scene::MarioScene::init() {
     std::string fs_model_path = "../shader/model_fs.glsl";
     std::string vs_light_path = "../shader/light_vs.glsl";
     std::string fs_light_path = "../shader/light_fs.glsl";
+    std::string vs_texture_path = "../shader/texture_vs.glsl";
+    std::string fs_texture_path = "../shader/texture_fs.glsl";
 
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
             gl_wrapper::Shader(vs_model_path, fs_model_path, gl_wrapper::ShaderType::MODEL)
@@ -20,12 +22,19 @@ void scene::MarioScene::init() {
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
             gl_wrapper::Shader(vs_light_path, fs_light_path, gl_wrapper::ShaderType::LIGHT)
     ));
+    _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
+            gl_wrapper::Shader(vs_texture_path, fs_texture_path, gl_wrapper::ShaderType::TEXTURE_DIFFUSE)
+    ));
 
     std::string objPath = "../resource/goompa.obj";
-    _model = std::make_unique<scene::Model>(scene::Model(objPath));
+    _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/piranha_plant.obj";
+    _plant = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
+    _dirLight.setAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
+    _dirLight.setDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
     _dirLight.setShader(_shaders);
 
     _pointLight.setAmbient(glm::vec3(0.8f, 0.8f, 0.8f));
@@ -53,16 +62,20 @@ void scene::MarioScene::onDraw() {
     _lamp->setSize(glm::vec3(0.2f));
     _lamp->draw(_shaders);
 
-    for (int i = 0; i < 5; i++) {
-        _model->setPosition(glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
+    /* for (int i = 0; i < 5; i++) {
+        _goompa->setPosition(glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
         auto rotation = (aTime * 3.14159265359f) / ((float) i * 2 + 10);
-        _model->setOrientation(glm::vec3(rotation, rotation, rotation));
-        _model->setSize(glm::vec3(0.05f));
-        _model->draw(_shaders);
-    }
-    // _model->setOrientation(glm::vec3(0.0f, 160.0f, 0.0f));
-    // _model->setSize(glm::vec3(0.1f));
-    // _model->draw(_shaders);
+        _goompa->setOrientation(glm::vec3(rotation, rotation, rotation));
+        _goompa->setSize(glm::vec3(0.05f));
+        _goompa->draw(_shaders);
+    }*/
+    _goompa->setOrientation(glm::vec3(0.0f, 135.0f, 0.0f));
+    _goompa->setSize(glm::vec3(0.1f));
+    _goompa->draw(_shaders);
+    _plant->setPosition(glm::vec3(2.0f, 0.0f, 2.0f));
+    _plant->setOrientation(glm::vec3(0.0f, 40.0f, 0.0f));
+    _plant->setSize(glm::vec3(0.3f));
+    _plant->draw(_shaders);
 }
 
 void scene::MarioScene::checkKey() {

@@ -25,15 +25,20 @@ namespace loader {
 
         const loader::MTLLoader &load();
         Materials_t &getMaterialList();
+        bool hasTextures(const std::string &name);
+        Textures_t &getTextures(const std::string &name, const std::string &path = "");
 
     private:
         void loadFile(std::ifstream &file) override;
         void changeMaterial();
 
     private:
+        std::string _path;
         std::string _materialName;
         Material _material = {};
+        Textures_t _textures = {};
         Materials_t _materialList;
+        TexturesMap_t _textureMap;
     };
 
 }

@@ -14,6 +14,15 @@
 
 #include "Lib.hpp"
 
+namespace gl_wrapper {
+    enum class ShaderType {
+        LIGHT,
+        MODEL,
+        TEXTURE_DIFFUSE,
+        TEXTURE_SPECULAR
+    };
+}
+
 namespace loader {
     struct Vertex {
         glm::vec3 position;
@@ -30,10 +39,12 @@ namespace loader {
     };
 
     struct Texture {
-        GLuint id;
+        GLuint id = 0;
         std::string path;
-        TextureType type;
+        TextureType type = TextureType::TEXTURE_DIFFUSE;
     };
+
+    typedef std::vector<loader::Texture> Textures_t;
 
     struct Material {
         glm::vec3 ambient = glm::vec3(0.04f, 0.04f, 0.04f);
@@ -43,9 +54,11 @@ namespace loader {
         float opticalDensity = 1.0;
         float shininess = 64.0;
         int ilum = 4;
+        gl_wrapper::ShaderType type = gl_wrapper::ShaderType::MODEL;
     };
 
     typedef std::unordered_map<std::string, loader::Material> Materials_t;
+    typedef std::unordered_map<std::string, loader::Textures_t> TexturesMap_t;
 
     Vertices_t getExampleVertex(int i);
     Indices_t getExampleIndices(int i);

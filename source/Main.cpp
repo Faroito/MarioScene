@@ -19,8 +19,9 @@ _CrtDumpMemoryLeaks();
 */
 
 int main(int argc, const char ** argv) {
-	scene::MarioScene app;
+    stbi_set_flip_vertically_on_load(true);
+    scene::MarioScene app;
 
-	app.start();
+    app.start();
     return 0;
 }

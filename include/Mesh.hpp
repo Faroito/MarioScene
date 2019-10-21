@@ -20,7 +20,7 @@ namespace gl_wrapper {
     class Mesh {
     public:
         Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices);
-        Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices, std::vector<loader::Texture> &textures);
+        Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices, loader::Textures_t &textures);
 
         void draw(const Shader_ptr_t &shader);
         void clearBuffers();
@@ -32,7 +32,7 @@ namespace gl_wrapper {
     private:
         loader::Vertices_t _vertices;
         loader::Indices_t _indices;
-        std::vector<loader::Texture> _textures;
+        loader::Textures_t _textures;
 
         GLuint _vaoID = 0;
         GLuint _vboID = 0;

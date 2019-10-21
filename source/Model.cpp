@@ -7,19 +7,24 @@
 scene::Model::Model(const std::string &objPath) {
     auto objModel = loader::OBJLoader(objPath).load();
 
-    for (unsigned int i = 0; i < objModel.size(); i++) {
-        _meshList.push_back({
-            objModel.getGroupsName(i), objModel.getMaterialName(i),
-            gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i))
-        });
-    }
-
     const std::string &mtlFileName = objModel.getMtlFileName();
     std::size_t pos = objPath.find_last_of("/\\");
-    const std::string mtlPath = objPath.substr(0, pos + 1) + mtlFileName;
-    auto mtlMaterial = loader::MTLLoader(mtlPath).load();
+    const std::string path = objPath.substr(0, pos + 1);
+    auto mtlMaterial = loader::MTLLoader(path + mtlFileName).load();
 
     _materialList = mtlMaterial.getMaterialList();
+
+    for (unsigned int i = 0; i < objModel.size(); i++) {
+        const std::string &materialName = objModel.getMaterialName(i);
+        if (mtlMaterial.hasTextures(materialName)) {
+            _meshList.push_back({objModel.getGroupsName(i), materialName,
+                                 gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i),
+                                         mtlMaterial.getTextures(materialName))});
+        } else {
+            _meshList.push_back({objModel.getGroupsName(i), materialName,
+                                 gl_wrapper::Mesh(objModel.getVertices(i), objModel.getIndices(i))});
+        }
+    }
 }
 
 scene::Model::Model(scene::Model &&other) noexcept : _meshList(std::move(other._meshList)),
@@ -55,7 +60,7 @@ void scene::Model::draw(const gl_wrapper::Shaders_t &shaders) {
     }
     for (auto &mesh : _meshList) {
         for (auto &shader : shaders) {
-            if (shader->getType() == gl_wrapper::ShaderType::LIGHT)
+            if (shader->getType() != _materialList[mesh.material].type)
                 continue;
             shader->bind();
             int error = setMaterialProperties(shader, mesh.material);
@@ -69,9 +74,9 @@ void scene::Model::draw(const gl_wrapper::Shaders_t &shaders) {
 
 glm::mat4 scene::Model::getModelMatrix() {
     glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
-    glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), _orientation.x, glm::vec3(1.f, 0.f, 0.f));
-    rotate = glm::rotate(rotate, _orientation.y, glm::vec3(0.f, 1.f, 0.f));
-    rotate = glm::rotate(rotate, _orientation.z, glm::vec3(0.f, 0.f, 1.f));
+    glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(_orientation.x), glm::vec3(1.f, 0.f, 0.f));
+    rotate = glm::rotate(rotate, glm::radians(_orientation.y), glm::vec3(0.f, 1.f, 0.f));
+    rotate = glm::rotate(rotate, glm::radians(_orientation.z), glm::vec3(0.f, 0.f, 1.f));
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), _size);
     return translate * rotate * scale;
 }
@@ -81,7 +86,8 @@ int scene::Model::setMaterialProperties(const gl_wrapper::Shader_ptr_t &shader, 
         return -1;
     loader::Material &material = _materialList[materialName];
     shader->setUniformVector3("material.ambient",  material.ambient);
-    shader->setUniformVector3("material.diffuse", material.diffuse);
+    if (material.type == gl_wrapper::ShaderType::MODEL)
+        shader->setUniformVector3("material.diffuse", material.diffuse);
     shader->setUniformVector3("material.specular", material.specular);
     shader->setUniformFloat("material.shininess", material.shininess);
     return 0;

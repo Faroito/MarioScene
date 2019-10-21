@@ -4,7 +4,9 @@
 
 #include "MTLLoader.hpp"
 
-loader::MTLLoader::MTLLoader(const std::string &path) : ALoader(path, "mtl file") {}
+loader::MTLLoader::MTLLoader(const std::string &path) : ALoader(path, "mtl file") {
+    _path = path.substr(0, path.find_last_of("/\\") + 1);
+}
 
 const loader::MTLLoader &loader::MTLLoader::load() {
     init();
@@ -35,6 +37,14 @@ void loader::MTLLoader::loadFile(std::ifstream &file) {
             _material.opticalDensity = getFloat(value);
         if (type == "illum")
             _material.ilum = std::stoi(value);
+        if (type == "map_Kd") {
+            _textures.push_back({0, _path + value, loader::TextureType::TEXTURE_DIFFUSE});
+            _material.type = gl_wrapper::ShaderType::TEXTURE_DIFFUSE;
+        } else if (type == "map_Ks") {
+            _textures.push_back({0, _path + value, loader::TextureType::TEXTURE_SPECULAR});
+            _material.type = gl_wrapper::ShaderType::TEXTURE_SPECULAR;
+        }
+
     }
     changeMaterial();
 }
@@ -42,9 +52,20 @@ void loader::MTLLoader::loadFile(std::ifstream &file) {
 void loader::MTLLoader::changeMaterial() {
     if (!_materialName.empty())
         _materialList[_materialName] = _material;
+    if (!_textures.empty())
+        _textureMap[_materialName] = _textures;
     _material = {};
+    _textures = {};
 }
 
 loader::Materials_t &loader::MTLLoader::getMaterialList() {
     return _materialList;
+}
+
+bool loader::MTLLoader::hasTextures(const std::string &name) {
+    return (_textureMap.find(name) != _textureMap.end());
+}
+
+loader::Textures_t &loader::MTLLoader::getTextures(const std::string &name, const std::string &path) {
+    return _textureMap[name];
 }
