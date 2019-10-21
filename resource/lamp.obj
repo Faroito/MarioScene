@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib light.mtl
+mtllib lamp.mtl
 g default
 v 0.149529 -0.984392 -0.048585
 v 0.127197 -0.984392 -0.092414

@@ -30,25 +30,28 @@ namespace scene {
         };
 
     public:
-        explicit Model(const std::string &objPath, bool isLamp = false);
+        explicit Model(const std::string &objPath);
         Model(Model&& other) noexcept;
         ~Model();
 
         void setPosition(glm::vec3 position);
         void setOrientation(glm::vec3 orientation);
         void setSize(glm::vec3 size);
-        void draw(const gl_wrapper::Shaders_t &shaders);
+        virtual void draw(const gl_wrapper::Shaders_t &shaders);
+
+    protected:
+        glm::mat4 getModelMatrix();
 
     private:
-        glm::mat4 getModelMatrix();
         int setMaterialProperties(const gl_wrapper::Shader_ptr_t &shader, const std::string &materialName);
 
+    protected:
+        std::vector<MeshMapping> _meshList;
+
     private:
-        const bool _isLamp;
         glm::vec3 _position = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 _orientation = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 _size = glm::vec3(1.0f, 1.0f, 1.0f);
-        std::vector<MeshMapping> _meshList;
         loader::Materials_t _materialList;
     };
 

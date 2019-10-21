@@ -49,7 +49,7 @@ void gl_wrapper::App::start() {
 
         _window.setViewport();
 
-        glClearColor(0.16f, 0.38f, 0.38f, 1.0f);
+        glClearColor(0.016f, 0.038f, 0.038f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         onDraw();

@@ -22,6 +22,7 @@ namespace scene {
         void setAmbient(const glm::vec3 &ambient);
         void setDiffuse(const glm::vec3 &diffuse);
         void setSpecular(const glm::vec3 &specular);
+        const glm::vec3 &getAmbient() const;
 
     protected:
         void setShader(const gl_wrapper::Shader_ptr_t &shader) const;

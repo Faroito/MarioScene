@@ -22,9 +22,9 @@ void scene::MarioScene::init() {
     ));
 
     std::string objPath = "../resource/goompa.obj";
-    _model = std::make_unique<scene::Model>(scene::Model(objPath, false));
-    objPath = "../resource/light.obj";
-    _light = std::make_unique<scene::Model>(scene::Model(objPath, false));
+    _model = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/lamp.obj";
+    _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
     _dirLight.setShader(_shaders);
 
@@ -33,47 +33,36 @@ void scene::MarioScene::init() {
 }
 
 void scene::MarioScene::onDraw() {
-    auto actualTime = (float) glfwGetTime();
+    auto aTime = (float) glfwGetTime();
 
     this->checkKey();
-    auto view = _camera->getViewMatrix();
-    auto proj = _camera->getProjectionMatrix(getWindow());
 
-    glm::vec3 lightPos;
-    lightPos.x = cos(actualTime) * 3.0f;
-    lightPos.y = sin(actualTime / 2.0f);
-    lightPos.z = sin(actualTime) * 2.0f;
-
-    _pointLight.setPosition(lightPos);
+    _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
     _pointLight.setShader(_shaders);
-
-    _light->setPosition(lightPos);
-    _light->setSize(glm::vec3(0.2f));
-
-    _model->setOrientation(glm::vec3(0.0f, 160.0f, 0.0f));
-    _model->setSize(glm::vec3(0.1f));
 
     for (auto &shader : _shaders) {
         shader->bind();
-        shader->setUniformMatrix4("view_matrix", view);
-        shader->setUniformMatrix4("proj_matrix", proj);
-        shader->setUniformVector3("viewPos", _camera->getCameraPosition());
-
+        shader->setUniformMatrix4("view_matrix", _camera->getViewMatrix());
+        shader->setUniformMatrix4("proj_matrix", _camera->getProjectionMatrix(getWindow()));
+        if (shader->getType() != gl_wrapper::ShaderType::LIGHT)
+            shader->setUniformVector3("viewPos", _camera->getCameraPosition());
+        gl_wrapper::Shader::unBind();
     }
-    _model->draw(_shaders);
-    _light->draw(_shaders);
-    
-    /*for (int i = 0; i < 5; i++) {
-        glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), (actualTime * 3.14159265359f) / ((float) i * 2 + 10),
-                                       glm::vec3(1.f, 1.f, 1.f));
-        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f));
-        glm::mat4 model = translate * rotate * scale;
-        _modelShader->setUniformMatrix4("model_matrix", model);
-        auto inverse_model = glm::transpose(glm::inverse(rotate));
-        _modelShader->setUniformMatrix4("inverse_model_matrix", inverse_model);
-        _model->draw(_modelShader);
-    }*/
+
+    _lamp->syncLight(_pointLight);
+    _lamp->setSize(glm::vec3(0.2f));
+    _lamp->draw(_shaders);
+
+    for (int i = 0; i < 5; i++) {
+        _model->setPosition(glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
+        auto rotation = (aTime * 3.14159265359f) / ((float) i * 2 + 10);
+        _model->setOrientation(glm::vec3(rotation, rotation, rotation));
+        _model->setSize(glm::vec3(0.05f));
+        _model->draw(_shaders);
+    }
+    // _model->setOrientation(glm::vec3(0.0f, 160.0f, 0.0f));
+    // _model->setSize(glm::vec3(0.1f));
+    // _model->draw(_shaders);
 }
 
 void scene::MarioScene::checkKey() {

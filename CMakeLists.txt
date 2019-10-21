@@ -14,11 +14,12 @@ if (APPLE)
 endif (APPLE)
 
 set(SOURCE_FILES
+        source/ALight.cpp
         source/ALoader.cpp
         source/App.cpp
         source/Camera.cpp
         source/DirLight.cpp
-        source/ALight.cpp
+        source/Lamp.cpp
         source/Main.cpp
         source/MarioScene.cpp
         source/Mesh.cpp

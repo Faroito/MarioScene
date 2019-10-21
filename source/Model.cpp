@@ -4,7 +4,7 @@
 
 #include "Model.hpp"
 
-scene::Model::Model(const std::string &objPath, bool isLamp) : _isLamp(isLamp) {
+scene::Model::Model(const std::string &objPath) {
     auto objModel = loader::OBJLoader(objPath).load();
 
     for (unsigned int i = 0; i < objModel.size(); i++) {
@@ -22,8 +22,8 @@ scene::Model::Model(const std::string &objPath, bool isLamp) : _isLamp(isLamp) {
     _materialList = mtlMaterial.getMaterialList();
 }
 
-scene::Model::Model(scene::Model &&other) noexcept : _isLamp(other._isLamp),
-    _meshList(std::move(other._meshList)), _materialList(std::move(other._materialList)) {}
+scene::Model::Model(scene::Model &&other) noexcept : _meshList(std::move(other._meshList)),
+    _materialList(std::move(other._materialList)) {}
 
 scene::Model::~Model() {
     for (auto &it : _meshList)
@@ -46,27 +46,16 @@ void scene::Model::draw(const gl_wrapper::Shaders_t &shaders) {
     auto model = getModelMatrix();
     auto inverse_model = glm::transpose(glm::inverse(model));
     for (auto &shader : shaders) {
+        if (shader->getType() == gl_wrapper::ShaderType::LIGHT)
+            continue;
         shader->bind();
         shader->setUniformMatrix4("model_matrix", model);
         shader->setUniformMatrix4("inverse_model_matrix", inverse_model);
         gl_wrapper::Shader::unBind();
     }
-
-    if (_isLamp) {
-        for (auto &mesh : _meshList) {
-            for (auto &shader : shaders) {
-                if (shader->getType() != gl_wrapper::ShaderType::LIGHT)
-                    continue;
-                shader->bind();
-                mesh.mesh.draw(shader);
-                gl_wrapper::Shader::unBind();
-            }
-        }
-        return;
-    }
     for (auto &mesh : _meshList) {
         for (auto &shader : shaders) {
-            if (shader->getType() != gl_wrapper::ShaderType::MODEL)
+            if (shader->getType() == gl_wrapper::ShaderType::LIGHT)
                 continue;
             shader->bind();
             int error = setMaterialProperties(shader, mesh.material);
