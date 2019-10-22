@@ -30,6 +30,8 @@ void scene::MarioScene::init() {
     _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/piranha_plant.obj";
     _plant = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/mushroom.obj";
+    _mushroom = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
@@ -76,6 +78,10 @@ void scene::MarioScene::onDraw() {
     _plant->setOrientation(glm::vec3(0.0f, 40.0f, 0.0f));
     _plant->setSize(glm::vec3(0.3f));
     _plant->draw(_shaders);
+    _mushroom->setPosition(glm::vec3(-1.5f, 0.0f, -1.5f));
+    _mushroom->setOrientation(glm::vec3(0.0f, 50.0f, 0.0f));
+    _mushroom->setSize(glm::vec3(0.1f));
+    _mushroom->draw(_shaders);
 }
 
 void scene::MarioScene::checkKey() {
