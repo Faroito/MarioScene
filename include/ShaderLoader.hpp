@@ -27,6 +27,7 @@ namespace loader {
 
     private:
         void loadFile(std::ifstream &file) override;
+        static std::string getShaderVersion();
 
     private:
         std::string _shader;
