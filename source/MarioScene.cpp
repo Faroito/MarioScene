@@ -25,21 +25,23 @@ void scene::MarioScene::init() {
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
             gl_wrapper::Shader(vs_texture_path, fs_texture_path, gl_wrapper::ShaderType::TEXTURE_DIFFUSE)
     ));
+    std::string objPath = "../resource/piranha_plant.obj";
 
-    std::string objPath = "../resource/goompa.obj";
-    _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/piranha_plant.obj";
     _plant = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/goompa.obj";
+    _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/mushroom.obj";
     _mushroom = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/cube.obj";
+    _cube = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
-    _dirLight.setAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
-    _dirLight.setDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
+    _dirLight.setAmbient(glm::vec3(0.3f, 0.3f, 0.1f));
     _dirLight.setShader(_shaders);
 
-    _pointLight.setAmbient(glm::vec3(0.8f, 0.8f, 0.8f));
+    _pointLight.setAmbient(glm::vec3(0.96f, 0.85f, 0.05f));
+    _pointLight.setDistance(2);
     _pointLight.setShader(_shaders);
 }
 
@@ -48,7 +50,8 @@ void scene::MarioScene::onDraw() {
 
     this->checkKey();
 
-    _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
+    // _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
+    _pointLight.setPosition(glm::vec3(0.1f, 3.3f, 0.0f));
     _pointLight.setShader(_shaders);
 
     for (auto &shader : _shaders) {
@@ -61,7 +64,7 @@ void scene::MarioScene::onDraw() {
     }
 
     _lamp->syncLight(_pointLight);
-    _lamp->setSize(glm::vec3(0.2f));
+    _lamp->setSize(glm::vec3(0.3f));
     _lamp->draw(_shaders);
 
     /* for (int i = 0; i < 5; i++) {
@@ -71,17 +74,23 @@ void scene::MarioScene::onDraw() {
         _goompa->setSize(glm::vec3(0.05f));
         _goompa->draw(_shaders);
     }*/
-    _goompa->setOrientation(glm::vec3(0.0f, 135.0f, 0.0f));
-    _goompa->setSize(glm::vec3(0.1f));
-    _goompa->draw(_shaders);
-    _plant->setPosition(glm::vec3(2.0f, 0.0f, 2.0f));
-    _plant->setOrientation(glm::vec3(0.0f, 40.0f, 0.0f));
+    _plant->setPosition(glm::vec3(2.0f, 0.0f, 0.0f));
+    _plant->setOrientation(glm::vec3(0.0f, 60.0f, 0.0f));
     _plant->setSize(glm::vec3(0.3f));
     _plant->draw(_shaders);
-    _mushroom->setPosition(glm::vec3(-1.5f, 0.0f, -1.5f));
-    _mushroom->setOrientation(glm::vec3(0.0f, 50.0f, 0.0f));
+    _goompa->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f));
+    _goompa->setOrientation(glm::vec3(0.0f, 180.0f, 0.0f));
+    _goompa->setSize(glm::vec3(0.1f));
+    _goompa->draw(_shaders);
+    _mushroom->setPosition(glm::vec3(-2.5f, 5.50f, 0));
+    _mushroom->setOrientation(glm::vec3(0.0f, 90.0f, 0.0f));
     _mushroom->setSize(glm::vec3(0.1f));
     _mushroom->draw(_shaders);
+    _cube->setSize(glm::vec3(0.1f));
+    for (int i = 0; i < 3; i++) {
+        _cube->setPosition(glm::vec3(-1.20f * i -1.20f, 4.5f, 0));
+        _cube->draw(_shaders);
+    }
 }
 
 void scene::MarioScene::checkKey() {
