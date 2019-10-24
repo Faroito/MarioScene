@@ -32,8 +32,10 @@ void scene::MarioScene::init() {
     _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/mushroom.obj";
     _mushroom = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/cube.obj";
-    _cube = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/block.obj";
+    _block = std::make_unique<scene::Model>(scene::Model(objPath));
+    objPath = "../resource/question_block.obj";
+    _question_block = std::make_unique<scene::Model>(scene::Model(objPath));
     objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
@@ -82,15 +84,18 @@ void scene::MarioScene::onDraw() {
     _goompa->setOrientation(glm::vec3(0.0f, 180.0f, 0.0f));
     _goompa->setSize(glm::vec3(0.1f));
     _goompa->draw(_shaders);
-    _mushroom->setPosition(glm::vec3(-2.5f, 5.50f, 0));
+    _mushroom->setPosition(glm::vec3(-2.40f, 5.50f, 0));
     _mushroom->setOrientation(glm::vec3(0.0f, 90.0f, 0.0f));
     _mushroom->setSize(glm::vec3(0.1f));
     _mushroom->draw(_shaders);
-    _cube->setSize(glm::vec3(0.1f));
-    for (int i = 0; i < 3; i++) {
-        _cube->setPosition(glm::vec3(-1.20f * i -1.20f, 4.5f, 0));
-        _cube->draw(_shaders);
-    }
+    _block->setSize(glm::vec3(0.1f));
+    _block->setPosition(glm::vec3(-1.20f, 4.5f, 0));
+    _block->draw(_shaders);
+    _block->setPosition(glm::vec3(-3.60f, 4.5f, 0));
+    _block->draw(_shaders);
+    _question_block->setSize(glm::vec3(0.1f));
+    _question_block->setPosition(glm::vec3(-2.40f, 4.34f, 0));
+    _question_block->draw(_shaders);
 }
 
 void scene::MarioScene::checkKey() {

@@ -50,7 +50,8 @@ namespace scene {
         std::unique_ptr<scene::Model> _goompa;
         std::unique_ptr<scene::Model> _plant;
         std::unique_ptr<scene::Model> _mushroom;
-        std::unique_ptr<scene::Model> _cube;
+        std::unique_ptr<scene::Model> _block;
+        std::unique_ptr<scene::Model> _question_block;
         std::unique_ptr<scene::Lamp> _lamp;
         gl_wrapper::Shaders_t _shaders;
         scene::PointLight _pointLight = scene::PointLight(glm::vec3(0, 0, 0), 50);
