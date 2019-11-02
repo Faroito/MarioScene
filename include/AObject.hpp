@@ -19,6 +19,7 @@ namespace scene {
     class AObject {
     public:
         explicit AObject(ModelType type);
+		~AObject() = default;
 
         virtual void init();
         virtual void draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders);

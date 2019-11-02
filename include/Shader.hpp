@@ -21,6 +21,7 @@ namespace gl_wrapper {
     class Shader {
     public:
         Shader(const std::string &vs_path, const std::string &fs_path, ShaderType type);
+		~Shader() = default;
 
         void bind();
         static void unBind();

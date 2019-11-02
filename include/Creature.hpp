@@ -5,6 +5,9 @@
 #ifndef CREATURE_HPP
 # define CREATURE_HPP
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "AObject.hpp"
 
 namespace scene {
@@ -13,6 +16,7 @@ namespace scene {
     public:
         explicit Creature(ModelType type);
         explicit Creature(const AObject& other);
+		~Creature() = default;
 
         void init() override;
         void draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders) override;

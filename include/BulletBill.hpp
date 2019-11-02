@@ -13,6 +13,7 @@ namespace scene {
     public:
         BulletBill();
         explicit BulletBill(const AObject& other);
+		~BulletBill() = default;
 
     private:
         void move() override;
