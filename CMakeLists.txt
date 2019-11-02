@@ -18,8 +18,10 @@ set(SOURCE_FILES
         source/ALoader.cpp
         source/AObject.cpp
         source/App.cpp
+        source/BulletBill.cpp
         source/Camera.cpp
         source/ConfigLoader.cpp
+        source/Creature.cpp
         source/DirLight.cpp
         source/Lamp.cpp
         source/Main.cpp

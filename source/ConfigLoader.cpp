@@ -16,15 +16,8 @@ void loader::ConfigLoader::loadFile(std::ifstream &file) {
     while (std::getline(file, line)) {
         std::string type = line.substr(0, line.find(' '));
         std::string value = line.substr(line.find(' ') + 1, line.size());
-        if (type == "new") {
-            if (_modelMap.find(value) == _modelMap.end())
-                _objects.push_back(
-                        std::make_unique<scene::AObject>(scene::AObject(scene::ModelType::UNKNOWN)));
-            else
-                _objects.push_back(
-                        std::make_unique<scene::AObject>(scene::AObject(_modelMap.at(value)))); // TODO: replace push_back with emplace_back?
-            _new = true;
-        }
+        if (type == "new")
+            createObject(value);
         if (type == "size")
             readSize(value);
         if (type == "dir")
@@ -34,6 +27,46 @@ void loader::ConfigLoader::loadFile(std::ifstream &file) {
         if (type == "pos")
             readPos(value);
     }
+}
+
+void loader::ConfigLoader::createObject(std::string &str) {
+    scene::Objects_ptr_t object;
+    if (_modelMap.find(str) == _modelMap.end())
+        object = std::make_unique<scene::AObject>(scene::AObject(scene::ModelType::UNKNOWN));
+    else {
+        scene::ModelType type = _modelMap.at(str);
+        switch (type) {
+            case scene::ModelType::BULLET_BILL:
+                object = std::make_unique<scene::BulletBill>(scene::BulletBill());
+                break;
+            case scene::ModelType::MUSHROOM:
+            case scene::ModelType::GOOMPA:
+                object = std::make_unique<scene::Creature>(scene::Creature(type));
+                break;
+            default:
+                object = std::make_unique<scene::AObject>(scene::AObject(type));
+        }
+    }
+    _objects.push_back(std::move(object));
+    _new = true;
+
+}
+
+void loader::ConfigLoader::copyObject() {
+    scene::ModelType type = _objects.back()->getType();
+    scene::Objects_ptr_t object;
+    switch (type) {
+        case scene::ModelType::BULLET_BILL:
+            object = std::make_unique<scene::BulletBill>(scene::BulletBill(*_objects.back()));
+            break;
+        case scene::ModelType::MUSHROOM:
+        case scene::ModelType::GOOMPA:
+            object = std::make_unique<scene::Creature>(scene::Creature(*_objects.back()));
+            break;
+        default:
+            object = std::make_unique<scene::AObject>(scene::AObject(*_objects.back()));
+    }
+    _objects.push_back(std::move(object));
 }
 
 void loader::ConfigLoader::readSize(std::string &str) {
@@ -72,8 +105,7 @@ void loader::ConfigLoader::readOffset(std::string &str) {
 
 void loader::ConfigLoader::readPos(std::string &str) {
     if (!_new)
-        _objects.push_back(
-                std::make_unique<scene::AObject>(scene::AObject(*_objects.back())));
+        copyObject();
     unsigned int spaces = (unsigned int) std::count(str.begin(), str.end(), ' ');
     if (spaces == 1) {
         auto pos = getValuesVec2(str);
@@ -89,7 +121,7 @@ scene::Objects_t &loader::ConfigLoader::getObjects() {
     return _objects;
 }
 
-std::unordered_map<scene::ModelType, std::string> loader::ConfigLoader::getPath() {
+std::unordered_map<scene::ModelType, std::string> loader::ConfigLoader::getPath() const {
     std::unordered_map<scene::ModelType, std::string> paths;
     for (const auto &it : _modelMap) {
         auto findBlock = [&it](scene::Objects_ptr_t const& obj) { return obj->getType() == it.second; };

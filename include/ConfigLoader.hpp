@@ -14,6 +14,8 @@
 
 #include "ALoader.hpp"
 #include "AObject.hpp"
+#include "BulletBill.hpp"
+#include "Creature.hpp"
 #include "Misc.hpp"
 
 namespace loader {
@@ -24,10 +26,12 @@ namespace loader {
 
         const loader::ConfigLoader &load();
         scene::Objects_t &getObjects();
-        std::unordered_map<scene::ModelType, std::string> getPath();
+        std::unordered_map<scene::ModelType, std::string> getPath() const;
 
     private:
         void loadFile(std::ifstream &file) override;
+        void createObject(std::string &str);
+        void copyObject();
         void readSize(std::string &str);
         void readDir(std::string &str);
         void readOffset(std::string &str);

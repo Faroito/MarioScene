@@ -37,6 +37,9 @@ void scene::MarioScene::init() {
     }
     std::move(begin(config.getObjects()), end(config.getObjects()), std::back_inserter(_objects));
 
+    for (auto &it: _objects)
+        it->init();
+
     std::string objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
@@ -49,12 +52,10 @@ void scene::MarioScene::init() {
 }
 
 void scene::MarioScene::onDraw() {
-    auto aTime = (float) glfwGetTime();
-
     this->checkKey();
 
     // _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
-    _pointLight.setPosition(glm::vec3(0.1f, 3.3f, 0.0f));
+    _pointLight.setPosition(glm::vec3(9.3f, 4.3f, 0.0f));
     _pointLight.setShader(_shaders);
 
     for (auto &shader : _shaders) {
@@ -72,23 +73,6 @@ void scene::MarioScene::onDraw() {
 
     for (auto &object : _objects)
         object->draw(_models, _shaders);
-
-    /* auto position = glm::vec3(cos(aTime) * 5.0f, sin(aTime) + 4.0f, sin(aTime) * 5.0f);
-    glm::vec3 rotation;
-    auto left_vector = glm::normalize(position - old_pos);
-
-    double pitch = 0;
-    if (left_vector.y < 0)
-        pitch = glm::asin(left_vector.y) * (180/M_PI);
-    else
-        pitch = -glm::asin(left_vector.y) * (180/M_PI);
-    double yaw = glm::atan(left_vector.x, left_vector.z) * (180/M_PI);
-
-    old_pos = position;
-    _bullet_bill->setPosition(position);
-    _bullet_bill->setOrientation(glm::vec3(pitch, yaw, 1.0f));
-    _bullet_bill->setSize(glm::vec3(0.1f));
-    _bullet_bill->draw(_shaders);*/
 }
 
 void scene::MarioScene::checkKey() {

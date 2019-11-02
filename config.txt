@@ -50,3 +50,7 @@ size 0.28
 dir 60
 offset 0 0.23 0.05
 pos 11 1
+
+new bullet_bill
+size 0.083
+pos 6 4

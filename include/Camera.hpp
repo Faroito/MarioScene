@@ -48,7 +48,7 @@ namespace scene {
         glm::vec3 _cameraUp = glm::vec3(0.0f, 0.0f, 0.0f);
         const glm::vec3 _worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-        const float _cameraSpeed = 0.2f;
+        const float _cameraSpeed = 0.3f;
     };
 
     typedef std::unique_ptr<Camera> Camera_ptr_t;
