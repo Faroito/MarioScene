@@ -76,7 +76,7 @@ void gl_wrapper::Mesh::clearBuffers() {
      glDeleteBuffers(1, &_eboID);
 }
 
-unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) {
+unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) { // TODO: load textures earlier to avoid duplicate
     unsigned int texture = 0;
     int width = 0;
     int height = 0;

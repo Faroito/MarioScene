@@ -6,6 +6,7 @@
 # define SHADER_HPP
 
 #include <iostream>
+#include <vector>
 #include <memory>
 
 #include "glm/glm.hpp"

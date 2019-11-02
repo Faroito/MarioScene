@@ -10,12 +10,15 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <set>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "App.hpp"
+#include "AObject.hpp"
 #include "Camera.hpp"
+#include "ConfigLoader.hpp"
 #include "DirLight.hpp"
 #include "Lamp.hpp"
 #include "Mesh.hpp"
@@ -45,13 +48,11 @@ namespace scene {
         void checkKey();
 
     private:
+        glm::vec3 old_pos= glm::vec3(0.0f, 0.0f, 0.0f);
         bool _pressed = true;
         GLenum _mode = GL_FILL;
-        std::unique_ptr<scene::Model> _goompa;
-        std::unique_ptr<scene::Model> _plant;
-        std::unique_ptr<scene::Model> _mushroom;
-        std::unique_ptr<scene::Model> _block;
-        std::unique_ptr<scene::Model> _question_block;
+        scene::Models_t _models;
+        scene::Objects_t _objects;
         std::unique_ptr<scene::Lamp> _lamp;
         gl_wrapper::Shaders_t _shaders;
         scene::PointLight _pointLight = scene::PointLight(glm::vec3(0, 0, 0), 50);

@@ -25,18 +25,19 @@ void scene::MarioScene::init() {
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
             gl_wrapper::Shader(vs_texture_path, fs_texture_path, gl_wrapper::ShaderType::TEXTURE_DIFFUSE)
     ));
-    std::string objPath = "../resource/piranha_plant.obj";
 
-    _plant = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/goompa.obj";
-    _goompa = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/mushroom.obj";
-    _mushroom = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/block.obj";
-    _block = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/question_block.obj";
-    _question_block = std::make_unique<scene::Model>(scene::Model(objPath));
-    objPath = "../resource/lamp.obj";
+    loader::ConfigLoader config("../config.txt");
+    config.load();
+
+    auto objPaths = config.getPath();
+    for (auto &it: objPaths) {
+        _models.insert({
+            it.first, std::make_unique<scene::Model>(scene::Model(it.second))
+        });
+    }
+    std::move(begin(config.getObjects()), end(config.getObjects()), std::back_inserter(_objects));
+
+    std::string objPath = "../resource/lamp.obj";
     _lamp = std::make_unique<scene::Lamp>(scene::Lamp(objPath));
 
     _dirLight.setAmbient(glm::vec3(0.3f, 0.3f, 0.1f));
@@ -69,33 +70,25 @@ void scene::MarioScene::onDraw() {
     _lamp->setSize(glm::vec3(0.3f));
     _lamp->draw(_shaders);
 
-    /* for (int i = 0; i < 5; i++) {
-        _goompa->setPosition(glm::vec3((float) i * 1 - 2.0f, 0.0f, 0.0f));
-        auto rotation = (aTime * 3.14159265359f) / ((float) i * 2 + 10);
-        _goompa->setOrientation(glm::vec3(rotation, rotation, rotation));
-        _goompa->setSize(glm::vec3(0.05f));
-        _goompa->draw(_shaders);
-    }*/
-    _plant->setPosition(glm::vec3(2.0f, 0.0f, 0.0f));
-    _plant->setOrientation(glm::vec3(0.0f, 60.0f, 0.0f));
-    _plant->setSize(glm::vec3(0.3f));
-    _plant->draw(_shaders);
-    _goompa->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f));
-    _goompa->setOrientation(glm::vec3(0.0f, 180.0f, 0.0f));
-    _goompa->setSize(glm::vec3(0.1f));
-    _goompa->draw(_shaders);
-    _mushroom->setPosition(glm::vec3(-2.40f, 5.50f, 0));
-    _mushroom->setOrientation(glm::vec3(0.0f, 90.0f, 0.0f));
-    _mushroom->setSize(glm::vec3(0.1f));
-    _mushroom->draw(_shaders);
-    _block->setSize(glm::vec3(0.1f));
-    _block->setPosition(glm::vec3(-1.20f, 4.5f, 0));
-    _block->draw(_shaders);
-    _block->setPosition(glm::vec3(-3.60f, 4.5f, 0));
-    _block->draw(_shaders);
-    _question_block->setSize(glm::vec3(0.1f));
-    _question_block->setPosition(glm::vec3(-2.40f, 4.34f, 0));
-    _question_block->draw(_shaders);
+    for (auto &object : _objects)
+        object->draw(_models, _shaders);
+
+    /* auto position = glm::vec3(cos(aTime) * 5.0f, sin(aTime) + 4.0f, sin(aTime) * 5.0f);
+    glm::vec3 rotation;
+    auto left_vector = glm::normalize(position - old_pos);
+
+    double pitch = 0;
+    if (left_vector.y < 0)
+        pitch = glm::asin(left_vector.y) * (180/M_PI);
+    else
+        pitch = -glm::asin(left_vector.y) * (180/M_PI);
+    double yaw = glm::atan(left_vector.x, left_vector.z) * (180/M_PI);
+
+    old_pos = position;
+    _bullet_bill->setPosition(position);
+    _bullet_bill->setOrientation(glm::vec3(pitch, yaw, 1.0f));
+    _bullet_bill->setSize(glm::vec3(0.1f));
+    _bullet_bill->draw(_shaders);*/
 }
 
 void scene::MarioScene::checkKey() {

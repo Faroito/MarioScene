@@ -1,0 +1,52 @@
+# Scene config for MarioScene's project
+
+new block
+size 0.083
+pos 5 5
+pos 7 5
+
+new question_block
+size 0.083
+dir 90
+pos 6 5
+
+new grass_block
+size 0.085
+dir 90
+pos 0 0
+pos 1 0
+pos 2 0
+pos 3 0
+pos 4 0
+pos 5 0
+pos 6 0
+pos 7 0
+pos 8 0
+pos 9 0
+pos 10 0
+pos 11 0
+pos 12 0
+
+new pipe
+size 0.28
+offset 0 0.23 0.05
+pos 1 1
+
+new mushroom
+size 0.083
+dir 90
+offset 0 0.01 0
+pos 6 6
+
+new goompa
+size 0.09
+dir 180
+offset 0 0.23 0
+pos 3 1
+pos 8 1
+
+new piranha_plant
+size 0.28
+dir 60
+offset 0 0.23 0.05
+pos 11 1

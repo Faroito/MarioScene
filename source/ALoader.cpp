@@ -19,17 +19,12 @@ void loader::ALoader::init() {
 
 float loader::ALoader::getFloat(std::string &str) {
     char *end;
-    float value = 0;
 
     size_t spaces = std::count(str.begin(), str.end(), ' ');
     if (spaces != 0)
         std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 
-    for (unsigned int i = 0; i < 2; i++) {
-        value = std::strtof(str.c_str(), &end);
-        str = std::string(end);
-    }
-    return value;
+    return std::strtof(str.c_str(), &end);
 }
 
 glm::vec2 loader::ALoader::getValuesVec2(std::string &str) {

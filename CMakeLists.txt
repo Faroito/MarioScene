@@ -16,8 +16,10 @@ endif (APPLE)
 set(SOURCE_FILES
         source/ALight.cpp
         source/ALoader.cpp
+        source/AObject.cpp
         source/App.cpp
         source/Camera.cpp
+        source/ConfigLoader.cpp
         source/DirLight.cpp
         source/Lamp.cpp
         source/Main.cpp

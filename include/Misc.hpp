@@ -64,4 +64,18 @@ namespace loader {
     Indices_t getExampleIndices(int i);
 }
 
+namespace scene {
+    enum class ModelType {
+        UNKNOWN = 0,
+        BLOCK,
+        GRASS_BLOCK,
+        QUESTION_BLOCK,
+        PIPE,
+        MUSHROOM,
+        GOOMPA,
+        PIRANHA_PLANT,
+        BULLET_BILL
+    };
+}
+
 #endif /* !MISC_HPP */
