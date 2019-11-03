@@ -14,19 +14,19 @@ new grass_block
 size 0.085
 dir 90
 shape 1 1.23 1.4
-pos 0 -0.23
-pos 1 -0.23
-pos 2 -0.23
-pos 3 -0.23
-pos 4 -0.23
-pos 5 -0.23
-pos 6 -0.23
-pos 7 -0.23
-pos 8 -0.23
-pos 9 -0.23
-pos 10 -0.23
-pos 11 -0.23
-pos 12 -0.23
+pos 0 -0.22
+pos 1 -0.22
+pos 2 -0.22
+pos 3 -0.22
+pos 4 -0.22
+pos 5 -0.22
+pos 6 -0.22
+pos 7 -0.22
+pos 8 -0.22
+pos 9 -0.22
+pos 10 -0.22
+pos 11 -0.22
+pos 12 -0.22
 
 new pipe
 size 0.28

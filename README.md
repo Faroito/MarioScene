@@ -1,5 +1,17 @@
 # MarioScene
 
+### KeyBinding
+
+| Key          	| Action      	|
+|--------------	|-------------	|
+| W            	| Forward     	|
+| S            	| Backward    	|
+| A            	| Left        	|
+| D            	| Right       	|
+| R            	| Up          	|
+| F            	| Down        	|
+| Mouse scroll 	| Zoom in/out 	|
+
 ### References
 
 https://learnopengl.com/
