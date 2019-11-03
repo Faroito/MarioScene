@@ -6,6 +6,10 @@
 
 loader::ConfigLoader::ConfigLoader(const std::string &path) : ALoader(path, "config file") {}
 
+loader::ConfigLoader::~ConfigLoader() {
+    _objects.clear();
+}
+
 const loader::ConfigLoader &loader::ConfigLoader::load() {
     init();
     return *this;
@@ -22,6 +26,8 @@ void loader::ConfigLoader::loadFile(std::ifstream &file) {
             readSize(value);
         if (type == "dir")
             readDir(value);
+        if (type == "shape")
+            readShape(value);
         if (type == "offset")
             readOffset(value);
         if (type == "pos")
@@ -30,21 +36,24 @@ void loader::ConfigLoader::loadFile(std::ifstream &file) {
 }
 
 void loader::ConfigLoader::createObject(std::string &str) {
+    auto i = _objects.size();
     scene::Objects_ptr_t object;
     if (_modelMap.find(str) == _modelMap.end())
-        object = std::make_unique<scene::AObject>(scene::AObject(scene::ModelType::UNKNOWN));
+        object = std::make_unique<scene::AObject>(scene::AObject(scene::ModelType::UNKNOWN, i));
     else {
         scene::ModelType type = _modelMap.at(str);
         switch (type) {
             case scene::ModelType::BULLET_BILL:
-                object = std::make_unique<scene::BulletBill>(scene::BulletBill());
+                object = std::make_unique<scene::BulletBill>(scene::BulletBill(i));
                 break;
             case scene::ModelType::MUSHROOM:
+                object = std::make_unique<scene::Mushroom>(scene::Mushroom(i));
+                break;
             case scene::ModelType::GOOMPA:
-                object = std::make_unique<scene::Creature>(scene::Creature(type));
+                object = std::make_unique<scene::Creature>(scene::Creature(type, i));
                 break;
             default:
-                object = std::make_unique<scene::AObject>(scene::AObject(type));
+                object = std::make_unique<scene::AObject>(scene::AObject(type, i));
         }
     }
     _objects.push_back(std::move(object));
@@ -53,18 +62,21 @@ void loader::ConfigLoader::createObject(std::string &str) {
 }
 
 void loader::ConfigLoader::copyObject() {
+    auto i = _objects.size();
     scene::ModelType type = _objects.back()->getType();
     scene::Objects_ptr_t object;
     switch (type) {
         case scene::ModelType::BULLET_BILL:
-            object = std::make_unique<scene::BulletBill>(scene::BulletBill(*_objects.back()));
+            object = std::make_unique<scene::BulletBill>(scene::BulletBill(*_objects.back(), i));
             break;
         case scene::ModelType::MUSHROOM:
+            object = std::make_unique<scene::Mushroom>(scene::Mushroom(*_objects.back(), i));
+            break;
         case scene::ModelType::GOOMPA:
-            object = std::make_unique<scene::Creature>(scene::Creature(*_objects.back()));
+            object = std::make_unique<scene::Creature>(scene::Creature(*_objects.back(), i));
             break;
         default:
-            object = std::make_unique<scene::AObject>(scene::AObject(*_objects.back()));
+            object = std::make_unique<scene::AObject>(scene::AObject(*_objects.back(), i));
     }
     _objects.push_back(std::move(object));
 }
@@ -89,6 +101,16 @@ void loader::ConfigLoader::readDir(std::string &str) {
         _objects.back()->setOrientation(glm::vec3(0.0f, getFloat(str), 0.0f));
     else if (spaces == 2)
         _objects.back()->setOrientation(getValuesVec3(str));
+    else
+        std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
+}
+
+void loader::ConfigLoader::readShape(std::string &str) {
+    if (!_new)
+        return;
+    unsigned int spaces = (unsigned int) std::count(str.begin(), str.end(), ' ');
+    if (spaces == 2)
+        _objects.back()->setShape(getValuesVec3(str));
     else
         std::cerr << "Wrong format line: \"" << str << "\" from: " << _filePath << std::endl;
 }

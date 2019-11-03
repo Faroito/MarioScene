@@ -72,7 +72,7 @@ void scene::MarioScene::onDraw() {
     _lamp->draw(_shaders);
 
     for (auto &object : _objects)
-        object->draw(_models, _shaders);
+        object->draw(_models, _shaders, _objects);
 }
 
 void scene::MarioScene::checkKey() {

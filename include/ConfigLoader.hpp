@@ -16,6 +16,7 @@
 #include "AObject.hpp"
 #include "BulletBill.hpp"
 #include "Creature.hpp"
+#include "Mushroom.hpp"
 #include "Misc.hpp"
 
 namespace loader {
@@ -23,6 +24,7 @@ namespace loader {
     class ConfigLoader : public ALoader {
     public:
         explicit ConfigLoader(const std::string &path);
+        ~ConfigLoader();
 
         const loader::ConfigLoader &load();
         scene::Objects_t &getObjects();
@@ -34,6 +36,7 @@ namespace loader {
         void copyObject();
         void readSize(std::string &str);
         void readDir(std::string &str);
+        void readShape(std::string &str);
         void readOffset(std::string &str);
         void readPos(std::string &str);
 

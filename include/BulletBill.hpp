@@ -11,12 +11,12 @@ namespace scene {
 
     class BulletBill : public Creature {
     public:
-        BulletBill();
-        explicit BulletBill(const AObject& other);
-		~BulletBill() = default;
+        explicit BulletBill(unsigned int id);
+        BulletBill(const AObject& other, unsigned int id);
+        ~BulletBill() final;
 
     private:
-        void move() override;
+        void move(const std::vector<std::unique_ptr<AObject>> &objects) override;
     };
 
 }

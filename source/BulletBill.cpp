@@ -4,12 +4,16 @@
 
 #include "BulletBill.hpp"
 
-scene::BulletBill::BulletBill() : Creature(ModelType::BULLET_BILL) {}
+scene::BulletBill::BulletBill(unsigned int id) : Creature(ModelType::BULLET_BILL, id) {}
 
-scene::BulletBill::BulletBill(const scene::AObject &other) : Creature(other) {}
+scene::BulletBill::BulletBill(const scene::AObject &other, unsigned int id) : Creature(other, id) {}
 
-void scene::BulletBill::move() {
-    auto aTime = (float) glfwGetTime();
+scene::BulletBill::~BulletBill() {
+    Creature::~Creature();
+}
+
+void scene::BulletBill::move(const std::vector<std::unique_ptr<AObject>> &objects) {
+    auto aTime = glfwGetTime();
 
     _position = glm::vec3(cos(aTime) * 6.0f, sin(aTime) * 2.0f, sin(aTime) * 4.0f);
 }

@@ -4,20 +4,31 @@
 
 #include "Creature.hpp"
 
-scene::Creature::Creature(ModelType type) : AObject(type) {}
+scene::Creature::Creature(ModelType type, unsigned int id) : AObject(type, id) {}
 
-scene::Creature::Creature(const scene::AObject &other) : AObject(other) {}
+scene::Creature::Creature(const scene::AObject &other, unsigned int id) : AObject(other, id) {}
 
-void scene::Creature::init() {
-    _offset += _position;
-    _baseOrientation = _orientation;
+scene::Creature::~Creature() {
+    AObject::~AObject();
 }
 
-void scene::Creature::draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders) {
-    move();
-    if (getType() != ModelType::MUSHROOM)
-        orient();
-    AObject::draw(models, shaders);
+void scene::Creature::init() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 0.6);
+    _speed = 1.6 + dis(gen);
+
+    _offset += _position;
+    _baseOrientation = _orientation;
+    _position = glm::vec3(0.0f);
+    _lastFrame = glfwGetTime();
+}
+
+void scene::Creature::draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders,
+                           const std::vector<std::unique_ptr<AObject>> &objects) {
+    move(objects);
+    orient();
+    AObject::draw(models, shaders, objects);
 }
 
 void scene::Creature::orient() {
@@ -34,8 +45,21 @@ void scene::Creature::orient() {
     _oldPosition = _position;
 }
 
-void scene::Creature::move() {
-    auto aTime = (float) glfwGetTime();
+void scene::Creature::move(const std::vector<std::unique_ptr<AObject>> &objects) {
+    auto aTime = glfwGetTime();
+    auto nextPosition = _offset + _position;
 
-    _position = glm::vec3(cos(aTime) / 2.0f, 0.0f, 0.0f);
+    for (auto &it : objects) {
+        if (it->getId() == _id)
+            continue;
+        if (it->isColliding(nextPosition, _shape)) {
+            _goRight = !(nextPosition.x < it->getPosition().x);
+        }
+    }
+    if (_goRight)
+        _position.x += _speed * (aTime - _lastFrame);
+    else
+        _position.x -= _speed * (aTime - _lastFrame);
+    _lastFrame = aTime;
+
 }

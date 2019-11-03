@@ -23,6 +23,7 @@ set(SOURCE_FILES
         source/ConfigLoader.cpp
         source/Creature.cpp
         source/DirLight.cpp
+        source/EasingFunctions.cpp
         source/Lamp.cpp
         source/Main.cpp
         source/MarioScene.cpp
@@ -30,6 +31,7 @@ set(SOURCE_FILES
         source/Misc.cpp
         source/Model.cpp
         source/MTLLoader.cpp
+        source/Mushroom.cpp
         source/OBJLoader.cpp
         source/PointLight.cpp
         source/Shader.cpp

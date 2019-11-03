@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <random>
 
 #include "Misc.hpp"
 #include "Model.hpp"
@@ -18,23 +19,31 @@ namespace scene {
 
     class AObject {
     public:
-        explicit AObject(ModelType type);
-		~AObject() = default;
+        AObject(ModelType type, unsigned int id);
+        AObject(const AObject& other, unsigned int id);
+		virtual ~AObject() = default;
 
         virtual void init();
-        virtual void draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders);
+        virtual void draw(const scene::Models_t &models, const gl_wrapper::Shaders_t &shaders,
+                const std::vector<std::unique_ptr<AObject>> &objects);
 
         void setPosition(glm::vec3 position);
         void setOrientation(glm::vec3 orientation);
         void setSize(glm::vec3 size);
+        void setShape(glm::vec3 shape);
         void setOffset(glm::vec3 offset);
 
+        unsigned int getId() const;
         ModelType getType() const;
+        glm::vec3 getPosition() const;
+        bool isColliding(glm::vec3 position, glm::vec3 shape) const;
 
     protected:
+        const unsigned int _id = 0;
         glm::vec3 _position = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 _orientation = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 _offset = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 _shape = glm::vec3(1.0f, 1.0f, 1.0f);
 
     private:
         const ModelType _type = scene::ModelType::UNKNOWN;
