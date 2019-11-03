@@ -28,6 +28,7 @@
     <ClCompile Include="Source\ConfigLoader.cpp" />
     <ClCompile Include="Source\Creature.cpp" />
     <ClCompile Include="Source\DirLight.cpp" />
+    <ClCompile Include="Source\EasingFunctions.cpp" />
     <ClCompile Include="Source\Lamp.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MarioScene.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="Source\Misc.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\MTLLoader.cpp" />
+    <ClCompile Include="Source\Mushroom.cpp" />
     <ClCompile Include="Source\OBJLoader.cpp" />
     <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
@@ -51,6 +53,7 @@
     <ClInclude Include="Include\ConfigLoader.hpp" />
     <ClInclude Include="Include\Creature.hpp" />
     <ClInclude Include="Include\DirLight.hpp" />
+    <ClInclude Include="Include\EasingFunctions.hpp" />
     <ClInclude Include="Include\IApp.hpp" />
     <ClInclude Include="Include\Lamp.hpp" />
     <ClInclude Include="Include\Lib.hpp" />
@@ -59,6 +62,7 @@
     <ClInclude Include="Include\Misc.hpp" />
     <ClInclude Include="Include\Model.hpp" />
     <ClInclude Include="Include\MTLLoader.hpp" />
+    <ClInclude Include="Include\Mushroom.hpp" />
     <ClInclude Include="Include\OBJLoader.hpp" />
     <ClInclude Include="Include\PointLight.hpp" />
     <ClInclude Include="Include\Shader.hpp" />

@@ -57,9 +57,9 @@ void scene::Creature::move(const std::vector<std::unique_ptr<AObject>> &objects)
         }
     }
     if (_goRight)
-        _position.x += _speed * (aTime - _lastFrame);
+        _position.x += (float) (_speed * (aTime - _lastFrame));
     else
-        _position.x -= _speed * (aTime - _lastFrame);
+        _position.x -= (float) (_speed * (aTime - _lastFrame));
     _lastFrame = aTime;
 
 }

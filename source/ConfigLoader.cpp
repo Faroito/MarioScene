@@ -36,7 +36,7 @@ void loader::ConfigLoader::loadFile(std::ifstream &file) {
 }
 
 void loader::ConfigLoader::createObject(std::string &str) {
-    auto i = _objects.size();
+    auto i = (unsigned int) _objects.size();
     scene::Objects_ptr_t object;
     if (_modelMap.find(str) == _modelMap.end())
         object = std::make_unique<scene::AObject>(scene::AObject(scene::ModelType::UNKNOWN, i));
@@ -62,7 +62,7 @@ void loader::ConfigLoader::createObject(std::string &str) {
 }
 
 void loader::ConfigLoader::copyObject() {
-    auto i = _objects.size();
+    auto i = (unsigned int) _objects.size();
     scene::ModelType type = _objects.back()->getType();
     scene::Objects_ptr_t object;
     switch (type) {
