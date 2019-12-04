@@ -29,12 +29,18 @@ namespace gl_wrapper {
 
     protected:
         Window &getWindow();
+        virtual void checkKey();
 
     private:
         void hintsGLFW();
 
+    protected:
+        bool _pressed = true;
+        bool _keyCode[512] = { false };
+
     private:
         Window _window;
+        Framebuffer *_framebuffer;
     };
 
 }

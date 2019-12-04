@@ -9,21 +9,21 @@ scene::MarioScene::MarioScene() : App(960, 720, "MarioScene") {
 }
 
 void scene::MarioScene::init() {
-    std::string vs_model_path = "../shader/model_vs.glsl";
-    std::string fs_model_path = "../shader/model_fs.glsl";
-    std::string vs_light_path = "../shader/light_vs.glsl";
-    std::string fs_light_path = "../shader/light_fs.glsl";
-    std::string vs_texture_path = "../shader/texture_vs.glsl";
-    std::string fs_texture_path = "../shader/texture_fs.glsl";
+    std::string vsModelPath = "../shader/model_vs.glsl";
+    std::string fsModelPath = "../shader/model_fs.glsl";
+    std::string vsLightPath = "../shader/light_vs.glsl";
+    std::string fsLightPath = "../shader/light_fs.glsl";
+    std::string vsTexturePath = "../shader/texture_vs.glsl";
+    std::string fsTexturePath = "../shader/texture_fs.glsl";
 
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
-            gl_wrapper::Shader(vs_model_path, fs_model_path, gl_wrapper::ShaderType::MODEL)
+            gl_wrapper::Shader(vsModelPath, fsModelPath, gl_wrapper::ShaderType::MODEL)
     ));
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
-            gl_wrapper::Shader(vs_light_path, fs_light_path, gl_wrapper::ShaderType::LIGHT)
+            gl_wrapper::Shader(vsLightPath, fsLightPath, gl_wrapper::ShaderType::LIGHT)
     ));
     _shaders.push_back(std::make_unique<gl_wrapper::Shader>(
-            gl_wrapper::Shader(vs_texture_path, fs_texture_path, gl_wrapper::ShaderType::TEXTURE_DIFFUSE)
+            gl_wrapper::Shader(vsTexturePath, fsTexturePath, gl_wrapper::ShaderType::TEXTURE_DIFFUSE)
     ));
 
     loader::ConfigLoader config("../config.txt");
@@ -52,6 +52,8 @@ void scene::MarioScene::init() {
 }
 
 void scene::MarioScene::onDraw() {
+    glPolygonMode(GL_FRONT_AND_BACK, _mode);
+
     this->checkKey();
 
     // _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
@@ -87,28 +89,10 @@ void scene::MarioScene::checkKey() {
             _mode = GL_LINE;
         else
             _mode = GL_FILL;
-        glPolygonMode(GL_FRONT_AND_BACK, _mode);
         _pressed = false;
     }
 }
 
-void scene::MarioScene::onMouseMove(double x, double y) {
-    // std::cout << x << " " << y << std::endl;
-}
-
-void scene::MarioScene::onMouseDown(int button, int action) {
-    if (action == GLFW_PRESS)
-        std::cout << "Clicked on: " << button << std::endl;
-}
-
 void scene::MarioScene::onMouseScroll(double x, double y) {
     _camera->zoom(y);
-}
-
-void scene::MarioScene::onKeyDown(int key, int action) {
-    if (action == GLFW_PRESS) {
-        _pressed = true;
-        _keyCode[key] = true;
-    } if (action == GLFW_RELEASE)
-        _keyCode[key] = false;
 }

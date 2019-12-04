@@ -39,17 +39,13 @@ namespace scene {
         void init();
 
         void onDraw() override;
-        void onMouseMove(double x, double y) override;
-        void onMouseDown(int button, int action) override;
         void onMouseScroll(double x, double y) override;
-        void onKeyDown(int key, int action) override;
 
     private:
-        void checkKey();
+        void checkKey() override;
 
     private:
         glm::vec3 old_pos= glm::vec3(0.0f, 0.0f, 0.0f);
-        bool _pressed = true;
         GLenum _mode = GL_FILL;
         scene::Models_t _models;
         scene::Objects_t _objects;
@@ -58,7 +54,6 @@ namespace scene {
         scene::PointLight _pointLight = scene::PointLight(glm::vec3(0, 0, 0), 50);
         scene::DirLight _dirLight = scene::DirLight(glm::vec3(0.0f, -1.0f, -1.0f));
         Camera_ptr_t _camera = std::make_unique<Camera>(Camera());
-        bool _keyCode[512] = { false };
         const std::unordered_map<int, change_camera_t> _keyMap = {
                 {GLFW_KEY_W, &scene::Camera::moveForward},
                 {GLFW_KEY_S, &scene::Camera::moveBackward},

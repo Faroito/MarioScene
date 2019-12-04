@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <memory>
 
 #include "Mesh.hpp"
@@ -22,6 +23,7 @@ namespace gl_wrapper {
 
         void draw();
         void setViewPort();
+        void passToNextShader();
 
         void bind();
         static void unBind();
@@ -29,12 +31,17 @@ namespace gl_wrapper {
     private:
 
     private:
+        int _width;
+        int _height;
         std::unique_ptr<Mesh> _screenMesh;
         gl_wrapper::Shaders_t _screenShaders;
         GLuint _fboID = 0;
         GLuint _rboID = 0;
-        int _width;
-        int _height;
+        unsigned int shaderIdx = 0;
+        const std::string _vsFramebufferPath = "../shader/framebuffers_vs.glsl";
+        const std::vector<std::string> _effectNames = {
+                "standard", "grey", "inversion", "kernel", "edge"
+        };
     };
 
 }

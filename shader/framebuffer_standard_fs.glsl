@@ -1,3 +1,5 @@
+// Fragment shader from : https://learnopengl.com
+
 #version 430 core
 
 out vec4 FragColor;
