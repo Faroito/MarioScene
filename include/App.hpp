@@ -5,15 +5,18 @@
 #ifndef APPLICATION_HPP
 # define APPLICATION_HPP
 
+#include <iostream>
+
 #include "IApp.hpp"
 #include "Lib.hpp"
 #include "Window.hpp"
+#include "Framebuffer.hpp"
 
 namespace gl_wrapper {
 
     class App : public IApp {
     public:
-        explicit App(int width, int height, const std::string &name);
+        explicit App(unsigned int width, unsigned int height, const std::string &name);
         ~App();
 
         void start();

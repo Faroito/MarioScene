@@ -19,7 +19,8 @@ namespace gl_wrapper {
         LIGHT,
         MODEL,
         TEXTURE_DIFFUSE,
-        TEXTURE_SPECULAR
+        TEXTURE_SPECULAR,
+        FRAMEBUFFER_TEXTURE
     };
 }
 
@@ -35,7 +36,8 @@ namespace loader {
 
     enum class TextureType {
         TEXTURE_DIFFUSE,
-        TEXTURE_SPECULAR
+        TEXTURE_SPECULAR,
+        FRAMEBUFFER_TEXTURE
     };
 
     struct Texture {
@@ -60,8 +62,8 @@ namespace loader {
     typedef std::unordered_map<std::string, loader::Material> Materials_t;
     typedef std::unordered_map<std::string, loader::Textures_t> TexturesMap_t;
 
-    Vertices_t getExampleVertex(int i);
-    Indices_t getExampleIndices(int i);
+    Vertices_t getStandardVertices(int i = 0);
+    Indices_t getStandardIndices(int i = 0);
 }
 
 namespace scene {

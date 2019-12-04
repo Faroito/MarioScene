@@ -22,8 +22,6 @@ gl_wrapper::Shader::Shader(const std::string &vs_path, const std::string &fs_pat
 
     glDeleteShader(vID);
     glDeleteShader(fID);
-
-    bind();
 }
 
 void gl_wrapper::Shader::compileShader(GLuint ID, const char *shader) {

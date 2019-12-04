@@ -53,6 +53,18 @@ void gl_wrapper::Mesh::setupMesh() {
     glBindVertexArray(0);
 }
 
+void gl_wrapper::Mesh::setFramebufferTexture(unsigned int width, unsigned int height) {
+    _textures.clear();
+    loader::Texture texture = {0, "", loader::TextureType::FRAMEBUFFER_TEXTURE};
+    glGenTextures(1, &texture.id);
+    glBindTexture(GL_TEXTURE_2D, texture.id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
+    _textures.emplace_back(texture);
+}
+
 void gl_wrapper::Mesh::draw(const Shader_ptr_t &shader) {
     for (int i = 0; i < (int) _textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -61,11 +73,13 @@ void gl_wrapper::Mesh::draw(const Shader_ptr_t &shader) {
             name = "diffuse";
         else if (_textures[i].type == loader::TextureType::TEXTURE_SPECULAR)
             name = "specular";
-        shader->setUniformInt(("material." + name).c_str(), i);
+        if (_textures[i].type == loader::TextureType::FRAMEBUFFER_TEXTURE)
+            shader->bind();
+        else
+            shader->setUniformInt(("material." + name).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, _textures[i].id);
     }
     glBindVertexArray(_vaoID);
-    // glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, (GLsizei) _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
@@ -76,7 +90,7 @@ void gl_wrapper::Mesh::clearBuffers() {
      glDeleteBuffers(1, &_eboID);
 }
 
-unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) { // TODO: load textures earlier to avoid duplicate
+unsigned int gl_wrapper::Mesh::setTexture(const std::string &path) {
     unsigned int texture = 0;
     int width = 0;
     int height = 0;

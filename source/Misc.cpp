@@ -4,12 +4,14 @@
 
 #include "Misc.hpp"
 
-loader::Vertices_t loader::getExampleVertex(int i) {
+loader::Vertices_t loader::getStandardVertices(int i) {
     loader::Vertices_t plane = {
-            {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
-            {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0), glm::vec2(1, 0)},
-            {glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1), glm::vec2(0, 0)},
-            {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1, 1, 0), glm::vec2(0, 1)}
+            {glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(0, 1, 0), glm::vec2(0, 0)},
+            {glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec2(0, 1)},
+            {glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
+            {glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(0, 1, 0), glm::vec2(0, 0)},
+            {glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(1, 0, 0), glm::vec2(1, 1)},
+            {glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(1, 1, 0), glm::vec2(1, 0)}
     };
     loader::Vertices_t cube = {
             {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0, 0)}, // back
@@ -65,10 +67,10 @@ loader::Vertices_t loader::getExampleVertex(int i) {
         return plane;
 }
 
-loader::Indices_t loader::getExampleIndices(int i) {
+loader::Indices_t loader::getStandardIndices(int i) {
     loader::Indices_t plane = {
-            0, 1, 3,
-            1, 2, 3
+            0, 1, 2,
+            3, 4, 5
     };
     loader::Indices_t cube = {
             0, 1, 2, // back

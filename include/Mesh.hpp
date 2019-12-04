@@ -22,6 +22,8 @@ namespace gl_wrapper {
         Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices);
         Mesh(const loader::Vertices_t &vertices, const loader::Indices_t &indices, loader::Textures_t &textures);
 
+        void setFramebufferTexture(unsigned int width, unsigned int height);
+
         void draw(const Shader_ptr_t &shader);
         void clearBuffers();
 

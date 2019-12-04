@@ -4,7 +4,7 @@
 
 #include "App.hpp"
 
-gl_wrapper::App::App(int width, int height, const std::string &name) {
+gl_wrapper::App::App(unsigned int width, unsigned int height, const std::string &name) {
     if (!glfwInit())
         exit(EXIT_FAILURE);
     std::cout << "GLFW initialized." << std::endl;
@@ -23,8 +23,6 @@ gl_wrapper::App::App(int width, int height, const std::string &name) {
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
-
-    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
     glEnable(GL_BLEND);
@@ -54,18 +52,31 @@ gl_wrapper::App::~App() {
 void gl_wrapper::App::start() {
     std::cout << "Starting app..." << std::endl;
 
+    _window.setViewport();
+    auto *framebuffer = new gl_wrapper::Framebuffer(_window.getWidth(), _window.getHeight());
+
     while (!_window.shouldClose()){
 
-        _window.setViewport();
+        framebuffer->bind();
+        glEnable(GL_DEPTH_TEST);
 
         glClearColor(0.31f, 0.47f, 0.54f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        framebuffer->setViewPort();
         onDraw();
+
+        glDisable(GL_DEPTH_TEST);
+        gl_wrapper::Framebuffer::unBind();
+
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        _window.setViewport();
+        framebuffer->draw();
 
         glfwPollEvents();
         _window.swapBuffers();
     }
+    delete framebuffer;
 }
 
 void gl_wrapper::App::onDraw() {}

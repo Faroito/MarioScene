@@ -24,6 +24,7 @@ set(SOURCE_FILES
         source/Creature.cpp
         source/DirLight.cpp
         source/EasingFunctions.cpp
+        source/Framebuffer.cpp
         source/Lamp.cpp
         source/Main.cpp
         source/MarioScene.cpp
