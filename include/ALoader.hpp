@@ -37,5 +37,4 @@ namespace loader {
 
 }
 
-
 #endif /* !ALOADER_HPP */

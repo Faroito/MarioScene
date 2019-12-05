@@ -108,7 +108,6 @@ void gl_wrapper::App::onKeyDown(int key, int action) {
         _keyCode[key] = false;
 }
 
-
 gl_wrapper::Window& gl_wrapper::App::getWindow() {
     return _window;
 }

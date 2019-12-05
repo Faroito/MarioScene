@@ -61,5 +61,4 @@ void scene::Creature::move(const std::vector<std::unique_ptr<AObject>> &objects)
     else
         _position.x -= (float) (_speed * (aTime - _lastFrame));
     _lastFrame = aTime;
-
 }

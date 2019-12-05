@@ -45,7 +45,6 @@ namespace scene {
         void checkKey() override;
 
     private:
-        glm::vec3 old_pos= glm::vec3(0.0f, 0.0f, 0.0f);
         GLenum _mode = GL_FILL;
         scene::Models_t _models;
         scene::Objects_t _objects;

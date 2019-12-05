@@ -79,7 +79,7 @@ void scene::MarioScene::onDraw() {
 
 void scene::MarioScene::checkKey() {
     for (const auto &it : _keyMap) {
-        if (_keyCode[it.first])
+        if (_keyCode[it.first] && _pressed)
             (_camera.get()->*it.second)();
     }
     if (_keyCode[GLFW_KEY_ESCAPE])

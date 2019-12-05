@@ -40,7 +40,7 @@ namespace gl_wrapper {
         unsigned int shaderIdx = 0;
         const std::string _vsFramebufferPath = "../shader/framebuffers_vs.glsl";
         const std::vector<std::string> _effectNames = {
-                "standard", "grey", "inversion", "kernel", "edge"
+                "standard", "grey", "inversion", "sharpen", "edge"
         };
     };
 

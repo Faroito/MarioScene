@@ -1,4 +1,5 @@
 #version 430 core
+// Vertex shader from : https://learnopengl.com
 
 layout (location = 0) in vec2 aPos;
 layout (location = 1) in vec2 aTexCoords;
