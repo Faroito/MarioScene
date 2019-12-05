@@ -29,6 +29,7 @@
     <ClCompile Include="Source\Creature.cpp" />
     <ClCompile Include="Source\DirLight.cpp" />
     <ClCompile Include="Source\EasingFunctions.cpp" />
+    <ClCompile Include="Source\Framebuffer.cpp" />
     <ClCompile Include="Source\Lamp.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MarioScene.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="Include\Creature.hpp" />
     <ClInclude Include="Include\DirLight.hpp" />
     <ClInclude Include="Include\EasingFunctions.hpp" />
+    <ClInclude Include="Include\Framebuffer.hpp" />
     <ClInclude Include="Include\IApp.hpp" />
     <ClInclude Include="Include\Lamp.hpp" />
     <ClInclude Include="Include\Lib.hpp" />
