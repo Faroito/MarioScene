@@ -10,4 +10,4 @@
 ## Start the scene
 
 - Launch Visual Studio 2019 by clicking on `VisualStudio.sln`
-- Start the programm
+- Start the programm with x64 configuration
