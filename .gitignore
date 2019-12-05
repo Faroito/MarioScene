@@ -45,7 +45,5 @@ out/
 Libraries/
 VisualStudio/.vs/
 VisualStudio/Debug/
-VisualStudio/Include/*.hpp
-VisualStudio/Source/*.cpp
 VisualStudio/Release/
 VisualStudio/x64/
