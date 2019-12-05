@@ -30,14 +30,14 @@ void scene::MarioScene::init() {
     config.load();
 
     auto objPaths = config.getPath();
-    for (auto &it: objPaths) {
+    for (auto &it : objPaths) {
         _models.insert({
             it.first, std::make_unique<scene::Model>(scene::Model(it.second))
         });
     }
     std::move(begin(config.getObjects()), end(config.getObjects()), std::back_inserter(_objects));
 
-    for (auto &it: _objects)
+    for (auto &it : _objects)
         it->init();
 
     std::string objPath = "../resource/lamp.obj";
@@ -46,9 +46,13 @@ void scene::MarioScene::init() {
     _dirLight.setAmbient(glm::vec3(0.3f, 0.3f, 0.1f));
     _dirLight.setShader(_shaders);
 
-    _pointLight.setAmbient(glm::vec3(0.96f, 0.85f, 0.05f));
-    _pointLight.setDistance(2);
-    _pointLight.setShader(_shaders);
+    _pointLights.emplace_back(scene::PointLight(glm::vec3(9.3f, 4.3f, 0.0f), 10, 0));
+    _pointLights.emplace_back(scene::PointLight(glm::vec3(1.2f, 3.5f, 0.0f), 25, 1));
+    _pointLights[0].setAmbient(glm::vec3(0.96f, 0.85f, 0.05f));
+    _pointLights[1].setAmbient(glm::vec3(0.82f, 0.12f, 0.05f));
+    _pointLights[1].setDiffuse(glm::vec3(0.82f, 0.12f, 0.05f));
+    for (auto &it : _pointLights)
+        it.setShader(_shaders);
 }
 
 void scene::MarioScene::onDraw() {
@@ -56,9 +60,9 @@ void scene::MarioScene::onDraw() {
 
     this->checkKey();
 
-    // _pointLight.setPosition(glm::vec3(cos(aTime) * 3.0f, sin(aTime / 2.0f), sin(aTime) * 2.0f));
-    _pointLight.setPosition(glm::vec3(9.3f, 4.3f, 0.0f));
-    _pointLight.setShader(_shaders);
+    auto aTime = glfwGetTime();
+    _pointLights[1].setPosition(glm::vec3(cos(aTime * 2) + 1.0f, 3.4f, sin(aTime * 2)));
+    _pointLights[1].setShader(_shaders);
 
     for (auto &shader : _shaders) {
         shader->bind();
@@ -69,9 +73,11 @@ void scene::MarioScene::onDraw() {
         gl_wrapper::Shader::unBind();
     }
 
-    _lamp->syncLight(_pointLight);
-    _lamp->setSize(glm::vec3(0.3f));
-    _lamp->draw(_shaders);
+    for (auto &it : _pointLights) {
+        _lamp->syncLight(it);
+        _lamp->setSize(glm::vec3(0.3f));
+        _lamp->draw(_shaders);
+    }
 
     for (auto &object : _objects)
         object->draw(_models, _shaders, _objects);

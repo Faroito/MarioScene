@@ -30,7 +30,8 @@ namespace scene {
         };
 
     public:
-        explicit PointLight(const glm::vec3 &position, unsigned int distance = 20);
+        explicit PointLight(const glm::vec3 &position, unsigned int distance = 20,
+                unsigned int nb = 0);
 
         void setDistance(unsigned int distance);
         void setPosition(const glm::vec3 &position);

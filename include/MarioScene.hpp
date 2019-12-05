@@ -50,7 +50,7 @@ namespace scene {
         scene::Objects_t _objects;
         std::unique_ptr<scene::Lamp> _lamp;
         gl_wrapper::Shaders_t _shaders;
-        scene::PointLight _pointLight = scene::PointLight(glm::vec3(0, 0, 0), 50);
+        std::vector<scene::PointLight> _pointLights;
         scene::DirLight _dirLight = scene::DirLight(glm::vec3(0.0f, -1.0f, -1.0f));
         Camera_ptr_t _camera = std::make_unique<Camera>(Camera());
         const std::unordered_map<int, change_camera_t> _keyMap = {

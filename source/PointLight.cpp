@@ -4,8 +4,9 @@
 
 #include "PointLight.hpp"
 
-scene::PointLight::PointLight(const glm::vec3 &position, const unsigned int distance)
-    : _position(position), _distance(distance), ALight("lights[0]") {}
+scene::PointLight::PointLight(const glm::vec3 &position, const unsigned int distance,
+        const unsigned int nb)
+    : _position(position), _distance(distance), ALight("lights[" + std::to_string(nb) + "]") {}
 
 void scene::PointLight::setDistance(const unsigned int distance) {
     _distance = distance;
