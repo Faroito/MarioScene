@@ -4,7 +4,7 @@
 
 #include "MarioScene.hpp"
 
-scene::MarioScene::MarioScene() : App(960, 720, "MarioScene") {
+scene::MarioScene::MarioScene() : App(1920, 1080, "MarioScene") {
     init();
 }
 
