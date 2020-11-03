@@ -32,6 +32,7 @@
 
 # CMake build
 cmake-build-debug/
+build/
 
 # Other
 *~
