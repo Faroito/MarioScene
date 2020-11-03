@@ -15,10 +15,6 @@
 | Space       	| Draw with or without empty faces  |
 | Mouse scroll 	| Zoom in/out 	                    |
 
-### Demo
-
-![](marioscene.gif)
-
 ### ScreenShot
 
 ![](screenshot1.png)
